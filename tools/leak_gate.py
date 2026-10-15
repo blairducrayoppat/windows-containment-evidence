@@ -21,19 +21,23 @@ What it refuses:
                where no letter touches it.
   sid          a domain, machine or Entra ID SID (S-1-5-21- or S-1-12-1- followed by a digit, any letter case).
                Well-known SIDs such as S-1-5-18 are allowed.
-  email        an e-mail address, except a code-host no-reply address without a numeric account prefix, a
-               documentation domain (example.com/.org/.net) and noreply@ senders.
-  mac-address  six hex pairs joined by colons or hyphens.
+  email        an e-mail address, except a code-host no-reply address without a numeric account prefix and a
+               documentation domain (example.com/.org/.net).
+  mac-address  six hex pairs joined by colons or hyphens, or three dotted groups of four hex digits.
   public-ip    an IPv4 address outside the private, loopback, link-local and multicast ranges, other than the two
                measurement targets the records name (IPV4_OK).
-  volume-serial  the header line that introduces a volume's serial in dir output (pattern: VOLUME_SERIAL_RE).
+  volume-serial  the header that introduces a volume's serial (spaced or joined, then "is", a colon or "="), and a
+               serial-number field followed by a colon or "="
+               (pattern: VOLUME_SERIAL_RE).
   home-path    <drive>:\\Users\\<name> (any number of backslashes, or slashes), /mnt/<drive>/Users/<name>, the
                profile environment variable (HOME_ENV below), and the extended-length prefix in front of a home path.
                Users\\Public and Users\\Default are allowed.
   guid         any GUID (8-4-4-4-12 hex, braces optional) not listed in tools/allowed_guids.txt.
-  tracker      an internal tracker reference: #NNN or #NNNN unless written as owner/repo#N, a comment pointer
-               (c.NNNN, or "comment NNNN"), any number listed under "tracker_numbers" in the local file wherever no
-               digit touches it (outside a GUID), a fixture prefix
+  tracker      an internal tracker reference: #NNN or #NNNN unless it follows one of the public repositories in
+               UPSTREAM_REPOS (owner/repo#N), a comment pointer (c.NNNN, c. NNNN, "comment NNNN", "comment no. NNNN",
+               "comment-NNNN", "comment:NNNN"), any number listed under "tracker_numbers" in the local file wherever no
+               digit or decimal point touches it, letters included, except inside a GUID, inside a hex string of
+               HASH_MIN_LEN or more characters, or inside a form listed under "allowed_contexts", a fixture prefix
                p1NNN-, a session token S1NNN-, a 1NNN number between separators inside a name (a file name that
                carries a tracker number), and the tracker-field word spelled in TRACKER_WORD below (the blanked
                field is allowed: that word as a JSON key with the value "", or assigned '' in PowerShell).
@@ -50,7 +54,9 @@ An empty list is a deliberate choice; a missing file is not.
 HONEST LIMIT: text only (UTF-8, UTF-16 with a byte-order mark, else Latin-1, plus a copy with NULs removed). Not seen:
 a name split by punctuation, a line break or a zero-width character; base64, hex, or any compressed form; a name in
 another script; a SID or path whose digits or letters are escaped; a private tracker number written bare in prose
-unless it is listed under "tracker_numbers"; an IPv6 address; a real name that is not one of the listed identities. A binary file (a NUL byte in the first 8 KiB that
+unless it is listed under "tracker_numbers"; an IPv6 address; a real name that is not one of the listed identities; a
+MAC address written as twelve bare hex digits; an internal reference in a repository that is not listed in
+UPSTREAM_REPOS but whose name looks like one. A binary file (a NUL byte in the first 8 KiB that
 is not UTF-16) is refused unless its extension is listed in BINARY_OK, which is empty.
 """
 
@@ -81,17 +87,18 @@ SID_RE = re.compile(r"S-1-5-21-[0-9]|S-1-12-1-[0-9]", re.IGNORECASE)
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 # Addresses that name no person: the code host's no-reply form without a numeric account prefix, documentation
 # domains, and noreply@ senders.
-EMAIL_OK_RE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*@users\.noreply\.github\.com$|@example\.(?:com|org|net)$|^noreply@",
+EMAIL_OK_RE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*@users\.noreply\.github\.com$|@example\.(?:com|org|net)$",
                          re.IGNORECASE)
-MAC_RE = re.compile(r"(?<![0-9A-Fa-f:-])(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}(?![0-9A-Fa-f:-])")
+MAC_RE = re.compile(r"(?<![0-9A-Fa-f:-])(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}(?![0-9A-Fa-f:-])"
+                    r"|(?<![0-9A-Fa-f.])[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}(?![0-9A-Fa-f.])")
 _OCTET = r"(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])"
 IPV4_RE = re.compile(r"(?<![0-9.])(" + _OCTET + r"(?:\." + _OCTET + r"){3})(?![0-9.])")
 # Public addresses that are measurement targets named in the records, not the operator's own.
 IPV4_OK = frozenset({"1.1.1.1", "8.8.8.8"})
-# Dotted version numbers that have the shape of an address: the WSL and WSL-kernel versions the 9P records hold. An
-# address-shaped token directly followed by "-" or a letter (a version with a suffix) is not treated as an address.
+# Dotted version numbers that have the shape of an address: the WSL and WSL-kernel versions the 9P records hold.
 NOT_ADDRESSES = frozenset({"3.0.3.0", "6.18.54.1", "6.18.40.1"})
-VOLUME_SERIAL_RE = re.compile(r"volume\s+serial\s+number", re.IGNORECASE)
+VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)\s*(?:is\b|[:=])|(?<![A-Za-z])serial[\s_-]*number\s*[:=]",
+                              re.IGNORECASE)
 HOME_RE = re.compile(
     r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)\b)[A-Za-z0-9_.$-]"
     r"|/mnt/[A-Za-z]/Users/(?!(?:Public|Default)\b)[A-Za-z0-9_.$-]"
@@ -104,7 +111,8 @@ GUID_RE = re.compile(
 )
 TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,4}\b")),
-    ("tracker-comment", re.compile(r"(?<![\w.])c\.[0-9]{3,5}\b|(?<![A-Za-z])comments?\s+(?:c\.)?[0-9]{3,5}\b",
+    ("tracker-comment", re.compile(r"(?<![\w.])c\.\s?[0-9]{3,5}\b"
+                                   r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|#|:|-|=)?\s*(?:c\.)?[0-9]{3,5}\b",
                                    re.IGNORECASE)),
     ("fixture-prefix", re.compile(r"(?<![A-Za-z0-9])p1[0-9]{3}[-_]", re.IGNORECASE)),
     ("session-token", re.compile(r"(?<![A-Za-z0-9])S1[0-9]{3}-")),
@@ -173,8 +181,12 @@ def _phrase_re(phrase: str) -> re.Pattern[str]:
     return re.compile(r"\s+".join(re.escape(p) for p in phrase.split()), re.IGNORECASE)
 
 
-UPSTREAM_PREFIX_RE = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
+# Public repositories whose issue and pull-request numbers the records cite. Only these exempt an #N reference.
+UPSTREAM_REPOS = ("nolabs-ai/nono", "anthropics/sandbox-runtime", "microsoft/mxc", "openvinotoolkit/openvino")
+UPSTREAM_PREFIX_RE = re.compile(r"(?<![A-Za-z0-9_.-])(?:" + "|".join(re.escape(r) for r in UPSTREAM_REPOS) + r")$",
+                                re.IGNORECASE)
 SUBSTRING_NAME_LEN = 5
+HASH_MIN_LEN = 8
 
 
 def _name_re(name: str) -> re.Pattern[str]:
@@ -197,8 +209,8 @@ class Gate:
         if not all(n.isdigit() for n in nums):
             raise GateCannotRun(f"{LOCAL_FILE_NAME}: 'tracker_numbers' must hold digits only")
         self.tracker_number_re = (
-            # Not inside a decimal fraction or a timestamp (".771"), a hex string or a longer number.
-            re.compile(r"(?<![0-9A-Za-z.])(?:" + "|".join(sorted(nums, key=len, reverse=True)) + r")(?![0-9A-Za-z])")
+            # Not inside a longer number, a decimal fraction or a timestamp (".771"); letters do not hide it.
+            re.compile(r"(?<![0-9.])(?:" + "|".join(sorted(nums, key=len, reverse=True)) + r")(?![0-9])")
             if nums else None
         )
 
@@ -236,8 +248,7 @@ class Gate:
             a, b = (int(x) for x in m.group(1).split(".")[:2])
             local_range = (a in (0, 10, 127) or (a == 169 and b == 254) or (a == 172 and 16 <= b <= 31)
                            or (a == 192 and b == 168) or a >= 224)
-            suffixed = re.match(r"[-A-Za-z]", text[m.end():m.end() + 1])
-            if not local_range and not suffixed and m.group(1) not in IPV4_OK | NOT_ADDRESSES:
+            if not local_range and m.group(1) not in IPV4_OK | NOT_ADDRESSES:
                 add(m.start(), "public-ip")
         for m in VOLUME_SERIAL_RE.finditer(text):
             add(m.start(), "volume-serial")
@@ -257,13 +268,21 @@ class Gate:
                 if rule == "tracker-ref" and UPSTREAM_PREFIX_RE.search(text[max(0, m.start() - 200):m.start()]):
                     continue
                 add(m.start(), rule)
+        allowed_spans = [m.span() for rx in self.allowed_context_res for m in rx.finditer(text)]
         if self.tracker_number_re:
             for m in self.tracker_number_re.finditer(text):
                 upstream = text[m.start() - 1:m.start()] == "#" and UPSTREAM_PREFIX_RE.search(
                     text[max(0, m.start() - 201):m.start() - 1])
-                if not upstream and not any(a <= m.start() < b for a, b in guid_spans):
+                tok_a, tok_b = m.start(), m.end()
+                while tok_a > 0 and text[tok_a - 1].isalnum():
+                    tok_a -= 1
+                while tok_b < len(text) and text[tok_b].isalnum():
+                    tok_b += 1
+                token = text[tok_a:tok_b]
+                in_hash = len(token) >= HASH_MIN_LEN and all(c in "0123456789abcdefABCDEF" for c in token)
+                in_allowed = any(a <= m.start() and m.end() <= b for a, b in allowed_spans)
+                if not upstream and not in_hash and not in_allowed and not any(a <= m.start() < b for a, b in guid_spans):
                     add(m.start(), "tracker-number")
-        allowed_spans = [m.span() for rx in self.allowed_context_res for m in rx.finditer(text)]
         for rx in self.phrase_res:
             for m in rx.finditer(text):
                 if any(a <= m.start() and m.end() <= b for a, b in allowed_spans):
@@ -406,12 +425,21 @@ def self_test(gate: Gate) -> int:
         "MAC address": "nic 00-1A-2B" + "-3C-4D-5E",
         "public IPv4": "from 203.0." + "113.77 today",
         "volume serial header": "Volume Serial " + "Number is 0000-0000",
+        "repo-shaped private prefix": "private/tracker" + "#" + "4321",
+        "comment no.": "see com" + "ment no. 9876",
+        "comment-N": "see com" + "ment-9876",
+        "c. N": "see c" + ". 9876",
+        "joined serial header": "Volume" + "Serial" + "Number: 0000",
+        "serial number field": "Serial" + "Number : ABC123",
+        "public IPv4 before a hyphen": "203.0." + "113.77-range",
+        "dotted MAC": "0011" + ".2233.4455",
+        "noreply on a personal domain": "noreply" + "@personal-domain.net",
     }
     for name, text in refuse.items():
         ok = bool(gate.scan_text(text))
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} refused: {name}")
-    keep = {"upstream reference": "owner/repo" + "#" + "4321", "timestamp": "10:48:32.4321" + "-04:00",
+    keep = {"upstream reference": "anthropics/sandbox-runtime" + "#" + "4321", "timestamp": "10:48:32.4321" + "-04:00",
             "version with suffix": "6.18.54.1" + "-microsoft", "loopback": "127.0." + "0.1:8000",
             "measurement target": "1.1." + "1.1:443"}
     loose_numbers = Gate({**{k: [] for k in LOCAL_KEYS}, "tracker_numbers": ["4321"]}, gate.allowed_guids, [host, user])
@@ -419,9 +447,14 @@ def self_test(gate: Gate) -> int:
         ok = not loose_numbers.scan_text(text)
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} allowed: {name}")
-    ok = bool(loose_numbers.scan_text("review-" + "4321" + "-notes.md"))
+    for name, text in {"listed tracker number inside a name": "review-" + "4321" + "-notes.md",
+                       "listed tracker number glued to letters": "T" + "4321 and task" + "4321"}.items():
+        ok = bool(loose_numbers.scan_text(text))
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} refused: {name}")
+    ok = not loose_numbers.scan_text("sha " + "0a9f" + "4321" + "bc7e" + "d0")
     failures += not ok
-    print(f"{'PASS' if ok else 'FAIL'} refused: listed tracker number inside a name")
+    print(f"{'PASS' if ok else 'FAIL'} allowed: listed number inside a hash")
     with tempfile.TemporaryDirectory() as tmp:
         try:
             run_nonempty(gate, iter_tree(Path(tmp)))
@@ -441,9 +474,9 @@ def self_test(gate: Gate) -> int:
     ok = not gate.scan_text("{\"" + TRACKER_WORD + "\": \"\"}")
     failures += not ok
     print(f"{'PASS' if ok else 'FAIL'} blanked tracker field is allowed")
-    ok = bool(gate.scan_text("x/" + "owner/repo" + "#12" + "34")) is False and bool(gate.scan_text("see " + "#12" + "34"))
+    ok = bool(gate.scan_text("see anthropics/sandbox-runtime" + "#12" + "34")) is False and bool(gate.scan_text("see " + "#12" + "34"))
     failures += not ok
-    print(f"{'PASS' if ok else 'FAIL'} owner/repo#N is allowed, a bare #N is not")
+    print(f"{'PASS' if ok else 'FAIL'} a listed upstream repo#N is allowed, a bare #N is not")
     # Not sanitisable by design: phrases and words from the local file fail and stay failing.
     print(f"NOTE local lists loaded: {len(gate.phrase_res)} phrase(s), {len(gate.word_res)} word(s), "
           f"{len(gate.identity_res) - 2} extra identit(ies), {len(gate.path_words)} path word(s)")

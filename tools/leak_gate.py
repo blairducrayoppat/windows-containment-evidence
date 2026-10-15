@@ -40,13 +40,18 @@ What it refuses:
                decimal point that follows a digit, touches it (letters do not hide it), except inside a GUID, inside a
                hex string of HASH_MIN_LEN or more characters, or inside a form listed under "allowed_contexts", a
                fixture prefix
-               p1NNN-, a session token S1NNN-, a 1NNN number between separators inside a name (a file name that
-               carries a tracker number), and the tracker-field word spelled in TRACKER_WORD below (the blanked
-               field is allowed: that word as a JSON key with the value "", or assigned '' in PowerShell).
+               pNNNN- or pNNNNN- (four or five digits), a session token SNNNN- or SNNNNN-, a 1NNN number between
+               separators inside a name (a file name that carries a tracker number; not widened past 1999 on 2026-10-15,
+               because a version-bearing name such as a 2026.4 folder would read as a tracker number), and the
+               tracker-field word spelled in TRACKER_WORD below (the blanked field is allowed: that word as a JSON key with the value "", or assigned '' in PowerShell).
   phrase       every phrase listed under "phrases" in the local file (case-insensitive; runs of whitespace match any
                whitespace). A match that lies wholly inside a form listed under "allowed_contexts" is allowed.
   word         every word listed under "words_cs" in the local file, matched case-sensitively as a whole word.
-  path         a path that carries any of the above, a 4-digit 1NNN token, or a word listed under "path_words".
+  path         a path that carries any of the above, a standalone 4-digit number from 1000 to 9999 that is not the year of a
+               date (PATH_NUMBER_RE; folders named 2026-10-05 or files named run-20261009-1.json are clean), or a word
+               listed under "path_words". Widened 2026-10-15; residual limit: a tracker number from 1900 to 2099 written
+               directly before a separator and a valid month (for example 1999-10) reads as a date and is not seen, and a
+               plain year in a path name with no month after it is refused.
 
 The local file (.leakgate.local.json at the repository root, never committed: .gitignore lists it) holds what would
 itself be a leak if this public file named it. The gate refuses to run without it (exit 2). Shape:
@@ -115,20 +120,25 @@ HOME_RE = re.compile(
 GUID_RE = re.compile(
     r"(?<![0-9A-Fa-f])[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}(?![0-9A-Fa-f])"
 )
+# A standalone number from 1000 to 2999 that is not the year of a date: 1900 to 2099 directly followed by a separator
+# and a two-digit month 01 to 12 (YYYY-MM-DD, YYYY_MM_DD, YYYY.MM.DD, YYYY-MM) is a date and is not matched. A YYYYMMDD run
+# is eight digits and never a standalone number. A plain year with no month after it IS matched, because tracker numbers
+# pass 2000 and cannot be told from a year without that context.
+TRACKER_NUMBER_BODY = (r"(?:1[0-8][0-9]{2}|(?:19|20)[0-9]{2}(?![-_.](?:0[1-9]|1[0-2])(?![0-9]))|2[1-9][0-9]{2})")
 TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,4}\b")),
     ("tracker-comment", re.compile(r"(?<![\w.])c\.\s?[0-9]{3,5}\b"
                                    r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|id|#|:|-|=|\()?\s*(?:c\.)?[0-9]{3,5}\b",
                                    re.IGNORECASE)),
-    ("fixture-prefix", re.compile(r"(?<![A-Za-z0-9])p1[0-9]{3}[-_]", re.IGNORECASE)),
-    ("session-token", re.compile(r"(?<![A-Za-z0-9])S1[0-9]{3}-")),
+    ("fixture-prefix", re.compile(r"(?<![A-Za-z0-9])p[0-9]{4,5}[-_]", re.IGNORECASE)),
+    ("session-token", re.compile(r"(?<![A-Za-z0-9])S[0-9]{4,5}-")),
     ("tracker-word", re.compile(r"(?<![A-Za-z])" + TRACKER_WORD + r"(?![A-Za-z])", re.IGNORECASE)),
     ("tracker-in-name", re.compile(
         r"(?<=[A-Za-z0-9][-_])(?<![0-9]{6}[-_])1[0-9]{3}(?=[-_.][A-Za-z0-9])|(?<=[/\\])1[0-9]{3}(?=[-_])"
         r"|(?<=[a-z][-_])1[0-9]{3}(?![0-9A-Za-z])")),
 )
 BLANK_TRACKER_FIELD_RE = re.compile(r"\"" + TRACKER_WORD + r"\"\s*:\s*\"\"|" + TRACKER_WORD + r"\s*=\s*''", re.IGNORECASE)
-PATH_NUMBER_RE = re.compile(r"(?<![0-9])1[0-9]{3}(?![0-9])")
+PATH_NUMBER_RE = re.compile(r"(?<![0-9])(?:[3-9][0-9]{3}|" + TRACKER_NUMBER_BODY + r")(?![0-9])")
 
 
 class GateCannotRun(Exception):
@@ -448,11 +458,29 @@ def self_test(gate: Gate) -> int:
         "comment id": "see com" + "ment id 9876",
         "comment (N)": "see com" + "ment (9876)",
         "nested upstream prefix": "private/" + "anthropics/sandbox-runtime" + "#" + "4321",
+        "fixture prefix above 1999": "C:\\wsl\\" + "p" + "2345-run1\\leaf",
+        "fixture prefix of five digits": "/mnt/c/" + "p" + "23456_x",
+        "session token above 1999": "tail " + "S" + "2345-main-abc",
+        "session token of five digits": "tail " + "S" + "23456-main",
     }
     for name, text in refuse.items():
         ok = bool(gate.scan_text(text))
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} refused: {name}")
+    path_refuse = {"path number 1000-1999": "evidence/run-" + "1406/x.json", "path number 2000-2999": "evidence/run-" + "2406/x.json",
+                   "path number above 2999": "evidence/run-" + "4406/x.json", "plain year without a month": "evidence/report-" + "2026.md",
+                   "number before a non-month": "evidence/run-" + "1999-13-01.json"}
+    for name, rel in path_refuse.items():
+        ok = bool(gate.scan_path(rel))
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} refused path: {name}")
+    path_keep = {"date folder": "evidence/2026-10-05-wfp-sid-block/README.md", "compact date in a run name": "evidence/runs/testc-on-20261009-180608.json",
+                 "date with underscores": "evidence/runs/x_2026_10_05_y.json", "year and month folder": "evidence/2026-10/x.md",
+                 "timestamped name": "evidence/benchmark_2026-05-22_15-55-48.json"}
+    for name, rel in path_keep.items():
+        ok = not gate.scan_path(rel)
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} allowed path: {name}")
     keep = {"upstream reference": "anthropics/sandbox-runtime" + "#" + "4321", "timestamp": "10:48:32.4321" + "-04:00",
             "version with suffix": "6.18.54.1" + "-microsoft", "loopback": "127.0." + "0.1:8000",
             "measurement target": "1.1." + "1.1:443"}

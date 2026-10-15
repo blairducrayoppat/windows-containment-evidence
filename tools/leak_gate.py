@@ -60,7 +60,7 @@ What it refuses:
                is not seen.
                VERSION forms in a path name (recorded 2026-10-15): a run from 2000 to 2099 directly followed by a dot and a
                digit (2026.4), or directly after "ov" or "openvino" and followed by an underscore and a digit (ov2026_2_1_0, the
-               shape the benchmark harnesses write) is a version and passes; ov1406_2 and run_2026 are still refused.
+               shape the benchmark harnesses write) is a version and passes; ov1406_2 and run_2026 are still refused. The exemption is narrow in shape and not in range (recorded 2026-10-15): a tracker number from 2000 to 2099 written in that shape is not seen.
                Short commit hashes and hour-minute stamps that contain a four-digit run in a name are refused (fails closed).
 
 The local file (.leakgate.local.json at the repository root, never committed: .gitignore lists it) holds what would

@@ -1,6 +1,6 @@
 # MXC with `runtimeConfig.networkProxy` pointing at a loopback proxy: accepted or refused, and is non-proxy egress blocked? 2026-10-15
 
-Two launchers, Windows 26200.9711, three runs per state per arm, one elevated batch of about 30 seconds.
+Two launchers, Windows 26200.9711, three runs per state per arm, two elevated batches under two security-software conditions (condition 1: no third-party suite; condition 2: Bitdefender reinstalled and present). One further attempt is a named non-result.
 
 ## Question
 
@@ -8,24 +8,37 @@ With a policy whose `runtimeConfig.networkProxy` is `http://127.0.0.1:<port>`, n
 
 ## Result in one paragraph
 
-Both launchers accepted the policy at `--dry-run` 3 of 3 and launched it 3 of 3 (exit code 0). Inside the container a request through the configured proxy to a second loopback listener succeeded in every case (the control: 9 of 9 requests per arm, seen by the container, by the proxy log and by the listener log). A direct connect to that second loopback listener, a connect to the default gateway (port 80) and a connect to 1.1.1.1:443 were each refused with Windows error 10013 in 3 of 3 runs per arm, and the second listener logged no direct hit. From an unconfined process on the same account the same three destinations connected every time (once per batch, and again immediately before and after every launch). The harness's own verdict, from fixed rules written before the run, is HOLD for both arms. This is a finding about these two launchers, with this policy, on this build and this security-software state, three runs each. It is not a claim that MXC is secure.
+In both conditions the results were identical, run for run. Both launchers accepted the policy at `--dry-run` 3 of 3 and launched it 3 of 3 (exit code 0). Inside the container a request through the configured proxy to a second loopback listener succeeded in every case (the control: 9 of 9 requests per arm, seen by the container, by the proxy log and by the listener log). A direct connect to that second loopback listener, a connect to the default gateway (port 80) and a connect to 1.1.1.1:443 were each refused with Windows error 10013 in 3 of 3 runs per arm, and the second listener logged no direct hit. From an unconfined process on the same account the same three destinations connected every time (once per batch, and again immediately before and after every launch). The harness's own verdict, from fixed rules written before the runs, is HOLD for both arms in both conditions. Only the launch wall times differ visibly (0.387 to 0.698 s in condition 1; 0.566 to 1.864 s in condition 2). This is a finding about these two launchers, with this policy, on this build, in these two security-software states, three runs each per condition. It is not a claim that MXC is secure.
 
 ## Conditions
 
+Shared by both batches:
+
 | Item | Value |
 |---|---|
-| When | 2026-10-15, 16:07:21 to 16:07:53 local (UTC-4); one batch, arm A runs 1 to 3 then arm B runs 1 to 3 |
 | Machine | Intel Core Ultra 7 258V laptop, 31.3 GB; AC power, battery 80 %; no GPU or model work |
 | Windows | build 26200.9711 (UBR read from the registry; ProductName reads "Windows 10 Pro" as Windows writes it) |
 | Elevation | elevated (administrator console); live runs are launched elevated by the launcher script |
 | Priority | harness at BelowNormal |
 | Arm A | Microsoft-signed `wxc-exec` v1.0.0, sha256 `aa444c0fc4b7f155fd8631068ffafb453d71d8b47fc47d417a74c9545a344031`, Authenticode Valid (CN=Microsoft Corporation); the launcher prints no version, so the tag is the operator's designation |
 | Arm B | `wxc-exec` built from microsoft/mxc commit `525d0f25763b2edaab56e29651fb7c12c4cbbd93` (Rust 1.93, `cargo build --release`, not `--locked`), sha256 `e951922beec5ad5f0ba967e398763640c3b24c96cbf97f2d198174a949e5f8cc`, not signed |
-| `--probe` | both: tier `base-container`, `baseContainerSupportsIngressHostLoopbackAllow` true; arm B also `baseContainerSupportsIdentitylessLoopbackProxy` true. Neither prints a version for the ingress contract (the full output is in `runs/run-20261015-1/batch-header.json`). Arm B is only run if that last flag reads true |
+| `--probe` | both: tier `base-container`, `baseContainerSupportsIngressHostLoopbackAllow` true; arm B also `baseContainerSupportsIdentitylessLoopbackProxy` true. Neither prints a version for the ingress contract (full output in each `batch-header.json`). Arm B is only run if that last flag reads true |
 | Container interpreter | Python 3.14 from a throwaway toolchain copy, sha256 `cce21c0e8710e304273e98ac4b2b0f5aceb639acbcd2343cbaa5c4e81619c45b` (the same file hash as the host interpreter) |
 | Host preparation | `wxc-host-prep` not invoked |
-| Security software | Per the operator, Bitdefender was uninstalled on 2026-10-14. During the run Windows Defender real-time protection was on, the Windows firewall was in force (all three profiles enabled), Security Center still listed a stale McAfee entry as the firewall product (`McAfee|266240`), and one Bitdefender remnant service (`bdredline_agent`; the process scan reads `bdredline.exe`) was running. The run was not under a third-party firewall and Bitdefender was not present as a product. |
-| Harness | `tools/probes/mxc-proxy-egress/` as it ran (commit `25210ef3` of the private repository; `run_probe.py` sha256 `979c21d546af264702ea9df8ca1f2b9f25ad038d9f1425019c85a1e4aa945879`, recorded in the batch header), started through a launcher that refuses to run unless each probe file matches an approved hash written by an independent non-elevated reviewer after three review rounds |
+| Harness | `tools/probes/mxc-proxy-egress/` as it ran in both batches (commit `25210ef3` of the private repository; `run_probe.py` sha256 `979c21d546af264702ea9df8ca1f2b9f25ad038d9f1425019c85a1e4aa945879` and `launch.ps1` sha256 `d94e93d8bb53065c11bc54423802dd10dd311748d80e0a944c02e11c7e635a03` recorded in both batch headers), started through a launcher that refuses to run unless each probe file matches an approved hash written by an independent non-elevated reviewer after three review rounds. Condition 2 was started from a clean detached worktree of that commit; the hash check passed |
+
+The two conditions:
+
+| Item | Condition 1: `runs/run-20261015-1/` | Condition 2: `runs/run-20261015-3/` |
+|---|---|---|
+| When (UTC-4) | 2026-10-15, 16:07:21 to 16:07:53 | 2026-10-15, 16:43:14 to 16:44:41 |
+| Third-party security suite | none. Per the operator, Bitdefender was uninstalled on 2026-10-14. Windows Defender real-time protection was on and the Windows firewall was in force (all three profiles enabled). Security Center still listed a stale McAfee entry as the firewall product (`McAfee|266240`) and one Bitdefender remnant service (`bdredline_agent`; the process scan reads `bdredline.exe`) was running. Not under a third-party firewall; Bitdefender was not present as a product. | Bitdefender reinstalled and present, its firewall in the default automatic mode (per the operator). Security Center listed `Bitdefender Firewall|266240` (and the stale `McAfee|266240` entry); 14 Bitdefender-named processes ran (`bdagent`, `bdntwrk`, `bdredline` x2, `bdservicehost` x5, `bduserhost` x4, `updatesrv`). Windows firewall profiles enabled as before. |
+| Bitdefender firewall activity | none | per the operator, shortly before the batch the Bitdefender firewall logged "Application allowed to access network" for the host Python to 1.1.1.1:443 TCP and granted it automatically (the unfenced control of the aborted attempt below). That auto-allow is part of this condition. |
+| Windows firewall rules for either interpreter | two disabled inbound allow rules for the host Python, unchanged by every run | the same two rules, unchanged by every run |
+
+## Named non-result: `run-20261015-2` (aborted, not evidence)
+
+An earlier attempt at condition 2 (started 16:30:27) passed its hash check and its unfenced control, then stopped on binding 127.0.0.1:18111 (Windows error 10048, address already in use) because an unrelated self-test of the harness on the same machine held the harness's two loopback ports. No container was launched and no run record exists. It is not in this folder; it is named here so that the sequence is complete. An earlier start from the wrong folder was refused by the hash check before anything ran. After this the harness gained a pre-flight that refuses to start, naming the holder, when its ports are busy (not in the copy here).
 
 ## Method
 
@@ -41,45 +54,45 @@ Every run is a separate launcher invocation preceded by `--dry-run`. State A1 (a
 
 Only Windows error 10013 counts as a refusal; a timeout or any other error blinds the run. No listener is bound on a non-loopback address. Before and after every run the harness snapshots ACL hashes of the granted folders, the sandbox registry mappings, the firewall rules whose program is either interpreter, the firewall profiles, the loopback-exemption list, the WinHTTP proxy and a count of MXC-named WFP filters; any difference stops the batch. The rules for HOLD, FAIL, REFUSED, REFUSED-AT-LAUNCH and INSTRUMENT-BLIND are in `tools/probes/mxc-proxy-egress/summarise.py`.
 
-## Results (n = 3 per state per arm)
+## Results (n = 3 per state per arm, per condition)
 
-| | Arm A, v1.0.0 (A1) | Arm B, main 525d0f25 (B1) |
-|---|---|---|
-| `--dry-run` accepts the policy ("Dry run completed. Result: validation passed", empty stderr) | 3 of 3 | 3 of 3 |
-| Launch exit code 0 | 3 of 3 | 3 of 3 |
-| B2: requests through the proxy, container saw 200 / proxy log forwarded 200 / listener logged with run tag | 9 of 9 / 9 of 9 / 9 of 9 | 9 of 9 / 9 of 9 / 9 of 9 |
-| B3: direct connect to the second loopback listener refused (10013) / direct hits on that listener | 3 of 3 / 0 | 3 of 3 / 0 |
-| B4(i): connect to the default gateway refused (10013) | 3 of 3 | 3 of 3 |
-| B4(ii): connect to 1.1.1.1:443 refused (10013) | 3 of 3 | 3 of 3 |
-| Unfenced 1.1.1.1:443 connected before and after the launch / unfenced gateway connected before and after | 3 of 3 / 3 of 3 | 3 of 3 / 3 of 3 |
-| Runs where the host state snapshot changed | 0 of 3 | 0 of 3 |
-| Run verdict HOLD / batch verdict | 3 of 3 / HOLD | 3 of 3 / HOLD |
-| Launch wall time | 0.698, 0.453, 0.404 s | 0.387, 0.454, 0.425 s |
+| | Cond. 1, arm A (v1.0.0, A1) | Cond. 1, arm B (main 525d0f25, B1) | Cond. 2, arm A | Cond. 2, arm B |
+|---|---|---|---|---|
+| `--dry-run` accepts the policy ("Dry run completed. Result: validation passed", empty stderr) | 3 of 3 | 3 of 3 | 3 of 3 | 3 of 3 |
+| Launch exit code 0 | 3 of 3 | 3 of 3 | 3 of 3 | 3 of 3 |
+| B2: requests through the proxy, container saw 200 / proxy log forwarded 200 / listener logged with run tag | 9/9, 9/9, 9/9 | 9/9, 9/9, 9/9 | 9/9, 9/9, 9/9 | 9/9, 9/9, 9/9 |
+| B3: direct connect to the second loopback listener refused (10013) / direct hits on that listener | 3 of 3 / 0 | 3 of 3 / 0 | 3 of 3 / 0 | 3 of 3 / 0 |
+| B4(i): connect to the default gateway refused (10013) | 3 of 3 | 3 of 3 | 3 of 3 | 3 of 3 |
+| B4(ii): connect to 1.1.1.1:443 refused (10013) | 3 of 3 | 3 of 3 | 3 of 3 | 3 of 3 |
+| Unfenced 1.1.1.1:443 connected before and after the launch / unfenced gateway connected before and after | 3/3, 3/3 | 3/3, 3/3 | 3/3, 3/3 | 3/3, 3/3 |
+| Runs where the host state snapshot changed | 0 of 3 | 0 of 3 | 0 of 3 | 0 of 3 |
+| Run verdict HOLD / batch verdict | 3 of 3 / HOLD | 3 of 3 / HOLD | 3 of 3 / HOLD | 3 of 3 / HOLD |
+| Launch wall time | 0.698, 0.453, 0.404 s | 0.387, 0.454, 0.425 s | 1.801, 1.308, 0.566 s | 1.864, 1.260, 0.813 s |
 
-B5, once per batch: the second loopback listener, the gateway on port 80 and 1.1.1.1:443 were each reached from the unconfined process (`control-b5.json`, judgement `ok` true). The MXC-named WFP filter count read 0 before and after every run; per review, such a count may read 0 whatever is enforced, so it is recorded and not relied on. In the container `HTTP_PROXY` and `HTTPS_PROXY` (upper case) were set to the proxy endpoint.
+B5, once per batch, in each condition: the second loopback listener, the gateway on port 80 and 1.1.1.1:443 were each reached from the unconfined process (`control-b5.json`, judgement `ok` true). The MXC-named WFP filter count read 0 before and after every run in both conditions; per review, such a count may read 0 whatever is enforced, so it is recorded and not relied on. The snapshot does not include Bitdefender's own firewall rule store, so a change there between runs would not have been seen. In the container `HTTP_PROXY` and `HTTPS_PROXY` (upper case) were set to the proxy endpoint.
 
-**Re-count.** Every figure above was recomputed from the sanitised files in `runs/run-20261015-1/` by a script that reads the run records (not the summary) and compared with the same recount over the raw records: 47 figures, 0 differences (listed in `PROVENANCE.md`).
+**Re-count.** Every figure above was recomputed from the sanitised files of each batch by a script that reads the run records (not the summary) and compared with the same recount over the raw records: 47 figures per batch, 0 differences in both (tabulated in `PROVENANCE.md`).
 
 ## Against the earlier record
 
-On 2026-10-11, Windows 26200.9457, elevated, with Bitdefender present, the same signed v1.0.0 launcher rejected the same network and proxy settings at `--dry-run` 3 of 3 (`network.ingress.hostLoopback='allow' is not supported by this version of Windows; host-loopback ingress requires native ProcessContainer support`), and an older main build (`70fc7d52`) accepted a proxy policy and refused direct connects (10013). The earlier probe's records are in the private project's public mirror, in its comparison study folder `docs/research/windows-containment-comparison-2026-10/` (the MXC proxy probe sub-folder). Today `--probe` for v1.0.0 reports `baseContainerSupportsIngressHostLoopbackAllow` true. Between the two records the Windows build (9457 to 9711), the security software (Bitdefender present, then removed), the harness and the proxy port (18099 to 18110) changed. This record does not isolate which change moved the acceptance. All earlier arms of this repository's studies (2026-10-05 to 2026-10-14) ran with Bitdefender present; this one did not.
+On 2026-10-11, Windows 26200.9457, elevated, with Bitdefender present, the same signed v1.0.0 launcher rejected the same network and proxy settings at `--dry-run` 3 of 3 (`network.ingress.hostLoopback='allow' is not supported by this version of Windows; host-loopback ingress requires native ProcessContainer support`), and an older main build (`70fc7d52`) accepted a proxy policy and refused direct connects (10013). The earlier probe's records are in the private project's public mirror, in its comparison study folder `docs/research/windows-containment-comparison-2026-10/` (the MXC proxy probe sub-folder). Today `--probe` for v1.0.0 reports `baseContainerSupportsIngressHostLoopbackAllow` true. Between the two records the Windows build (9457 to 9711), the security software (Bitdefender present, then removed), the harness and the proxy port (18099 to 18110) changed. This record does not isolate which change moved the acceptance. All earlier arms of this repository's studies (2026-10-05 to 2026-10-14) ran with Bitdefender present. Condition 1 of this record did not; condition 2 did, and the results did not differ, so on this evidence the Bitdefender state is not what moved the acceptance between 26200.9457 and 26200.9711 (the Windows build remains, together with the harness and the proxy port; not isolated).
 
 ## Not measured
 
-Any build other than the two run; a non-elevated live run; a host whose `--probe` reports host-loopback ingress unsupported (the 26200.9457 condition); an identity-scoped proxy (`allowedProxyPeer`); the session-isolation backend; UDP, ICMP or DNS egress under the proxy policy; host-to-container ingress (the vendor documentation's own open limitation); nono under MXC; anything about any other sandbox; IPv6; HTTPS or CONNECT through the proxy; destination ports other than those named; the WFP filter list of the container's session; variance beyond three runs per state per arm (a repeat on one machine within half a minute, not a distribution). The vendor documentation says an identity-less proxy "opens both host-loopback directions" and that private-network traffic "remains available in both directions when `ingress.default` is `allow`"; this run did not observe either (B3 and B4(i) were refused), and the documentation was not re-read for this record: re-read it live before quoting this.
+Any build other than the two run; a non-elevated live run; a host whose `--probe` reports host-loopback ingress unsupported (the 26200.9457 condition); an identity-scoped proxy (`allowedProxyPeer`); the session-isolation backend; UDP, ICMP or DNS egress under the proxy policy; host-to-container ingress (the vendor documentation's own open limitation); nono under MXC; anything about any other sandbox; IPv6; HTTPS or CONNECT through the proxy; destination ports other than those named; the WFP filter list of the container's session; variance beyond three runs per state per arm (each batch is a repeat on one machine within about one minute, not a distribution); Bitdefender's own firewall rules and logs (only the operator's statement of one auto-allow event is recorded); any Bitdefender mode other than the default automatic one. The vendor documentation says an identity-less proxy "opens both host-loopback directions" and that private-network traffic "remains available in both directions when `ingress.default` is `allow`"; this run did not observe either (B3 and B4(i) were refused), and the documentation was not re-read for this record: re-read it live before quoting this.
 
 ## What is in the folder
 
 | Path | What |
 |---|---|
-| `runs/run-20261015-1/batch-header.json` | launchers (sha256, signature, full `--probe` output), harness file hashes, interpreters, arm B commit, firewall product and profiles, machine conditions |
-| `runs/run-20261015-1/run-<arm>-<state>-r<n>-<time>.json` | six run records: policy as submitted, dry-run output and exit code, launch exit code and stdout/stderr tails, payload report, proxy log, listener log, unfenced pre and post, machine conditions, before and after state snapshots, verdict |
-| `runs/run-20261015-1/control-b5.json`, `batch-summary.json` | the batch controls and the verdicts |
-| `runs/run-20261015-1/staging/logs/*.log` | the launcher's own log for each of the six launches. Kept because it is the launcher's account of the run. |
-| `runs/run-20261015-1/.sanitized` | replacement counts per file and rule (never an original value) |
+| `runs/run-20261015-1/` (condition 1) and `runs/run-20261015-3/` (condition 2): `batch-header.json` | launchers (sha256, signature, full `--probe` output), harness file hashes, interpreters, arm B commit, firewall product and profiles, machine conditions |
+| `run-<arm>-<state>-r<n>-<time>.json` (each folder) | six run records each: policy as submitted, dry-run output and exit code, launch exit code and stdout/stderr tails, payload report, proxy log, listener log, unfenced pre and post, machine conditions, before and after state snapshots, verdict |
+| `control-b5.json`, `batch-summary.json` (each folder) | the batch controls and the verdicts |
+| `staging/logs/*.log` (each folder) | the launcher's own log for each of the six launches. Kept because it is the launcher's account of the run. |
+| `.sanitized` (each folder) | replacement counts per file and rule (never an original value) |
 | `tools/probes/mxc-proxy-egress/` | the harness as it ran, sanitised |
 
-Not included from the raw folder: `staging/cfg/` (each policy file is byte-for-byte the `policy_as_submitted` in its run record), `staging/payload/` (a copy of `net_payload.py`, which is in `tools/probes/`), and the empty `staging/state/` and `staging/work/`.
+Not included from either raw folder: `staging/cfg/` (each policy file is byte-for-byte the `policy_as_submitted` in its run record), `staging/payload/` (a copy of `net_payload.py`, which is in `tools/probes/`), and the empty `staging/state/` and `staging/work/`.
 
 ## How to re-run
 

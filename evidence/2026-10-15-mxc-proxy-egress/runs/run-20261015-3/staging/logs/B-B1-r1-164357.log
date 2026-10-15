@@ -1,0 +1,134 @@
+[1792097044] SECTION: JSON Config (redacted)
+[1792097044] {
+[1792097044]   "containment": "processcontainer",
+[1792097044]   "fallback": {
+[1792097044]     "allowDaclMutation": false
+[1792097044]   },
+[1792097044]   "filesystem": {
+[1792097044]     "readonlyPaths": [
+[1792097044]       "C:\\blarai-spike\\toolchain",
+[1792097044]       "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\payload"
+[1792097044]     ],
+[1792097044]     "readwritePaths": [
+[1792097044]       "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\work"
+[1792097044]     ]
+[1792097044]   },
+[1792097044]   "lifecycle": {
+[1792097044]     "destroyOnExit": true
+[1792097044]   },
+[1792097044]   "network": {
+[1792097044]     "egress": {
+[1792097044]       "default": "deny"
+[1792097044]     },
+[1792097044]     "ingress": {
+[1792097044]       "default": "allow",
+[1792097044]       "hostLoopback": "allow"
+[1792097044]     }
+[1792097044]   },
+[1792097044]   "process": {
+[1792097044]     "commandLine": "\"C:\\blarai-spike\\toolchain\\Python314\\python.exe\" -I \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\payload\\net_payload.py\" --tag B-B1-r1-164357 --out \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\work\\result-B-B1-r1-164357.json\" --gateway-ip <default-gateway> --gateway-port 80 --proxy-port 18110 --target-port 18111",
+[1792097044]     "cwd": "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\work",
+[1792097044]     "inheritDefaultEnv": true,
+[1792097044]     "timeout": 150000
+[1792097044]   },
+[1792097044]   "runtimeConfig": {
+[1792097044]     "networkProxy": "http://127.0.0.1:18110"
+[1792097044]   },
+[1792097044]   "ui": {
+[1792097044]     "clipboard": "none",
+[1792097044]     "disable": false,
+[1792097044]     "injection": false
+[1792097044]   },
+[1792097044]   "version": "1.0.0"
+[1792097044] }[1792097044] 
+[1792097044] SECTION: Request simplified
+[1792097044] Script code length: [1792097044] 374[1792097044] 
+[1792097044] Working directory: [1792097044] ~\blarai-research-data\mxc-proxy-egress\run-20261015-3\staging\work[1792097044] 
+[1792097044] Script timeout: [1792097044] 150000[1792097044] 
+[1792097044] Container name: [1792097044] CLI[1792097044] 
+[1792097044] SECTION: Full `ExecutionRequest` configuration (redacted)
+[1792097044] {
+[1792097044]   "source_contract": "1.0.0",
+[1792097044]   "container_id": "",
+[1792097044]   "env": null,
+[1792097044]   "inherit_default_env": true,
+[1792097044]   "script_code": "\"C:\\blarai-spike\\toolchain\\Python314\\python.exe\" -I \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\payload\\net_payload.py\" --tag B-B1-r1-164357 --out \"~USER... (374 chars total)",
+[1792097044]   "working_directory": "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\work",
+[1792097044]   "script_timeout": 150000,
+[1792097044]   "containment": "processcontainer",
+[1792097044]   "lifecycle": {
+[1792097044]     "destroy_on_exit": true,
+[1792097044]     "preserve_policy": false
+[1792097044]   },
+[1792097044]   "policy": {
+[1792097044]     "least_privilege_mode": false,
+[1792097044]     "capabilities": [],
+[1792097044]     "readwrite_paths": [
+[1792097044]       "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\work"
+[1792097044]     ],
+[1792097044]     "readonly_paths": [
+[1792097044]       "C:\\blarai-spike\\toolchain",
+[1792097044]       "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-3\\staging\\payload"
+[1792097044]     ],
+[1792097044]     "enumerate_paths": [],
+[1792097044]     "denied_paths": [],
+[1792097044]     "fallback": {
+[1792097044]       "allow_dacl_mutation": false
+[1792097044]     },
+[1792097044]     "network_egress": {
+[1792097044]       "default": "deny",
+[1792097044]       "allow": [],
+[1792097044]       "deny": []
+[1792097044]     },
+[1792097044]     "network_ingress": {
+[1792097044]       "default": "allow",
+[1792097044]       "host_loopback": "allow"
+[1792097044]     },
+[1792097044]     "allowed_proxy_peer": null,
+[1792097044]     "ui": {
+[1792097044]       "disable": false,
+[1792097044]       "clipboard": "none",
+[1792097044]       "injection": false
+[1792097044]     },
+[1792097044]     "base_process_ui": {
+[1792097044]       "isolation": "container",
+[1792097044]       "desktopSystemControl": false,
+[1792097044]       "systemSettings": "none",
+[1792097044]       "ime": false
+[1792097044]     },
+[1792097044]     "capture_denials": null
+[1792097044]   },
+[1792097044]   "lxc_config": {
+[1792097044]     "distribution": "",
+[1792097044]     "release": ""
+[1792097044]   },
+[1792097044]   "wslc": null,
+[1792097044]   "seatbelt": null,
+[1792097044]   "telemetry": null,
+[1792097044]   "test_feature": null,
+[1792097044]   "windows_sandbox": null,
+[1792097044]   "hyperlight": null,
+[1792097044]   "experimental_enabled": false,
+[1792097044]   "dry_run": false
+[1792097044] }
+[1792097044] [network_proxy: enabled, address=http://127.0.0.1:18110][1792097044] 
+[1792097044] {"event":"mxc.PolicyHash","backend":"processcontainer","policy_hash":"sha256:e2606cff511f15d1ded21defc85971a8134e989f4c90d538a80aa40062a8758e","config_schema_version":"1.0.0"}
+[1792097044] selected isolation tier: [1792097044] base-container[1792097044] 
+[1792097044] ▶[1792097044]  SECTION: Backend runner 'BaseContainer'
+[1792097044] effective proxy: [1792097044] http://127.0.0.1:18110[1792097044] 
+[1792097044] warning: proxy support on Windows is best-effort -- only scripts that use the WinHTTP stack will be proxied; other HTTP stacks may bypass it.
+[1792097044] ▶[1792097044]  SECTION: Build sandbox spec
+[1792097044] process security environment spec built (PSEC [1792097044] 1[1792097044] .[1792097044] 1[1792097044] , [1792097044] 432[1792097044]  bytes)
+[1792097044] ▶[1792097044]  SECTION: Load API
+[1792097044] ▶[1792097044]  SECTION: Launch process
+[1792097044] working directory: [1792097044] ~\blarai-research-data\mxc-proxy-egress\run-20261015-3\staging\work (from process.cwd)[1792097044] 
+[1792097044] STDIO mode: passthrough (forwarding parent handles to child)
+[1792097044] launching: [1792097044] "C:\blarai-spike\toolchain\Python314\python.exe" -I "~\blarai-research-data\mxc-proxy-egress\run-20261015-3\staging\payload\net_payload.py" --tag B-B1-r1-164357 --out "~\blarai-research-data\mxc-proxy-egress\run-20261015-3\staging\work\result-B-B1-r1-164357.json" --gateway-ip <default-gateway> --gateway-port 80 --proxy-port 18110 --target-port 18111[1792097044] 
+[1792097044] identity: [1792097044] <process-security-environment>[1792097044] 
+[1792097044] process security environment created (processmodel.dll)
+[1792097044] process created (PID: [1792097044] 25692[1792097044] )
+[1792097044] {"event":"mxc.NetworkPolicyApplied","backend":"processcontainer","identity":"redacted","tier":"base-container","enforcement_mode":"capabilities","default_policy":"block","proxy_port":18110,"firewall_rules_created":0,"firewall_applied":false,"status":"success"}
+[1792097045] {"event":"mxc.ProcessExited","backend":"processcontainer","identity":"redacted","tier":"base-container","pid":25692,"exit_code":0}
+[1792097045] {"event":"mxc.SandboxTornDown","backend":"processcontainer","identity":"redacted","tier":"base-container","pid":25692,"status":"success","firewall_rules_removed":0,"firewall_removal_ok":true,"bfs_removed":false,"proxy_stopped":false,"preserve_policy":false,"container_released":false}
+[1792097045] Runner completed in [1792097045] 1300[1792097045] ms
+[1792097045] Exit code: [1792097045] 0[1792097045]  (0x[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] 0[1792097045] )

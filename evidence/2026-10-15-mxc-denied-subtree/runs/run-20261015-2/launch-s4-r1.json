@@ -1,0 +1,117 @@
+{
+ "state": "S4",
+ "tag": "s4-r1",
+ "rc": 0,
+ "stderr": "",
+ "landed": {
+  "create_file": true,
+  "open_write_append": true,
+  "rename": true,
+  "delete": true,
+  "mkdir": true
+ },
+ "all_landed": true,
+ "judge": {
+  "host_side": true,
+  "attempts_executed": true,
+  "landed": {
+   "create_file": true,
+   "open_write_append": true,
+   "rename": true,
+   "delete": true,
+   "mkdir": true
+  },
+  "landed_count": 5,
+  "reported_success": {
+   "create_file": true,
+   "open_write_append": true,
+   "rename": true,
+   "delete": true,
+   "mkdir": true
+  },
+  "disagreements": [],
+  "sub_changes": [
+   "sub/delete_me.txt",
+   "sub/marker.txt",
+   "sub/rename_me.txt",
+   "sub/renamed.txt",
+   "sub/s2_dir",
+   "sub/s2_new.txt"
+  ],
+  "sub_unchanged": false,
+  "unattributed_changes": [],
+  "read_errors": [],
+  "layout_ok": true
+ },
+ "s1_host": {
+  "create_file": true,
+  "append_marker": true
+ },
+ "report": {
+  "mode": "control",
+  "pid": 15836,
+  "s1": {
+   "create_file": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   },
+   "append_marker": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   }
+  },
+  "s3": {
+   "read_marker": {
+    "ok": true,
+    "winerror": null,
+    "error": null,
+    "read_len": 17,
+    "read_sha256": "0991b4f789d9c84bf5879685644264701b809dc2d0e6b39211cb2e064fc7ceed"
+   },
+   "list_sub": {
+    "ok": true,
+    "winerror": null,
+    "error": null,
+    "listing": [
+     "delete_me.txt",
+     "marker.txt",
+     "rename_me.txt"
+    ]
+   }
+  },
+  "s2": {
+   "create_file": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   },
+   "open_write_append": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   },
+   "rename": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   },
+   "delete": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   },
+   "mkdir": {
+    "ok": true,
+    "winerror": null,
+    "error": null
+   }
+  }
+ },
+ "cleanup": {
+  "removed": true,
+  "errors": []
+ },
+ "finished": "2026-10-15T18:34:09.691-04:00"
+}

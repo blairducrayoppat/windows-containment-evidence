@@ -1,0 +1,73 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "user": 10,
+    "sid": 30,
+    "home": 5,
+    "tracker": 46,
+    "local": 2108
+  },
+  "files": {
+    "header.json": {
+      "user": 3,
+      "home": 1,
+      "tracker": 4,
+      "local": 438
+    },
+    "launch-fx-a-r1.json": {
+      "user": 2,
+      "sid": 10,
+      "home": 1,
+      "tracker": 6,
+      "local": 454
+    },
+    "launch-fx-a-r2.json": {
+      "user": 2,
+      "sid": 10,
+      "home": 1,
+      "tracker": 6,
+      "local": 454
+    },
+    "launch-fx-a-r3.json": {
+      "user": 2,
+      "sid": 10,
+      "home": 1,
+      "tracker": 6,
+      "local": 455
+    },
+    "launch-s4-r1.json": {},
+    "launch-smoke-r1.json": {
+      "user": 1,
+      "home": 1,
+      "tracker": 4,
+      "local": 230
+    },
+    "mxc-fx-a-r1.log": {
+      "tracker": 5,
+      "local": 19
+    },
+    "mxc-fx-a-r2.log": {
+      "tracker": 5,
+      "local": 19
+    },
+    "mxc-fx-a-r3.log": {
+      "tracker": 5,
+      "local": 20
+    },
+    "mxc-smoke-r1.log": {
+      "tracker": 5,
+      "local": 19
+    },
+    "summary.json": {}
+  }
+}

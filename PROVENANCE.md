@@ -16,6 +16,8 @@ moved.
 | `tools/probes/nono_9p_failclosed_control.py` | `tools/probes/nono_9p_failclosed_control.py` | `b04ee32d`, 2026-10-15 | the bytes that ran (SHA-256 `b7cc9a6a53089ffdfc68b82ac3b5f2bad87f3eff6940d44da143939c44536302`, the value both 9P run records hold); blarai-public carries a later revision of the same script | n/a |
 | `evidence/2026-10-15-mxc-proxy-egress/` | not published elsewhere; made directly from two raw run folders of 2026-10-15 (kept outside every repository) | first published here | the raw folder, through `tools/sanitize.py` (staging logs only, see below) | none |
 | `tools/probes/mxc-proxy-egress/` | not published elsewhere | first published here | the bytes of the private repository's commit `25210ef3` (the commit the run used), through `tools/sanitize.py` | n/a |
+| `evidence/2026-10-15-mxc-denied-subtree/` | not published elsewhere; made directly from one raw run folder of 2026-10-15 (kept outside every repository) | first published here | the raw folder `run-20261015-2`, through `tools/sanitize.py` and a temporary local file (see below) | none |
+| `tools/probes/mxc-denied-subtree/` | not published elsewhere | first published here | the bytes that ran (the working copy of the private repository's commit `b1cb40e3`: CRLF for seven files, LF for `smoke_payload.py`; the committed blobs are LF), through `tools/sanitize.py`, which made 0 replacements, so every file hash equals the approved hash the launcher checked | n/a |
 
 The NEP-0005 half-set folder is dated by its run (2026-10-13); the matrix's specification was fixed on 2026-10-12.
 The srt-win patches are in `evidence/2026-10-13-nep0005-halfset/srtcli/fix/` (`status-completeness.patch`,
@@ -89,6 +91,34 @@ replacements, `self_test.py` after the hand edit; `net_payload.py`, `proxy.py`, 
 `launch.cmd` was stored with LF line endings in the private repository's commit; the hash the approver took was of its
 CRLF form. The sanitised copy's self-test was not run to completion: it was stopped on instruction because it holds the
 probe's loopback ports on a machine where a live run was in progress (it had already caused one live batch to abort, `run-20261015-2`, which is named in the bundle README and not included).
+
+## MXC denied-subtree bundle (2026-10-15)
+
+`evidence/2026-10-15-mxc-denied-subtree/runs/run-20261015-2/` is the raw run folder after `tools/sanitize.py` (11 files). The raw folder was not modified (the sha256 of every file was identical before and after). The raw folder `run-20261015-1` is a LAUNCH-FAILED attempt (the container's Python could not load `ctypes` with UI lockdown on, no write attempted): it was not sanitised or copied and is named in the bundle README only.
+
+Sanitiser replacement counts (from the `.sanitized` files):
+
+| Folder | Files | host | user | sid | home | local | tracker | fixture | guid |
+|---|---|---|---|---|---|---|---|---|---|
+| `runs/run-20261015-2/` | 11 | 0 | 10 | 30 | 5 | 2108 | 46 | 0 | 0 |
+| `tools/probes/mxc-denied-subtree/` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+What those were: the account name and the profile path (`USER`, `~`); 30 domain SIDs (`S-1-5-21-X-X-X-<RID>`); an internal four-digit number inside two directory names (the toolchain folder and the MXC folder carried it as a suffix in the raw paths; it is absent from every path and record here); and 2108 `local` replacements from a temporary local file kept outside this repository (the standing `.leakgate.local.json` plus extra pairs for this run): 1962 occurrences of 218 AppContainer package SIDs from the registry mapping snapshots, each distinct SID written `S-1-15-2-X<n>` so that two different SIDs stay different; 142 occurrences of the fixture tree root `C:\mxc-fx`, written `~\mxc-fx`; the McAfee install folder's version, written `1.27.184-1` (1 occurrence), and Bitdefender's version, written `30.0.33 build 162` (1 occurrence), because the leak gate refuses a four-part dotted number as an address; and 2 occurrences of one launcher run time of 1.686 s (written in the launcher's log in milliseconds without a separator), now written with a thousands comma, because the bare number is on the gate's tracker-number list. No other value was changed. The raw run folder held no bare `#` reference, so no citation was lost to the tracker rule.
+
+Re-count: the figures were recomputed from the run records and logs of the raw folder and of the sanitised folder by one script (not kept here: it reads the same fields the README tables name) and compared: 467 values (per run: dry-run and launch results, S1, S2 and S3 results with Win32 codes, landed counts, host comparison counts, ACL entry counts, inherited counts, deny counts and ACE types before, during and after for `T\sub` and `T`, identical-text and identical-descriptor flags, `totalDenials`, wall times, log-derived PSEC, tier, enforcement mode and firewall-rule fields; S0, probe and header fields; S4 and smoke results; the summary). 0 differences.
+
+| Figure | Raw / sanitised |
+|---|---|
+| runs; dry-run accepted; launch exit 0 | 3, 3, 3 / 3, 3, 3 |
+| S2 attempts refused with error 5 (of 15) / attempts landed | 15, 0 / 15, 0 |
+| S1 create and append landed (of 6) / S3 refusals (of 6) | 6, 6 / 6, 6 |
+| entries changed in `T\sub` per run | 0, 0, 0 / 0, 0, 0 |
+| `T\sub` ACL entries per capture (9 captures) / deny entries | 5 each, 0 / 5 each, 0 |
+| `totalDenials` per run; PSEC string in the 4 logs | 9, 9, 9; `PSEC 1.0, 312 bytes` x4 / same |
+| S4 landed (of 5) / smoke steps ok (of 5) | 5 / 5 |
+| batch verdict; tier | HOLD; base-container / same |
+
+Consequences to know when re-running: the SHA-256 values and the policy hash in the run records and logs describe the bytes as they ran, not the sanitised copy. The harness copy here is byte for byte what ran, so its hashes equal the approved list. The harness copy's self-test was not run. The harness's later open items (the verdict wording for a FAIL made only of unattributed changes, a 300 s signature-check timeout, the non-elevated runner's exit code) are not fixed in this copy.
 
 ## What the sanitiser changed
 

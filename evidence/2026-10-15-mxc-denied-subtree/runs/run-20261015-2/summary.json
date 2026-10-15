@@ -1,0 +1,134 @@
+{
+ "s0_tier": "base-container",
+ "dry_run_tiers": [
+  "base-container"
+ ],
+ "fx_a_launches": 3,
+ "fx_a_completed": 3,
+ "s1_landed": [
+  true,
+  true,
+  true
+ ],
+ "s1_win32": {
+  "fx-a-r1": {
+   "create_file": null,
+   "append_marker": null
+  },
+  "fx-a-r2": {
+   "create_file": null,
+   "append_marker": null
+  },
+  "fx-a-r3": {
+   "create_file": null,
+   "append_marker": null
+  }
+ },
+ "s2_landed_counts": [
+  0,
+  0,
+  0
+ ],
+ "s2_sub_unchanged": [
+  true,
+  true,
+  true
+ ],
+ "s2_reported_refused": [
+  5,
+  5,
+  5
+ ],
+ "s2_win32": {
+  "fx-a-r1": {
+   "create_file": 5,
+   "open_write_append": 5,
+   "rename": 5,
+   "delete": 5,
+   "mkdir": 5
+  },
+  "fx-a-r2": {
+   "create_file": 5,
+   "open_write_append": 5,
+   "rename": 5,
+   "delete": 5,
+   "mkdir": 5
+  },
+  "fx-a-r3": {
+   "create_file": 5,
+   "open_write_append": 5,
+   "rename": 5,
+   "delete": 5,
+   "mkdir": 5
+  }
+ },
+ "s3": {
+  "fx-a-r1": {
+   "read_marker": {
+    "ok": false,
+    "winerror": 5
+   },
+   "list_sub": {
+    "ok": false,
+    "winerror": 5
+   }
+  },
+  "fx-a-r2": {
+   "read_marker": {
+    "ok": false,
+    "winerror": 5
+   },
+   "list_sub": {
+    "ok": false,
+    "winerror": 5
+   }
+  },
+  "fx-a-r3": {
+   "read_marker": {
+    "ok": false,
+    "winerror": 5
+   },
+   "list_sub": {
+    "ok": false,
+    "winerror": 5
+   }
+  }
+ },
+ "s4": [
+  {
+   "tag": "s4-r1",
+   "landed_count": 5
+  }
+ ],
+ "s5": [],
+ "smoke": [
+  {
+   "tag": "smoke-r1",
+   "ok": true,
+   "cause": null,
+   "report": {
+    "steps": {
+     "ctypes": "ok",
+     "_winapi": "ok",
+     "ctypes.wintypes": "ok",
+     "payload": "ok",
+     "list_dir": "ok"
+    },
+    "ok": true
+   }
+  }
+ ],
+ "smoke_state_changed": [],
+ "ui_lockdown": false,
+ "changes": [],
+ "tier_mismatch": [],
+ "blind_reasons": [],
+ "attempts": [
+  "create_file",
+  "open_write_append",
+  "rename",
+  "delete",
+  "mkdir"
+ ],
+ "verdict": "HOLD"
+}

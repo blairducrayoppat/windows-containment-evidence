@@ -88,7 +88,7 @@ bytes that ran, not the sanitised copy here (`run_probe.py` and `launch.ps1` dif
 replacements, `self_test.py` after the hand edit; `net_payload.py`, `proxy.py`, `summarise.py` and `README.md` are identical).
 `launch.cmd` was stored with LF line endings in the private repository's commit; the hash the approver took was of its
 CRLF form. The sanitised copy's self-test was not run to completion: it was stopped on instruction because it holds the
-probe's loopback ports on a machine where a live run was in progress.
+probe's loopback ports on a machine where a live run was in progress (it had already caused one live batch to abort, `run-20261015-2`, which is named in the bundle README and not included).
 
 ## What the sanitiser changed
 

@@ -26,9 +26,9 @@ What it refuses:
   mac-address  six hex pairs joined by colons or hyphens, or three dotted groups of four hex digits.
   public-ip    an IPv4 address outside the private, loopback, link-local and multicast ranges, other than the two
                measurement targets the records name (IPV4_OK).
-  volume-serial  the header that introduces a volume's serial (spaced or joined, then "is", a colon or "="), and a
-               serial-number field followed by a colon or "="
-               (pattern: VOLUME_SERIAL_RE).
+  volume-serial  the header that introduces a volume's serial (spaced or joined, then "is", a colon or "="), a
+               serial-number field followed by a colon or "=", either one as a plain, quoted or escaped-quoted key,
+               and a CSV header column named for a volume serial (pattern: VOLUME_SERIAL_RE).
   home-path    <drive>:\\Users\\<name> (any number of backslashes, or slashes), /mnt/<drive>/Users/<name>, the
                profile environment variable (HOME_ENV below), and the extended-length prefix in front of a home path.
                Users\\Public and Users\\Default are allowed.
@@ -99,9 +99,12 @@ IPV4_RE = re.compile(r"(?<![0-9.])(" + _OCTET + r"(?:\." + _OCTET + r"){3})(?![0
 IPV4_OK = frozenset({"1.1.1.1", "8.8.8.8"})
 # Dotted version numbers that have the shape of an address: the WSL and WSL-kernel versions the 9P records hold.
 NOT_ADDRESSES = frozenset({"3.0.3.0", "6.18.54.1", "6.18.40.1"})
-VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)[\x22']?\s*(?:is\b|[:=])"
-                              r"|(?<![A-Za-z])serial[\s_-]*number[\x22']?\s*[:=]",
-                              re.IGNORECASE)
+# Each form may close with a quote, an escaped quote (a key inside a JSON string) or nothing; a CSV header column
+# named for a volume serial is refused too.
+VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)(?:\\*[\x22'])?\s*(?:is\b|[:=])"
+                              r"|(?<![A-Za-z])serial[\s_-]*number(?:\\*[\x22'])?\s*[:=]"
+                              r"|(?:^|,)[\x22']?volume[\s_-]*serial[\s_-]*(?:number|no)?[\x22']?(?=,|\r?$)",
+                              re.IGNORECASE | re.MULTILINE)
 HOME_RE = re.compile(
     r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)\b)[A-Za-z0-9_.$-]"
     r"|/mnt/[A-Za-z]/Users/(?!(?:Public|Default)\b)[A-Za-z0-9_.$-]"
@@ -440,6 +443,8 @@ def self_test(gate: Gate) -> int:
         "noreply on a personal domain": "noreply" + "@personal-domain.net",
         "serial as a JSON key": "{" + '"Volume' + 'Serial' + 'Number": "0000"}',
         "serial number as a JSON key": "{" + '"Serial' + 'Number": "X1"}',
+        "serial key inside an escaped JSON string": '"stdout": "{' + '\\"Volume' + 'Serial' + 'Number\\": \\"0000\\"}"',
+        "serial column in a CSV header": "path,volume_" + "serial,size\n",
         "comment id": "see com" + "ment id 9876",
         "comment (N)": "see com" + "ment (9876)",
         "nested upstream prefix": "private/" + "anthropics/sandbox-runtime" + "#" + "4321",

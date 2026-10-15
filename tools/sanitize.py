@@ -56,7 +56,7 @@ HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/([A-Za-z0-9_.$-]+)", re.IGNORECAS
 TRACKER_FIELD_RE = re.compile(r"(\"" + lg.TRACKER_WORD + r"\"\s*:\s*)(\"[^\"]*\"|-?[0-9]+|null)")
 TRACKER_ASSIGN_RE = re.compile(r"(?<![A-Za-z0-9_\"'])(" + lg.TRACKER_WORD + r"\s*=\s*)'[^'\n]*'", re.IGNORECASE)
 TRACKER_REF_RE = re.compile(
-    r"(?<![\w/.#-])#1[0-9]{3}\b(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
+    r"(?<![\w/.#-])#[0-9]{3,4}\b(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
     r"|(?<![\w.])c\.[0-9]{3,5}\b(?:[ \t]+and[ \t]+c\.[0-9]{3,5}\b)?"
 )
 # A tracker number inside a name: "-1NNN" between a letter or digit and a separator, or "1NNN-" right after a path
@@ -66,9 +66,9 @@ TRACKER_NAME_RE = re.compile(
     r"(?<=[A-Za-z0-9])(?<![0-9]{6})[-_]1[0-9]{3}(?=[-_.][A-Za-z0-9])|(?<=[/\\])1[0-9]{3}[-_](?=[A-Za-z0-9])"
     r"|(?<=[a-z])[-_]1[0-9]{3}(?![0-9A-Za-z])"
 )
-SESSION_RE = re.compile(r"(?<![A-Za-z0-9])S1[0-9]{3}-")
-FIXTURE_RE = re.compile(r"(?<![A-Za-z0-9])p1[0-9]{3}-run([0-9]+)", re.IGNORECASE)
-FIXTURE_PREFIX_RE = re.compile(r"(?<![A-Za-z0-9])p1[0-9]{3}([-_])", re.IGNORECASE)
+SESSION_RE = re.compile(r"(?<![A-Za-z0-9])S[0-9]{4,5}-")
+FIXTURE_RE = re.compile(r"(?<![A-Za-z0-9])p[0-9]{4,5}-run([0-9]+)", re.IGNORECASE)
+FIXTURE_PREFIX_RE = re.compile(r"(?<![A-Za-z0-9])p[0-9]{4,5}([-_])", re.IGNORECASE)
 
 
 def _keep_case(original: str, new: str) -> str:

@@ -52,6 +52,12 @@ What it refuses:
                listed under "path_words". Widened 2026-10-15; residual limit: a tracker number from 1900 to 2099 written
                directly before a separator and a valid month (for example 1999-10) reads as a date and is not seen, and a
                plain year in a path name with no month after it is refused.
+               tracker-in-name (a number between separators inside a name, in a path or in content) stays 1000 to 1999,
+               recorded 2026-10-15: widening it read version-bearing names such as a 2026.4 folder as tracker numbers
+               on the existing evidence. NOT SEEN by that rule: a 2000-plus issue number inside a name. Compensating
+               control: PATH_NUMBER_RE covers 1000 to 9999 in every path except dates, so a file or folder NAME carrying
+               one is still refused; a 2000-plus number inside file CONTENT, written other than as #N, pNNNN- or SNNNN-,
+               is not seen.
 
 The local file (.leakgate.local.json at the repository root, never committed: .gitignore lists it) holds what would
 itself be a leak if this public file named it. The gate refuses to run without it (exit 2). Shape:
@@ -400,6 +406,10 @@ def self_test(gate: Gate) -> int:
         "session-token": "tail " + "S" + "1234-main-abc",
         "tracker-in-name": "schema 'probe-" + "1234-proof-v1' on build 26100.1.ge_release.240331-" + "1435",
         "tracker-in-paren": "fixed (" + "#" + "1234) and kept f() and @() and x.y()",
+        "fixture above 1999": "C:\\wsl\\" + "p" + "2345-run1\\leaf",
+        "fixture prefix above 1999": "/mnt/c/" + "p" + "23456_marker.txt",
+        "session-token above 1999": "tail " + "S" + "2345-main-abc",
+        "tracker-ref above 1999": "fixed in " + "#" + "2345 today",
     }
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:

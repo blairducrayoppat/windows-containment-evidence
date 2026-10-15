@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "provisioned": "2026-10-05T15:56:56.580-04:00",
+  "spike_user": "blarai-spike",
+  "spike_sid": "S-1-5-21-X-X-X-1010",
+  "operator_sid": "S-1-5-21-X-X-X-1001",
+  "venv": "~\\BlarAI\\.venv-2026.4",
+  "venv_base_home": "~\\AppData\\Local\\Programs\\Python\\Python311",
+  "model_dir": "B:\\models\\Qwen3.5-4B-int8-ov",
+  "root": "C:\\blarai-spike",
+  "profile_dir": "~blarai-spike",
+  "task": "\\BlarAI\\BlarAI-Spike-Model",
+  "removable_ace_paths": [
+    "C:\\blarai-spike",
+    "C:\\blarai-spike\\bin",
+    "C:\\blarai-spike\\work",
+    "C:\\blarai-spike\\results",
+    "~\\BlarAI\\.venv-2026.4",
+    "~\\AppData\\Local\\Programs\\Python\\Python311",
+    "B:\\models\\Qwen3.5-4B-int8-ov"
+  ]
+}

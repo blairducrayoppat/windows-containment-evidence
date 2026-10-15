@@ -1,0 +1,121 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded; hand edits after the sanitiser are listed in PROVENANCE.md",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "sid": 851,
+    "home": 20,
+    "tracker": 563,
+    "local": 7
+  },
+  "files": {
+    "harness/build-harness.ps1": {
+      "home": 2
+    },
+    "harness/halfset.rs": {
+      "sid": 8,
+      "tracker": 6
+    },
+    "harness/README.md": {
+      "home": 1,
+      "tracker": 2
+    },
+    "harness/tests/refusals.ps1": {
+      "sid": 2,
+      "home": 3,
+      "tracker": 1
+    },
+    "runs/AS_RUN.md": {
+      "sid": 2,
+      "tracker": 8,
+      "local": 1
+    },
+    "runs/exports-manifest.json": {},
+    "runs/halfset-20261013-104631.json": {
+      "sid": 774,
+      "tracker": 222
+    },
+    "runs/n1-20261013-105127.json": {
+      "home": 6,
+      "tracker": 21
+    },
+    "runs/ours-20261013-104930.json": {
+      "sid": 21,
+      "tracker": 204
+    },
+    "runs/results-summary.json": {
+      "sid": 8,
+      "tracker": 10
+    },
+    "runs/srtcli-results-summary.json": {
+      "tracker": 1
+    },
+    "runs/taskcheck-20261013-104554.json": {
+      "sid": 1,
+      "home": 2
+    },
+    "runs/taskcheck-first-20261013-102658.json": {
+      "sid": 1,
+      "home": 2,
+      "tracker": 1
+    },
+    "scripts/README.md": {
+      "tracker": 16,
+      "local": 1
+    },
+    "scripts/spike-nep5-connect-probe.ps1": {
+      "sid": 3,
+      "tracker": 1
+    },
+    "scripts/spike-nep5-lib.ps1": {
+      "sid": 5,
+      "tracker": 15
+    },
+    "scripts/spike-nep5-matrix.ps1": {
+      "sid": 18,
+      "home": 2,
+      "tracker": 27,
+      "local": 1
+    },
+    "scripts/spike-nep5-run-lib.ps1": {
+      "sid": 1,
+      "tracker": 9,
+      "local": 1
+    },
+    "SPEC.md": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 12,
+      "local": 2
+    },
+    "srtcli/Deploy-Srtcli.ps1": {
+      "tracker": 1
+    },
+    "srtcli/Export-SrtcliSummary.ps1": {
+      "tracker": 2
+    },
+    "srtcli/fix/fake-srt-win.mjs": {},
+    "srtcli/fix/pr/0001-windows-wfp-status-partial.patch": {},
+    "srtcli/fix/pr/pr-body.md": {
+      "local": 1
+    },
+    "srtcli/fix/run-verify.mjs": {},
+    "srtcli/fix/status-completeness.patch": {},
+    "srtcli/fix/status-partial-consumer.patch": {},
+    "srtcli/fix/ts-selftest.json": {},
+    "srtcli/fix/verify-ipv6.patch": {},
+    "srtcli/srtcli-halfset.ps1": {
+      "sid": 6,
+      "home": 1,
+      "tracker": 4
+    }
+  }
+}

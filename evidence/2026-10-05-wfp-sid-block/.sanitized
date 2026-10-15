@@ -1,0 +1,378 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded; hand edits after the sanitiser are listed in PROVENANCE.md",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "sid": 224,
+    "home": 211,
+    "tracker": 293,
+    "local": 73
+  },
+  "files": {
+    "account-level-containment-evidence.md": {
+      "tracker": 44,
+      "local": 29
+    },
+    "arm1-permit/runs/server/server-testc-off-20261009-180836.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/server/server-testc-off-20261009-180943.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/server/server-testc-off-20261009-181213.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/server/server-testc-on-20261009-180608.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/server/server-testc-on-20261009-180910.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/server/server-testc-on-20261009-181026.json": {
+      "home": 1
+    },
+    "arm1-permit/runs/testc-off-20261009-180836.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 5
+    },
+    "arm1-permit/runs/testc-off-20261009-180943.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 5
+    },
+    "arm1-permit/runs/testc-off-20261009-181213.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 5
+    },
+    "arm1-permit/runs/testc-on-20261009-180608.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 9
+    },
+    "arm1-permit/runs/testc-on-20261009-180910.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 9
+    },
+    "arm1-permit/runs/testc-on-20261009-181026.json": {
+      "sid": 17,
+      "home": 2,
+      "tracker": 9
+    },
+    "arm1-permit/scripts/README.md": {
+      "tracker": 1,
+      "local": 1
+    },
+    "arm1-permit/scripts/Run-Arm1-AsAdmin.cmd": {},
+    "arm1-permit/scripts/spike-cleanup.ps1": {
+      "sid": 2,
+      "home": 6,
+      "tracker": 2
+    },
+    "arm1-permit/scripts/spike-lib.ps1": {
+      "home": 7,
+      "tracker": 2,
+      "local": 1
+    },
+    "arm1-permit/scripts/spike-provision.ps1": {
+      "sid": 2,
+      "home": 5,
+      "tracker": 2,
+      "local": 1
+    },
+    "arm1-permit/scripts/spike-run-test.ps1": {
+      "home": 1,
+      "tracker": 2
+    },
+    "arm1-permit/scripts/spike-wfp.ps1": {
+      "sid": 3,
+      "home": 3,
+      "tracker": 9
+    },
+    "arm1-permit/scripts/spike_model.py": {
+      "tracker": 1
+    },
+    "arm2-hold/runs/hold-on-20261011-144844-samples.txt": {},
+    "arm2-hold/runs/hold-on-20261011-144844.json": {
+      "sid": 4,
+      "home": 4,
+      "tracker": 12
+    },
+    "arm2-hold/runs/wrapper-arm2-log.txt": {
+      "home": 1
+    },
+    "arm2-hold/scripts/Convert-ToLive.ps1": {
+      "home": 4
+    },
+    "arm2-hold/scripts/README.md": {
+      "tracker": 1
+    },
+    "arm2-hold/scripts/Run-Arm2-AsAdmin.cmd": {},
+    "arm2-hold/scripts/spike-lib.ps1": {
+      "home": 7,
+      "tracker": 2,
+      "local": 1
+    },
+    "arm2-hold/scripts/spike-run-test.ps1": {
+      "home": 1,
+      "tracker": 2
+    },
+    "arm2-hold/scripts/spike-wfp.ps1": {
+      "sid": 5,
+      "home": 4,
+      "tracker": 22
+    },
+    "arm2-hold/scripts/Start-ElevatedOnce.ps1": {
+      "sid": 1,
+      "tracker": 2,
+      "local": 2
+    },
+    "arm2-hold/selftest/selftest-results-20261011.txt": {},
+    "arm3-persist/DESIGN.md": {
+      "tracker": 7,
+      "local": 4
+    },
+    "arm3-persist/runs/arm3a-20261011-165130.json": {
+      "sid": 5,
+      "home": 4,
+      "tracker": 6
+    },
+    "arm3-persist/runs/arm3b-arm-refused-20261012-143857.json": {
+      "sid": 16,
+      "home": 16,
+      "tracker": 1,
+      "local": 2
+    },
+    "arm3-persist/runs/arm3b-armed-20261012-144923.json": {
+      "sid": 1
+    },
+    "arm3-persist/runs/arm3b-post-reboot-attempts-20261012.json": {},
+    "arm3-persist/runs/arm3b-post-reboot-result-20261012-150113.json": {
+      "sid": 3,
+      "tracker": 3
+    },
+    "arm3-persist/runs/AS_RUN.md": {
+      "tracker": 2,
+      "local": 1
+    },
+    "arm3-persist/runs/post-3a-verification.txt": {
+      "tracker": 1
+    },
+    "arm3-persist/runs/post-3b-verification.txt": {},
+    "arm3-persist/runs/remove-20261011-165206.json": {},
+    "arm3-persist/runs/wrapper-arm3a-log.txt": {
+      "home": 1
+    },
+    "arm3-persist/runs/wrapper-arm3b-attempts.txt": {
+      "sid": 3,
+      "home": 3
+    },
+    "arm3-persist/scripts/arm3-idle-gate.ps1": {},
+    "arm3-persist/scripts/README.md": {
+      "tracker": 4,
+      "local": 5
+    },
+    "arm3-persist/scripts/Run-Arm3a-AsAdmin.cmd": {},
+    "arm3-persist/scripts/spike-arm3b-arm.ps1": {
+      "sid": 2,
+      "home": 2,
+      "tracker": 2,
+      "local": 3
+    },
+    "arm3-persist/scripts/spike-arm3b-common.ps1": {},
+    "arm3-persist/scripts/spike-arm3b-post-reboot.ps1": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 6
+    },
+    "arm3-persist/scripts/spike-arm3b-veto.ps1": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 1
+    },
+    "arm3-persist/scripts/spike-lib.ps1": {
+      "home": 7,
+      "tracker": 2,
+      "local": 1
+    },
+    "arm3-persist/scripts/spike-persist-lib.ps1": {
+      "tracker": 11,
+      "local": 1
+    },
+    "arm3-persist/scripts/spike-task-driver.ps1": {},
+    "arm3-persist/scripts/spike-wfp-persist.ps1": {
+      "sid": 5,
+      "home": 1,
+      "tracker": 14
+    },
+    "arm3-persist/scripts/Start-ElevatedOnce.ps1": {
+      "sid": 1,
+      "tracker": 2,
+      "local": 2
+    },
+    "arm3-persist/selftest/selftest-results-20261011.txt": {
+      "tracker": 6,
+      "local": 2
+    },
+    "CHANGES.md": {
+      "sid": 3,
+      "tracker": 1
+    },
+    "confined-model-spike/as-run/MANIFEST.sha256": {},
+    "confined-model-spike/as-run/README.md": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 4
+    },
+    "confined-model-spike/as-run/Run-Spike-AsAdmin.cmd": {
+      "tracker": 2
+    },
+    "confined-model-spike/as-run/spike-cleanup.ps1": {
+      "sid": 2,
+      "home": 6,
+      "tracker": 2
+    },
+    "confined-model-spike/as-run/spike-lib.ps1": {
+      "home": 7,
+      "tracker": 2,
+      "local": 1
+    },
+    "confined-model-spike/as-run/spike-provision.ps1": {
+      "sid": 2,
+      "home": 5,
+      "tracker": 2,
+      "local": 1
+    },
+    "confined-model-spike/as-run/spike-run-test.ps1": {
+      "home": 1,
+      "tracker": 2
+    },
+    "confined-model-spike/as-run/spike-verify-cleanup.ps1": {
+      "sid": 3,
+      "home": 3,
+      "tracker": 2
+    },
+    "confined-model-spike/as-run/spike-wfp.ps1": {
+      "sid": 3,
+      "home": 3,
+      "tracker": 5
+    },
+    "confined-model-spike/as-run/spike_model.py": {
+      "tracker": 1
+    },
+    "confined-model-spike/post-run-hardened/README.md": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 4
+    },
+    "confined-model-spike/post-run-hardened/Run-Spike-AsAdmin.cmd": {
+      "tracker": 2
+    },
+    "confined-model-spike/post-run-hardened/spike-cleanup.ps1": {
+      "sid": 2,
+      "home": 6,
+      "tracker": 2
+    },
+    "confined-model-spike/post-run-hardened/spike-lib.ps1": {
+      "home": 7,
+      "tracker": 2,
+      "local": 1
+    },
+    "confined-model-spike/post-run-hardened/spike-provision.ps1": {
+      "sid": 2,
+      "home": 5,
+      "tracker": 2,
+      "local": 1
+    },
+    "confined-model-spike/post-run-hardened/spike-run-test.ps1": {
+      "home": 1,
+      "tracker": 2
+    },
+    "confined-model-spike/post-run-hardened/spike-verify-cleanup.ps1": {
+      "sid": 3,
+      "home": 3,
+      "tracker": 2
+    },
+    "confined-model-spike/post-run-hardened/spike-wfp.ps1": {
+      "sid": 3,
+      "home": 3,
+      "tracker": 5
+    },
+    "confined-model-spike/post-run-hardened/spike_model.py": {
+      "tracker": 1
+    },
+    "confined-model-spike/runs/control/control-inproc.json": {},
+    "confined-model-spike/runs/testA-20261005-155840.json": {
+      "sid": 4,
+      "home": 17
+    },
+    "confined-model-spike/runs/testA-20261005-155954.json": {
+      "sid": 4,
+      "home": 18
+    },
+    "confined-model-spike/runs/testB-20261005-160210.json": {
+      "sid": 6,
+      "home": 18,
+      "tracker": 1
+    },
+    "confined-model-spike/spike-state.cleaned.json": {
+      "sid": 2,
+      "home": 5
+    },
+    "hf-export/arm2_hold_samples.csv": {},
+    "hf-export/arm_runs.csv": {},
+    "hf-export/CARD_SECTION.md": {},
+    "hf-export/manifest.json": {
+      "tracker": 1
+    },
+    "hf-export/nep5_n1_passes.csv": {},
+    "hf-export/nep5_phases.csv": {},
+    "hf-export/nep5_probes.csv": {},
+    "hf-export/nep5_state_passes.csv": {},
+    "hf-export/srtcli_commands.csv": {},
+    "hf-export/srtcli_cycles.csv": {},
+    "hf-export/srtcli_states.csv": {},
+    "README.md": {
+      "sid": 1,
+      "tracker": 7,
+      "local": 6
+    },
+    "wfp-spike/live-run-console.txt": {
+      "sid": 2,
+      "home": 1
+    },
+    "wfp-spike/README.md": {
+      "home": 1,
+      "tracker": 3,
+      "local": 4
+    },
+    "wfp-spike/result-20261004-235941.json": {
+      "sid": 6,
+      "tracker": 5
+    },
+    "wfp-spike/result-20261005-000002.json": {
+      "sid": 6,
+      "tracker": 5
+    },
+    "wfp-spike/result-20261005-000028.json": {
+      "sid": 6,
+      "tracker": 5
+    },
+    "wfp-spike/wfp-coder-egress-spike.ps1": {
+      "sid": 5,
+      "home": 2,
+      "tracker": 7,
+      "local": 3
+    }
+  }
+}

@@ -1,0 +1,367 @@
+{
+ "arm": "B",
+ "state": "B1",
+ "fixture": "fx-b",
+ "run": 1,
+ "tag": "B-B1-r1-160738",
+ "launcher": "C:\\blarai-spike-mxc\\build-main-20261015\\target\\x86_64-pc-windows-msvc\\release\\wxc-exec.exe",
+ "policy_as_submitted": {
+  "version": "1.0.0",
+  "containment": "processcontainer",
+  "lifecycle": {
+   "destroyOnExit": true
+  },
+  "fallback": {
+   "allowDaclMutation": false
+  },
+  "process": {
+   "commandLine": "\"C:\\blarai-spike\\toolchain\\Python314\\python.exe\" -I \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\payload\\net_payload.py\" --tag B-B1-r1-160738 --out \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work\\result-B-B1-r1-160738.json\" --gateway-ip <default-gateway> --gateway-port 80 --proxy-port 18110 --target-port 18111",
+   "cwd": "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work",
+   "inheritDefaultEnv": true,
+   "timeout": 150000
+  },
+  "filesystem": {
+   "readwritePaths": [
+    "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work"
+   ],
+   "readonlyPaths": [
+    "C:\\blarai-spike\\toolchain",
+    "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\payload"
+   ]
+  },
+  "network": {
+   "egress": {
+    "default": "deny"
+   },
+   "ingress": {
+    "default": "allow",
+    "hostLoopback": "allow"
+   }
+  },
+  "runtimeConfig": {
+   "networkProxy": "http://127.0.0.1:18110"
+  },
+  "ui": {
+   "disable": false,
+   "clipboard": "none",
+   "injection": false
+  }
+ },
+ "machine": {
+  "elevated": true,
+  "time": "2026-10-15T16:07:38.781-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 1,
+  "bitdefender_process_names": [
+   "bdredline.exe"
+  ]
+ },
+ "gateway": {
+  "port": 80,
+  "ip_recorded": "<default-gateway>"
+ },
+ "snapshot_before": {
+  "acl": {
+   "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work": "3f5fa29bfdfa0ea2",
+   "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\payload": "3f5fa29bfdfa0ea2",
+   "C:\\blarai-spike\\toolchain": "1bf2d8bdadf444a9",
+   "C:\\blarai-spike\\toolchain\\Python314\\python.exe": "bc07072b5489f14f"
+  },
+  "process_sandboxes": [
+   "<absent>"
+  ],
+  "appcontainer_mappings": 217,
+  "state_dir": [],
+  "firewall_rules_for_interpreters": [
+   "TCP Query User{GUID-0001}C:\\python314\\python.exe|Python|False|Inbound|Allow|Private, Public|C:\\python314\\python.exe",
+   "UDP Query User{GUID-0002}C:\\python314\\python.exe|Python|False|Inbound|Allow|Private, Public|C:\\python314\\python.exe"
+  ],
+  "firewall_profiles": [
+   "Domain|True|NotConfigured|NotConfigured|True",
+   "Private|True|NotConfigured|NotConfigured|True",
+   "Public|True|NotConfigured|NotConfigured|True"
+  ],
+  "loopback_exempt": "List Loopback Exempted AppContainers \n\nOK.",
+  "winhttp_proxy": "Current WinHTTP proxy settings:\n\n    Direct access (no proxy server).",
+  "wfp_mxc_filters": 0
+ },
+ "host_control": {
+  "target": true,
+  "proxy": true,
+  "detail": {
+   "target": {
+    "target": "127.0.0.1:18111",
+    "marker": "host-control-target-1",
+    "connected": true,
+    "reply": "HTTP/1.0 200 OK\r\nContent-Length: 18\r\nConnection: close\r\n\r\nlistener-target-ok",
+    "secs": 0.025
+   },
+   "proxy": {
+    "proxy": "127.0.0.1:18110",
+    "target": "127.0.0.1:18111",
+    "marker": "host-control-proxy-1",
+    "status": 200,
+    "body": "listener-target-ok",
+    "secs": 0.002
+   }
+  }
+ },
+ "dry_run": {
+  "rc": 0,
+  "stdout": "SECTION: Request simplified\nScript code length: 374\nWorking directory: ~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work\nScript timeout: 150000\nContainer name: CLI\nselected isolation tier: base-container\nRunner completed in 0ms\nDry run completed. Result: validation passed",
+  "stderr": ""
+ },
+ "unfenced_pre": {
+  "c": {
+   "target": "1.1.1.1:443",
+   "marker": null,
+   "connected": true,
+   "secs": 0.028
+  },
+  "gw": {
+   "target": "<default-gateway>:80",
+   "marker": null,
+   "connected": true,
+   "secs": 0.016
+  },
+  "ts": "2026-10-15T16:07:40.752-04:00"
+ },
+ "launch": {
+  "exit_code": 0,
+  "wall_secs": 0.387,
+  "started": "2026-10-15T16:07:40.752-04:00",
+  "stdout_tail": "{\"tag\": \"B-B1-r1-160738\", \"b2_status\": [200, 200, 200], \"b3\": false, \"b4i\": false, \"b4ii\": false}",
+  "stderr_tail": "",
+  "ended": "2026-10-15T16:07:41.639-04:00"
+ },
+ "unfenced_post": {
+  "c": {
+   "target": "1.1.1.1:443",
+   "marker": null,
+   "connected": true,
+   "secs": 0.021
+  },
+  "gw": {
+   "target": "<default-gateway>:80",
+   "marker": null,
+   "connected": true,
+   "secs": 0.001
+  },
+  "ts": "2026-10-15T16:07:41.661-04:00"
+ },
+ "mxc_log_tail": "792094860]   \"test_feature\": null,\n[1792094860]   \"windows_sandbox\": null,\n[1792094860]   \"hyperlight\": null,\n[1792094860]   \"experimental_enabled\": false,\n[1792094860]   \"dry_run\": false\n[1792094860] }\n[1792094860] [network_proxy: enabled, address=http://127.0.0.1:18110][1792094860] \n[1792094860] {\"event\":\"mxc.PolicyHash\",\"backend\":\"processcontainer\",\"policy_hash\":\"sha256:2a699ca7e7939265ec280b8aad72d73a12b9f9d3874037836c135ad8325edd74\",\"config_schema_version\":\"1.0.0\"}\n[1792094860] selected isolation tier: [1792094860] base-container[1792094860] \n[1792094860] \u25b6[1792094860]  SECTION: Backend runner 'BaseContainer'\n[1792094860] effective proxy: [1792094860] http://127.0.0.1:18110[1792094860] \n[1792094860] warning: proxy support on Windows is best-effort -- only scripts that use the WinHTTP stack will be proxied; other HTTP stacks may bypass it.\n[1792094860] \u25b6[1792094860]  SECTION: Build sandbox spec\n[1792094860] process security environment spec built (PSEC [1792094860] 1[1792094860] .[1792094860] 1[1792094860] , [1792094860] 432[1792094860]  bytes)\n[1792094860] \u25b6[1792094860]  SECTION: Load API\n[1792094860] \u25b6[1792094860]  SECTION: Launch process\n[1792094860] working directory: [1792094860] ~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work (from process.cwd)[1792094860] \n[1792094860] STDIO mode: passthrough (forwarding parent handles to child)\n[1792094860] launching: [1792094860] \"C:\\blarai-spike\\toolchain\\Python314\\python.exe\" -I \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\payload\\net_payload.py\" --tag B-B1-r1-160738 --out \"~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work\\result-B-B1-r1-160738.json\" --gateway-ip <default-gateway> --gateway-port 80 --proxy-port 18110 --target-port 18111[1792094860] \n[1792094860] identity: [1792094860] <process-security-environment>[1792094860] \n[1792094860] process security environment created (processmodel.dll)\n[1792094860] process created (PID: [1792094860] 18336[1792094860] )\n[1792094860] {\"event\":\"mxc.NetworkPolicyApplied\",\"backend\":\"processcontainer\",\"identity\":\"redacted\",\"tier\":\"base-container\",\"enforcement_mode\":\"capabilities\",\"default_policy\":\"block\",\"proxy_port\":18110,\"firewall_rules_created\":0,\"firewall_applied\":false,\"status\":\"success\"}\n[1792094861] {\"event\":\"mxc.ProcessExited\",\"backend\":\"processcontainer\",\"identity\":\"redacted\",\"tier\":\"base-container\",\"pid\":18336,\"exit_code\":0}\n[1792094861] {\"event\":\"mxc.SandboxTornDown\",\"backend\":\"processcontainer\",\"identity\":\"redacted\",\"tier\":\"base-container\",\"pid\":18336,\"status\":\"success\",\"firewall_rules_removed\":0,\"firewall_removal_ok\":true,\"bfs_removed\":false,\"proxy_stopped\":false,\"preserve_policy\":false,\"container_released\":false}\n[1792094861] Runner completed in [1792094861] 349[1792094861] ms\n[1792094861] Exit code: [1792094861] 0[1792094861]  (0x[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] 0[1792094861] )\n",
+ "payload": {
+  "tag": "B-B1-r1-160738",
+  "b2": [
+   {
+    "proxy": "127.0.0.1:18110",
+    "target": "127.0.0.1:18111",
+    "marker": "B-B1-r1-160738-b2-1",
+    "status": 200,
+    "body": "listener-target-ok",
+    "secs": 0.013
+   },
+   {
+    "proxy": "127.0.0.1:18110",
+    "target": "127.0.0.1:18111",
+    "marker": "B-B1-r1-160738-b2-2",
+    "status": 200,
+    "body": "listener-target-ok",
+    "secs": 0.033
+   },
+   {
+    "proxy": "127.0.0.1:18110",
+    "target": "127.0.0.1:18111",
+    "marker": "B-B1-r1-160738-b2-3",
+    "status": 200,
+    "body": "listener-target-ok",
+    "secs": 0.002
+   }
+  ],
+  "b3": {
+   "target": "127.0.0.1:18111",
+   "marker": "B-B1-r1-160738-b3-1",
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013,
+   "errno": 13,
+   "detail": "[WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions",
+   "secs": 0.013
+  },
+  "b4i": {
+   "target": "<default-gateway>:80",
+   "marker": null,
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013,
+   "errno": 13,
+   "detail": "[WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions",
+   "secs": 0.016
+  },
+  "b4ii": {
+   "target": "1.1.1.1:443",
+   "marker": null,
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013,
+   "errno": 13,
+   "detail": "[WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions",
+   "secs": 0.016
+  },
+  "env_proxy": {
+   "HTTPS_PROXY": "http://127.0.0.1:18110",
+   "HTTP_PROXY": "http://127.0.0.1:18110"
+  },
+  "total_secs": 0.093
+ },
+ "target_log": [
+  {
+   "ts": "2026-10-15T16:07:40.648-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60797",
+   "request_line": "GET /host-control-target-1 HTTP/1.0",
+   "marker": "host-control-target-1",
+   "bytes": 95
+  },
+  {
+   "ts": "2026-10-15T16:07:40.674-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60799",
+   "request_line": "GET /host-control-proxy-1 HTTP/1.1",
+   "marker": "host-control-proxy-1",
+   "bytes": 126
+  },
+  {
+   "ts": "2026-10-15T16:07:40.982-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60804",
+   "request_line": "GET /B-B1-r1-160738-b2-1 HTTP/1.1",
+   "marker": "B-B1-r1-160738-b2-1",
+   "bytes": 124
+  },
+  {
+   "ts": "2026-10-15T16:07:41.007-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60806",
+   "request_line": "GET /B-B1-r1-160738-b2-2 HTTP/1.1",
+   "marker": "B-B1-r1-160738-b2-2",
+   "bytes": 124
+  },
+  {
+   "ts": "2026-10-15T16:07:41.025-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60808",
+   "request_line": "GET /B-B1-r1-160738-b2-3 HTTP/1.1",
+   "marker": "B-B1-r1-160738-b2-3",
+   "bytes": 124
+  }
+ ],
+ "proxy_log": [
+  {
+   "ts": "2026-10-15T16:07:40.674-04:00",
+   "listener": "proxy",
+   "bind": "127.0.0.1:18110",
+   "peer": "127.0.0.1:60798",
+   "method": "GET",
+   "target": "http://127.0.0.1:18111/host-control-proxy-1",
+   "marker": "host-control-proxy-1",
+   "outcome": "forwarded",
+   "status": 200
+  },
+  {
+   "ts": "2026-10-15T16:07:40.991-04:00",
+   "listener": "proxy",
+   "bind": "127.0.0.1:18110",
+   "peer": "127.0.0.1:60803",
+   "method": "GET",
+   "target": "http://127.0.0.1:18111/B-B1-r1-160738-b2-1",
+   "marker": "B-B1-r1-160738-b2-1",
+   "outcome": "forwarded",
+   "status": 200
+  },
+  {
+   "ts": "2026-10-15T16:07:41.023-04:00",
+   "listener": "proxy",
+   "bind": "127.0.0.1:18110",
+   "peer": "127.0.0.1:60805",
+   "method": "GET",
+   "target": "http://127.0.0.1:18111/B-B1-r1-160738-b2-2",
+   "marker": "B-B1-r1-160738-b2-2",
+   "outcome": "forwarded",
+   "status": 200
+  },
+  {
+   "ts": "2026-10-15T16:07:41.025-04:00",
+   "listener": "proxy",
+   "bind": "127.0.0.1:18110",
+   "peer": "127.0.0.1:60807",
+   "method": "GET",
+   "target": "http://127.0.0.1:18111/B-B1-r1-160738-b2-3",
+   "marker": "B-B1-r1-160738-b2-3",
+   "outcome": "forwarded",
+   "status": 200
+  }
+ ],
+ "snapshot_after": {
+  "acl": {
+   "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\work": "3f5fa29bfdfa0ea2",
+   "~\\blarai-research-data\\mxc-proxy-egress\\run-20261015-1\\staging\\payload": "3f5fa29bfdfa0ea2",
+   "C:\\blarai-spike\\toolchain": "1bf2d8bdadf444a9",
+   "C:\\blarai-spike\\toolchain\\Python314\\python.exe": "bc07072b5489f14f"
+  },
+  "process_sandboxes": [
+   "<absent>"
+  ],
+  "appcontainer_mappings": 217,
+  "state_dir": [],
+  "firewall_rules_for_interpreters": [
+   "TCP Query User{GUID-0001}C:\\python314\\python.exe|Python|False|Inbound|Allow|Private, Public|C:\\python314\\python.exe",
+   "UDP Query User{GUID-0002}C:\\python314\\python.exe|Python|False|Inbound|Allow|Private, Public|C:\\python314\\python.exe"
+  ],
+  "firewall_profiles": [
+   "Domain|True|NotConfigured|NotConfigured|True",
+   "Private|True|NotConfigured|NotConfigured|True",
+   "Public|True|NotConfigured|NotConfigured|True"
+  ],
+  "loopback_exempt": "List Loopback Exempted AppContainers \n\nOK.",
+  "winhttp_proxy": "Current WinHTTP proxy settings:\n\n    Direct access (no proxy server).",
+  "wfp_mxc_filters": 0
+ },
+ "state_changed_by_run": {},
+ "verdict": {
+  "verdict": "HOLD",
+  "reasons": [
+   "B2 3 of 3; B3, B4(i), B4(ii) each refused with the enforcement code"
+  ],
+  "b3_listener_hits": 0,
+  "b3_container": {
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013
+  },
+  "b4i_container": {
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013
+  },
+  "b4ii_container": {
+   "connected": false,
+   "error": "PermissionError",
+   "winerror": 10013
+  },
+  "launch_exit_code": 0,
+  "b2": {
+   "container_200": 3,
+   "proxy_log": 3,
+   "second_listener_log": 3
+  }
+ }
+}

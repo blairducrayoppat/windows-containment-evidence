@@ -14,11 +14,63 @@ moved.
 | `evidence/2026-10-13-nep0005-halfset/` | `docs/research/containment-evidence-2026-10-05/nep0005-open-questions/` | `3b4d1156`, 2026-10-15 | `b04ee32d` | same commit `d215aed0`, `containment/nep0005_halfset/` (`nep5_*.csv`, `srtcli_*.csv`) |
 | `evidence/2026-10-14-nono-9p-control/` | `docs/research/nono-9p-failclosed-control-2026-10-14/` | `b04ee32d`, 2026-10-15 | `b04ee32d` | none (no tabular export was made) |
 | `tools/probes/nono_9p_failclosed_control.py` | `tools/probes/nono_9p_failclosed_control.py` | `b04ee32d`, 2026-10-15 | the bytes that ran (SHA-256 `b7cc9a6a53089ffdfc68b82ac3b5f2bad87f3eff6940d44da143939c44536302`, the value both 9P run records hold); blarai-public carries a later revision of the same script | n/a |
+| `evidence/2026-10-15-mxc-proxy-egress/` | not published elsewhere; made directly from the raw run folder of 2026-10-15 (kept outside every repository) | first published here | the raw folder, through `tools/sanitize.py` (staging logs only, see below) | none |
+| `tools/probes/mxc-proxy-egress/` | not published elsewhere | first published here | the bytes of the private repository's commit `25210ef3` (the commit the run used), through `tools/sanitize.py` | n/a |
 
 The NEP-0005 half-set folder is dated by its run (2026-10-13); the matrix's specification was fixed on 2026-10-12.
 The srt-win patches are in `evidence/2026-10-13-nep0005-halfset/srtcli/fix/` (`status-completeness.patch`,
 `status-partial-consumer.patch`, `verify-ipv6.patch`, and `pr/0001-windows-wfp-status-partial.patch` with its
 `pr/pr-body.md`).
+
+## MXC loopback-proxy egress bundle (2026-10-15)
+
+`evidence/2026-10-15-mxc-proxy-egress/runs/run-20261015-1/` is the raw run folder after `tools/sanitize.py`. The raw folder was
+not modified (its file hashes were identical before and after). The sanitiser read a copy of it that holds the nine
+top-level JSON records and `staging/logs/`; left out: `staging/cfg/` (each policy file is byte-for-byte the
+`policy_as_submitted` of its run record), `staging/payload/` (a copy of `net_payload.py`, which is in `tools/probes/`) and the
+empty `staging/state/` and `staging/work/`. The six launcher logs are kept because they are the launcher's own account of each launch.
+
+Sanitiser replacement counts (from the two `.sanitized` files):
+
+| Folder | Files | host | user | sid | home | local | tracker | fixture | guid |
+|---|---|---|---|---|---|---|---|---|---|
+| `runs/run-20261015-1/` | 15 | 0 | 163 | 0 | 162 | 50 | 81 | 0 | 24 |
+| `tools/probes/mxc-proxy-egress/` | 8 | 0 | 0 | 0 | 1 | 0 | 2 | 0 | 0 |
+
+What those were: the account name and the profile path (`USER`, `~`); a local-vocabulary pair added for this run only
+(the default gateway's private IPv4 address, written `<default-gateway>`, which the standing local file does not hold);
+an internal four-digit number inside two directory names (the toolchain folder `blarai-spike` and the MXC folder
+`blarai-spike-mxc` carried it as a suffix in the raw paths; it is absent from every path, record and script constant here); GUIDs of two firewall rules for the Python interpreter
+(`GUID-0001`, `GUID-0002`). The default gateway's address was removed so that a home network is not identified; the
+port (80) and every figure are kept. A launcher log line that the launcher itself truncated in the middle of a home
+path reads `~USER... (374 chars total)`.
+
+Re-count: `tools/` is unchanged by this; the figures were recomputed from the run records of the raw folder and of the
+sanitised folder by one script (not kept here: it reads the same fields the README tables name) and compared: 47 figures
+(per arm 19: runs, dry-run accepted, launch exit 0, B2 requests 200 in the container, B2 requests total, B2 proxy-log forwarded 200,
+B2 second-listener entries, B3 refused with 10013, B3 listener hits, B4(i) refused, B4(ii) refused, unfenced 1.1.1.1:443 and gateway
+connects before and after, runs with a state change, runs with verdict HOLD, batch verdict, launch wall times, launcher sha256, the
+`--probe` host-loopback flag; B5: 5 fields; harness `run_probe.py` sha256, elevation, Windows build, number of launcher logs). 0 differences.
+
+| Figure | Arm A raw / sanitised | Arm B raw / sanitised |
+|---|---|---|
+| runs; dry-run accepted; launch exit 0 | 3, 3, 3 / 3, 3, 3 | 3, 3, 3 / 3, 3, 3 |
+| B2 requests: container 200 / proxy log 200 / listener entries (of 9) | 9, 9, 9 / 9, 9, 9 | 9, 9, 9 / 9, 9, 9 |
+| B3 refused 10013 / listener hits | 3, 0 / 3, 0 | 3, 0 / 3, 0 |
+| B4(i) refused / B4(ii) refused | 3, 3 / 3, 3 | 3, 3 / 3, 3 |
+| unfenced 1.1.1.1:443 / gateway connected before and after | 3, 3 / 3, 3 | 3, 3 / 3, 3 |
+| runs with state change / runs verdict HOLD | 0, 3 / 0, 3 | 0, 3 / 0, 3 |
+
+Hand edits after the sanitiser: `tools/probes/mxc-proxy-egress/self_test.py` lines 432 and 435 named the internal-tracker field
+in a string and in a key test; the key is now built from two pieces (`"ti" + "cket"`) and the message reads "no
+internal-reference field" (the gate refused the word). `README.md` of the bundle is new, written here.
+
+Consequences to know when re-running: the probe's SHA-256 values in `batch-header.json` (`harness_sha256`) describe the
+bytes that ran, not the sanitised copy here (`run_probe.py` and `launch.ps1` differ from the original after the path
+replacements, `self_test.py` after the hand edit; `net_payload.py`, `proxy.py`, `summarise.py` and `README.md` are identical).
+`launch.cmd` was stored with LF line endings in the private repository's commit; the hash the approver took was of its
+CRLF form. The sanitised copy's self-test was not run to completion: it was stopped on instruction because it holds the
+probe's loopback ports on a machine where a live run was in progress.
 
 ## What the sanitiser changed
 

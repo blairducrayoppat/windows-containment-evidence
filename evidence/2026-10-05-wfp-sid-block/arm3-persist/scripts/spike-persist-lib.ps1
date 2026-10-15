@@ -797,7 +797,7 @@ $script:RestartDecisionFile = 'arm3b-restart-decision.json'
 function Test-RestartDecision {
     # READ-ONLY. Arm 3b closes every application WITHOUT forewarning when its restart timer ends (shutdown with a timeout above 0 implies /f). Running it needs the operator's
     # recorded decision: this file in the script folder (which must be admin-only) with decision = accept-forced-restart, who decided, when (not in the future, not older than
-    # $MaxAgeDays) and a reference to where the decision is recorded (for example a comment on ). An administrator writes it; nothing in these scripts does.
+    # $MaxAgeDays) and a reference to where the decision is recorded (for example a link to the written decision). An administrator writes it; nothing in these scripts does.
     param([Parameter(Mandatory)][string]$Folder, [datetimeoffset]$Now = [datetimeoffset]::Now, [int]$MaxAgeDays = 14)
     $p = Join-Path $Folder $script:RestartDecisionFile
     if (-not (Test-Path -LiteralPath $p)) { return [ordered]@{ Ok = $false; Reason = "no recorded decision: $p does not exist (the 3b restart is forced; see DESIGN.md section 7)" } }

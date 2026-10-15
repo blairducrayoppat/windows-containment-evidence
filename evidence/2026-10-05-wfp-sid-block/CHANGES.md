@@ -166,9 +166,9 @@ For the other scripts there is no timestamp evidence of edits between provisioni
 | `nep0005-open-questions/srtcli/fix/ts-selftest.json` | re-serialised JSON | 0 | 0 | 0 | 0 | - |
 | `nep0005-open-questions/srtcli/fix/verify-ipv6.patch` | text copy | 0 | 0 | 0 | 0 | - |
 | `nep0005-open-questions/srtcli/srtcli-halfset.ps1` | text copy | 0 | 0 | 0 | 0 | - |
-| `preflight/775-preflight-2026-10-05.md` | text copy | 14 | 1 | 3 | 0 | - |
+| `preflight/preflight-2026-10-05.md` | text copy | 14 | 1 | 3 | 0 | - |
 | `reviews/code-review-rules-tooling-2026-10-05.md` | text copy | 23 | 0 | 0 | 0 | - |
-| `reviews/code-review-775-fused-leg-2026-10-05.md` | text copy | 5 | 0 | 0 | 0 | - |
+| `reviews/code-review-fused-leg-2026-10-05.md` | text copy | 5 | 0 | 0 | 0 | - |
 | `wfp-spike/live-run-console.txt` | text copy | 1 | 0 | 2 | 0 | - |
 | `wfp-spike/README.md` | text copy | 1 | 0 | 0 | 0 | - |
 | `wfp-spike/result-20261004-235941.json` | re-serialised JSON | 0 | 0 | 6 | 0 | - |

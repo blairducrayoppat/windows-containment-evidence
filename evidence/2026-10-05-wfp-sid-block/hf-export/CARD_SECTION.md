@@ -3,7 +3,7 @@
 This section holds the data behind a set of claims about how a half-installed Windows Filtering Platform (WFP)
 set reports, whether a plain re-install repairs it, and what a standard (non-administrator) token can change.
 Every count, range and tally below is computed from the CSV tables in this folder by the script that built them
-(`scripts/build_nep0005_dataset.py`), except these. Read from the run records, not the tables: the 7200 s hold
+(a build script of the private project, not included), except these. Read from the run records, not the tables: the 7200 s hold
 length and the exit code of the stopped first cycle. Typed from the run notes: the machine and Windows
 description, the pinned srt-win commit, the permit range, the probe address 1.1.1.1:443, the 600 s restart
 delay, the -04:00 offset and the pre-registered design. On this machine, under these conditions, and nothing

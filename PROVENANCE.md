@@ -15,7 +15,7 @@ moved.
 | `evidence/2026-10-14-nono-9p-control/` | `docs/research/nono-9p-failclosed-control-2026-10-14/` | `b04ee32d`, 2026-10-15 | `b04ee32d` | none (no tabular export was made) |
 | `tools/probes/nono_9p_failclosed_control.py` | `tools/probes/nono_9p_failclosed_control.py` | `b04ee32d`, 2026-10-15 | the bytes that ran (SHA-256 `b7cc9a6a53089ffdfc68b82ac3b5f2bad87f3eff6940d44da143939c44536302`, the value both 9P run records hold); blarai-public carries a later revision of the same script | n/a |
 
-The NEP-0005 half-set folder is dated by its run (2026-10-13); the matrix's specification was approved on 2026-10-12.
+The NEP-0005 half-set folder is dated by its run (2026-10-13); the matrix's specification was fixed on 2026-10-12.
 The srt-win patches are in `evidence/2026-10-13-nep0005-halfset/srtcli/fix/` (`status-completeness.patch`,
 `status-partial-consumer.patch`, `verify-ipv6.patch`, and `pr/0001-windows-wfp-status-partial.patch` with its
 `pr/pr-body.md`).
@@ -44,12 +44,28 @@ Consequences to know when re-running:
   name of a file called `FX_FIXTURE.txt` would differ. The 8.3 probes themselves used other files (`UNGRAN~1`,
   `SECRET~1.TXT`), which are unchanged.
 - The sanitised 9P probe passes its own self-test exactly as the original does (990 checks, 0 failed, 1 skipped: the
-  pty runner, which needs WSL). The 45 PowerShell scripts parse with the same result before and after sanitising.
+  pty runner, which needs WSL). The 42 PowerShell scripts parse with the same result before and after sanitising.
+- Two scripts no longer behave exactly as the ones that ran, because the vocabulary map renamed a word inside code:
+  `evidence/2026-10-13-nep0005-halfset/scripts/spike-nep5-run-lib.ps1` (one word of the secret-name pattern that
+  decides which environment variables are withheld from the test account) and `scripts/spike-nep5-matrix.ps1` (an
+  environment variable name in one self-test case). In `wfp-spike/wfp-coder-egress-spike.ps1` a parameter was renamed
+  to `-HelperScripts`.
+- Constants in the scripts and records are kept exactly as they ran, because they are measured values: the loopback
+  test ports, the leading group of the WFP filter and sublayer keys, and the relative id of the fabricated stale SID.
+  Some were derived from internal reference numbers of the private project.
 
 ## Hand edits after the sanitiser
 
 - The 9P probe: its tracker constant was removed and the field it filled is written blank (`"ticket": ""` in the
-  JSON); the marker-file text no longer names the internal record.
+  JSON); the marker-file text no longer names the internal record; a seven-line header (what it measures, how to run
+  it, what it writes, what it does not measure) was added above the docstring, and the docstring's first line, which
+  had lost its subject to the sanitiser, now begins "Fail-open control for nono".
+- After the first independent review (the review record is in `docs/reviews/`): the account handle replaced the
+  operator's full name in a licence notice and a patch header; a run record's free-text reason and the NEP-0005 as-run
+  record lost pointers to internal tracker comments; two file names in `CHANGES.md` lost an internal number; the
+  upstream pull request a PR body cites was restored as `anthropics/sandbox-runtime#359`; sentences reporting internal
+  approvals were restated as the conditions they set (who was present, what was in scope) or removed; three script
+  comments that a removed reference had broken were repaired; out-of-date status notes were corrected.
 - Eleven Markdown files: sentences that named a removed reference were reworded so they read whole; the word for the
   tracker field was replaced in prose; references to files of the private repository that are not here say so in place
   of the path. No figure was changed (checked by comparing every number in each file before and after).

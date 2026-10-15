@@ -34,7 +34,7 @@ Runs in the output folder that are NOT bundled: a taskcheck at 07:56:41 (exit 2,
 | Missing sublayer for O6 (never created) | `3e29ae7e-fd9f-413a-8b8d-da9bd3a96361` (from the O6 record; SPEC.md does not list it) |
 | Our filter keys | `f1763001-0000-4d8e-9a31-2b6d4c8e00NN` (NN 01 to 06, 11, 12, 21, as the records name them); display names carry the marker `BlarAI `; srt-win's own filter keys are generated per install |
 | Test account | `blarai-spike`, relative id 1271 (the arm 2, 3a and 3b account); the identity probe returned token SID `S-1-5-21-X-X-X-1271` (sanitised domain) |
-| Stale test SID (no such account; fabricated, not sanitised) | `S-1-5-21-Y-Y-Y-91763` |
+| Stale test SID (no such account; fabricated for the test, shown in the sanitised form) | `S-1-5-21-Y-Y-Y-91763` |
 | Probe targets | loopback listeners on `127.0.0.1` and `[::1]` at ports 61763 and 61764 (both outside 60080-60089) and 60085 (inside); all six reported bound in every console log |
 
 Script hashes the rollback proof recorded (sha256 of LF-normalised bytes) and whether the bundled copy in this repository hash-equals them:
@@ -109,7 +109,7 @@ Replacements made (counts from the script): account-domain SID part: halfset 645
 
 ## srt-win's own command line on half-sets (2026-10-13, 16:39 to 17:03 -04:00)
 
-What ran: `srtcli/srtcli-halfset.ps1` from the admin-only live folder, deployed by `srtcli/Deploy-Srtcli.ps1` as it stood at `7097fbec` (its `-BuildRoot` default was removed afterwards, in `099c05b6`), after `-SelfTest -WriteProof` and a clean `-DryRun`. srt-win's own `install` created its own `srt-sandbox` account and filters in test sublayer S1 (operator approval in the private project's record; the wider install footprint is listed in comment 4096). Reviews: Opus, six rounds, disposition `docs/reviews/nep0005-srtcli-halfset-review-disposition-2026-10-13.md`.
+What ran: `srtcli/srtcli-halfset.ps1` from the admin-only live folder, deployed by `srtcli/Deploy-Srtcli.ps1` as it stood at `7097fbec` (its `-BuildRoot` default was removed afterwards, in `099c05b6`), after `-SelfTest -WriteProof` and a clean `-DryRun`. srt-win's own `install` created its own `srt-sandbox` account and filters in test sublayer S1 (the operator was present for it; the full install footprint is the list the driver's preflight and `-DryRun` check).
 
 | Run | Driver | Build | Window | Exit | Raw record (admin-only, not committed) | Bytes | sha256 |
 |---|---|---|---|---|---|---|---|
@@ -121,7 +121,7 @@ An earlier `-Run` at 16:36 refused at its own proof gate before touching anythin
 
 The counted runs' directories also hold the ACL snapshots (`acl-baseline.tsv`, `acl-after-p<N>.tsv`, about 45 MB each). The first cycle's changes were classified against a read-only scratch snapshot taken about 45 minutes earlier with the same enumeration (127,850 entries, reparse points skipped); the driver's own back-to-back baselines inside that run agreed on the count (577 changed, churn 0).
 
-After the last run, srt-win's leftover `C:\ProgramData\sandbox-runtime` (empty; DACL `D:PAI(D;OICI;FA;;;<deleted group SID>)(A;OICI;FA;;;SY)(A;OICI;FA;;;BA)(A;OICI;0x1301bf;;;BU)`) was recorded and removed by hand at 17:03, the one manual removal named in comment 4096; a final `-DryRun` at 17:03 then read every footprint item absent, the store folder included, and the WFP state export 0 for srt-win, S1, S2, S3 and the default sublayer. The two counted runs began with the store folder already present (left by the first cycle; the preflight allows it and records it).
+After the last run, srt-win's leftover `C:\ProgramData\sandbox-runtime` (empty; DACL `D:PAI(D;OICI;FA;;;<deleted group SID>)(A;OICI;FA;;;SY)(A;OICI;FA;;;BA)(A;OICI;0x1301bf;;;BU)`) was recorded and removed by hand at 17:03, the one manual removal of the run; a final `-DryRun` at 17:03 then read every footprint item absent, the store folder included, and the WFP state export 0 for srt-win, S1, S2, S3 and the default sublayer. The two counted runs began with the store folder already present (left by the first cycle; the preflight allows it and records it).
 
 Repository copy: `srtcli-results-summary.json` (40657 bytes, sha256 `744f67640a0267e165445f5315dae0cfea1e45d7392e7ab69849a2ce94ea14ad`, LF line endings as committed; the exporter reproduces these bytes), written by `srtcli/Export-SrtcliSummary.ps1`, which replaces every machine SID domain and the user name, cuts the ACL example paths to the stamped directory, and refuses to write if either remains.
 

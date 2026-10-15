@@ -1,5 +1,5 @@
 From 26716c135846904aacdb03fcd92c43c93fae576f Mon Sep 17 00:00:00 2001
-From: Blair DuCray-Oppat <251061449+blairducrayoppat@users.noreply.github.com>
+From: blairducrayoppat <blairducrayoppat@users.noreply.github.com>
 Date: Wed, 14 Oct 2026 10:24:21 -0400
 Subject: [PATCH] windows: `wfp status` reads `partial` when the set is
  incomplete, so a plain `install` repairs it

@@ -4,7 +4,7 @@
   "steps": {
     "restart_decision": {
       "Ok": true,
-      "Reason": "decision recorded by operator at 2026-10-12T00:00:00.0000000-04:00 (the private tracker comment 4065 (2026-10-12))"
+      "Reason": "decision recorded by operator at 2026-10-12T00:00:00.0000000-04:00"
     },
     "proof": {
       "ok": true,

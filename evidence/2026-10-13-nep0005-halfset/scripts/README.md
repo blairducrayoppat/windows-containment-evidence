@@ -46,7 +46,7 @@ a timeout is recorded as a timeout and never as blocked. The accept queues of th
 * **First live action of every `-Run`: the pre-cleanup.** If S1 holds the srt-win set for the test account and nothing else is there (the reviewer-probe leftovers), `halfset uninstall --sublayer S1`
   runs and S1 must read absent by the direct checks. Any other leftover is a refusal (2) or STOP (9). **A run the pre-cleanup refused or stopped (and a run the taskcheck gate refused) removes
   NOTHING**, not even in its finally: what is there is left as found for a human; only a run that got past the pre-cleanup removes by key in its finally.
-* **The account session (operator approved this design, 2026-10-13).** The task `BlarAI-Spike-Model` is a password task and cannot be re-saved without the password, so the matrix NEVER edits it. For a `-Run`
+* **The account session (design fixed 2026-10-13).** The task `BlarAI-Spike-Model` is a password task and cannot be re-saved without the password, so the matrix NEVER edits it. For a `-Run`
   session it (1) checks that no `session-open.json` exists, that the task is in its original state and unchanged against the baseline, and that **`spike-provision.ps1 -DryRun` passes** (the restore's own read-only
   preconditions; a failure here means no password change), (2) installs the hash-checked probe copy and writes the session-open record, (3) looks the local account up **by its recorded SID**, requires its name and SID to be the
   recorded ones (anything else is refused, nothing set), and sets a fresh random password on that exact account object **by SID** (`Set-LocalUser -SID`; `New-StrongPassword`), held in a SecureString in memory: never in a file,

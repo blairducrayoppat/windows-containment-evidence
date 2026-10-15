@@ -148,11 +148,10 @@ that is what the data shows.
 ## 7. The 2026-10-11 review, and what 3b still needs
 
 Arms 2 and 3a ran live on 2026-10-11 (results: claims C9, C10a and C11 in `evidence/2026-10-05-wfp-sid-block/account-level-containment-evidence.md`).
-An independent safety review of the scripts found eleven problems; each has a disposition in
-a private review record (not included in this repository). The ones that decide whether 3b may run:
+An independent safety review of the scripts found eleven problems. The ones that decide whether 3b may run:
 
-1. The restart is forced (above). **Needs the operator's decision**: accept a forced restart of this machine with ten minutes' warning,
-   or choose another way to restart that does not close applications (none is built).
+1. The restart is forced (above). **Condition**: a forced restart of this machine with ten minutes' warning is acceptable to the
+   person at the machine; no other way to restart without closing applications is built.
 2. The window between the add and the registration of the cleanup tasks is closed: the tasks are registered first and an interrupted arming is
    recognisable (no add recorded).
 3. SYSTEM and elevated tasks run only from an admin-only folder, and the wrapped script is pinned (item 7 of section 2).
@@ -165,4 +164,4 @@ exercised against the real task scheduler or a real restart.
 
 ## 2026-10-11, second review: what changed
 
-The wrapped script was evaluated before any hash or proof check and its default path was user-writable (code execution as the operator when elevated, reproduced by the reviewer). The gate now runs before the read-as-code; the default is the copy beside the scripts. The admin-only check also fails on non-administrator owners, ancestors that grant delete or change-permissions rights, and links. The proof refuses implausible check counts, recorded failed checks and a non-admin proof folder. The operator's decision on the forced 3b restart (section 7) is enforced by `arm3b-restart-decision.json`. Arm 3a itself ran the earlier scripts; `runs/AS_RUN.md` records which.
+The wrapped script was evaluated before any hash or proof check and its default path was user-writable (code execution as the operator when elevated, reproduced by the reviewer). The gate now runs before the read-as-code; the default is the copy beside the scripts. The admin-only check also fails on non-administrator owners, ancestors that grant delete or change-permissions rights, and links. The proof refuses implausible check counts, recorded failed checks and a non-admin proof folder. The forced-restart condition (section 7) is checked against `arm3b-restart-decision.json`. Arm 3a itself ran the earlier scripts; `runs/AS_RUN.md` records which.

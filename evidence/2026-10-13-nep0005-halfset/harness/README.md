@@ -76,7 +76,7 @@ engine: they run after a read-only enumeration opens it and before the first mut
 `delete-sublayer` and `uninstall` check emptiness through the same function as `install` (guard 3), so the `nonempty` toggle and the fake-source rows cover all three. The engine's `FWP_E_IN_USE` is the second lock (exit 5) for a filter outside the ALE connect layers.
 `enum --all-ours` rejects `--sublayer` (exit 2). `srt_win::wfp::parse_guid` strips braces independently, so `{S1`, `S1}` and S1 wrapped in two pairs of braces all parse to S1; the allowlist compares the parsed GUID and `selftest-refusals` pins the behaviour.
 
-Residual: `install` prechecks the sublayer with one engine session and `install_filters` opens its own, so a concurrent elevated writer could slip a filter in between; srt-win's public API cannot close that window. The matrix runs with the fleet paused.
+Residual: `install` prechecks the sublayer with one engine session and `install_filters` opens its own, so a concurrent elevated writer could slip a filter in between; srt-win's public API cannot close that window. The matrix ran with no other elevated writer active on the machine.
 
 Every engine touch passes through `trace_engine_open`: it appends a line to the file named by `HALFSET_ENGINE_OPEN_TRACE` (when set) before the
 engine is touched, and counts the touch in-process. `selftest-refusals` asserts the count is zero.

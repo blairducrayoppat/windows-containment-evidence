@@ -1,10 +1,10 @@
 # NEP-0005 open questions: build spec for the half-set matrix
 
-Binding gate: a private review record (not included in this repository), sha256 f1cfd80c188479c0a4478e9219d7a14633e9c7636208d23949b80c2dfe684502. The operator granted new elevated live scripts and a locally built Rust harness on the real Windows Filtering
-Platform (WFP) engine, test account and test sublayers only, and the Network Configuration Operators row (2026-10-12, in the private project's record).
-This spec is the build contract for the builders. Builders NEVER run anything that opens the real WFP engine for writing: only offline
-self-tests (fake engine), compile, and refusal-path invocations that exit before any engine call. A builder reports; the author runs nothing
-live until an independent reviewer has passed the code.
+Scope (fixed 2026-10-12): elevated live scripts and a locally built Rust harness act on the real Windows Filtering Platform (WFP) engine
+for the test account and the test sublayers only, plus the Network Configuration Operators row.
+This spec is the build contract. Code that opens the real WFP engine for writing was exercised offline first: self-tests against a fake
+engine, compile, and refusal-path invocations that exit before any engine call. Nothing ran live before an independent review of the
+code passed.
 
 ## Fixed constants (recorded; used by every script, never generated at run time)
 

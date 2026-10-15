@@ -36,7 +36,7 @@ param(
     [switch]$SelfTest,
     [int]$HoldSeconds = 60,
     [string]$CoderUser = 'blarai-coder',
-    [string]$AgenticScripts = '~\private-helpers\scripts',
+    [string]$HelperScripts = '~\private-helpers\scripts',
     [string]$OutDir = '~\blarai-research-data\wfp-spike',
     [string]$LoopbackUrl = 'http://127.0.0.1:8000/v3/models',
     [string]$TaskPath = '\BlarAI\',
@@ -815,7 +815,7 @@ $argErrors = Test-SpikeArgs $DryRun.IsPresent $Live.IsPresent $SelfTest.IsPresen
 if ($argErrors.Count) { $argErrors | ForEach-Object { Write-Host "ARG ERROR: $_" -ForegroundColor Red }; exit 2 }
 if (-not $SelfTest) {
     foreach ($f in 'coder-leg-queue.ps1', 'coder-provisioning-lib.ps1') {
-        $p = Join-Path $AgenticScripts $f
+        $p = Join-Path $HelperScripts $f
         if (-not (Test-Path $p)) { Write-Host "missing helper $p" -ForegroundColor Red; exit 2 }
         . $p      # dot-source: reuse the private-helpers helpers (no side effects on load)
     }

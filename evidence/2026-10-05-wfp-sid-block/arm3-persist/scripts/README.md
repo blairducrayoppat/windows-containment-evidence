@@ -1,7 +1,7 @@
 # Arm 3: a persistent filter set, a restart, and fail-closed on absence
 
 Read `../DESIGN.md` first (it was written before these scripts and revised after the 2026-10-11 review). Arm 3a RAN on 2026-10-11 (claims C10a and C11);
-arm 3b RAN on 2026-10-12 (claim C10) after the operator accepted a forced restart (below). Machine-wide state: these objects survive a
+arm 3b RAN on 2026-10-12 (claim C10) with a forced restart agreed in advance with the person at the machine (below). Machine-wide state: these objects survive a
 restart. The subject is the throwaway spike account only.
 
 **The 3b restart is forced.** `shutdown /r /t 600` has no `/f` in its arguments, but `shutdown /?` on Windows 11 says a timeout above 0 implies `/f`: applications

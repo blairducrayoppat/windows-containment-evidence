@@ -24,7 +24,7 @@ No operation that the command line does not grant succeeded: 0 POLICY_VIOLATION 
 | `/mnt/c` | `9p rw,noatime,aname=drvfs;path=C:\;uid=0;gid=0;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd` (file-descriptor numbers omitted) |
 | Antivirus | Bitdefender present: `bdredline`, `discoverysrv`, `productagentservice`, found by image name and by process company in both the Windows and the WSL view |
 | stdin of run 2 | piped, so nono skipped its working-directory prompt non-interactively (270 of 360 runs print "Skipping CWD prompt"; the 90 runs of case C start inside the grant and have none) and the post-run review menu never opened |
-| Other load | three review agents were running on the host, as reported by the coordinating session; not measured here. Run 2 took 137 s for 360 runs (0.25 to 2.32 s each) |
+| Other load | three other agent processes were running on the host; not measured here. Run 2 took 137 s for 360 runs (0.25 to 2.32 s each) |
 | Fixture | `C:\wsl\fx-a`, prepared from an elevated shell (Developer Mode off): a junction, two directory symlinks, four file symlinks inside the granted folder, all pointing at an ungranted sibling and all verified from Windows; a long-named sibling with 8.3 names `UNGRAN~1` and `SECRET~1.TXT`; an NTFS stream; case-insensitive on the Windows side |
 | Script | `tools/probes/nono_9p_failclosed_control.py` at commit `7da29183`; both runs record the SHA-256 of the bytes that ran, `b7cc9a6a53089ffdfc68b82ac3b5f2bad87f3eff6940d44da143939c44536302` |
 | Controls | each probe also ran once outside nono: 29 of 30 succeeded (ADS_R did not, see below) |
@@ -110,17 +110,17 @@ From the record's own list: virtiofs; truncate, delete, chmod, utime and extende
 
 ## Routing
 
-No policy-denied operation succeeded, so nothing goes to nono's private advisory form. The public statement the data supports is narrow: in these cases the sandbox denied more than it should, never less. Any further post on nolabs-ai/nono#2089 rests on this folder, on the MV_OUT and pty gaps above being closed or named, and on the operator's own run.
+No policy-denied operation succeeded, so nothing goes to nono's private advisory form. The public statement the data supports is narrow: in these cases the sandbox denied more than it should, never less. Not covered here: the MV_OUT and pty gaps above, and a run made by a person at the machine (both runs here were made by an agent).
 
 ## Files
 
 - `runs/run2-piped-20261014-231822.json`: run 2, 360 rows, the record this README describes.
 - `runs/run1-pty-aborted-SUPERSEDED-20261014-230957.json`: run 1, six rows, wrong verdicts kept visible.
-- Both were passed through `scripts/scrub_public_identifiers.py`'s rewrite for the host name and the operator account name; neither name was present. One further field was redacted by hand (below), so the copies are NOT byte-identical to the files the run wrote.
+- Both were passed through an identifier scrub for the host name and the operator account name before first publication; neither name was present. One further field was redacted by hand (below), so the copies are NOT byte-identical to the files the run wrote.
 - Redaction, 2026-10-15: `prepare_record.short_names.dir_x_base` and `dir_x_long_dir` held the raw `dir /x` output, whose header carries the drive's volume label and serial number, a stable machine identifier and not evidence. The header, the directory line and the free-space footer were removed from both fields; only the dated entry lines remain, and the script now records only those. Nothing else in either file changed.
 
-| File | sha256 as run | sha256 as published |
+| File | sha256 as run | sha256 as first published (blarai-public; the copies here were sanitised again and differ) |
 |---|---|---|
 | `runs/run1-pty-aborted-SUPERSEDED-20261014-230957.json` | `6f919f73b3b9fb224ccd6d91e69bf20282d4501cdadda283c51bdab45fdd042a` | `14e0503f58fbfe15c664ae6239cfdab417f2c4b85f153914f39912ce959831f3` |
 | `runs/run2-piped-20261014-231822.json` | `6d27fe841cdcb308cea0eeddcb3825eb2c7c9bceb9cf80d8d30c7e2b24c79aa9` | `71abf7a3d75346fba990bd95f10a9a453d3d8d1b746a5250cd15b638ad1fdb7d` |
-- Script and its self-test: `tools/probes/nono_9p_failclosed_control.py`; commits `7da29183` (the bytes that ran), `dcd4b3f9` and `448e237c` (fixes after these runs).
+- Script and its self-test: `tools/probes/nono_9p_failclosed_control.py`, a sanitised copy of the bytes that ran (see PROVENANCE.md); fixes made after these runs are not in it.

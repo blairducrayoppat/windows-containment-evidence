@@ -34,10 +34,12 @@ What it refuses:
                Users\\Public and Users\\Default are allowed.
   guid         any GUID (8-4-4-4-12 hex, braces optional) not listed in tools/allowed_guids.txt.
   tracker      an internal tracker reference: #NNN or #NNNN unless it follows one of the public repositories in
-               UPSTREAM_REPOS (owner/repo#N), a comment pointer (c.NNNN, c. NNNN, "comment NNNN", "comment no. NNNN",
-               "comment-NNNN", "comment:NNNN"), any number listed under "tracker_numbers" in the local file wherever no
-               digit or decimal point touches it, letters included, except inside a GUID, inside a hex string of
-               HASH_MIN_LEN or more characters, or inside a form listed under "allowed_contexts", a fixture prefix
+               UPSTREAM_REPOS (owner/repo#N, not nested under another path segment), a comment pointer (c.NNNN,
+               c. NNNN, "comment NNNN", "comment no. NNNN", "comment id NNNN", "comment (NNNN", "comment-NNNN",
+               "comment:NNNN"), any number listed under "tracker_numbers" in the local file wherever no digit, and no
+               decimal point that follows a digit, touches it (letters do not hide it), except inside a GUID, inside a
+               hex string of HASH_MIN_LEN or more characters, or inside a form listed under "allowed_contexts", a
+               fixture prefix
                p1NNN-, a session token S1NNN-, a 1NNN number between separators inside a name (a file name that
                carries a tracker number), and the tracker-field word spelled in TRACKER_WORD below (the blanked
                field is allowed: that word as a JSON key with the value "", or assigned '' in PowerShell).
@@ -97,7 +99,8 @@ IPV4_RE = re.compile(r"(?<![0-9.])(" + _OCTET + r"(?:\." + _OCTET + r"){3})(?![0
 IPV4_OK = frozenset({"1.1.1.1", "8.8.8.8"})
 # Dotted version numbers that have the shape of an address: the WSL and WSL-kernel versions the 9P records hold.
 NOT_ADDRESSES = frozenset({"3.0.3.0", "6.18.54.1", "6.18.40.1"})
-VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)\s*(?:is\b|[:=])|(?<![A-Za-z])serial[\s_-]*number\s*[:=]",
+VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)[\x22']?\s*(?:is\b|[:=])"
+                              r"|(?<![A-Za-z])serial[\s_-]*number[\x22']?\s*[:=]",
                               re.IGNORECASE)
 HOME_RE = re.compile(
     r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)\b)[A-Za-z0-9_.$-]"
@@ -112,7 +115,7 @@ GUID_RE = re.compile(
 TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,4}\b")),
     ("tracker-comment", re.compile(r"(?<![\w.])c\.\s?[0-9]{3,5}\b"
-                                   r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|#|:|-|=)?\s*(?:c\.)?[0-9]{3,5}\b",
+                                   r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|id|#|:|-|=|\()?\s*(?:c\.)?[0-9]{3,5}\b",
                                    re.IGNORECASE)),
     ("fixture-prefix", re.compile(r"(?<![A-Za-z0-9])p1[0-9]{3}[-_]", re.IGNORECASE)),
     ("session-token", re.compile(r"(?<![A-Za-z0-9])S1[0-9]{3}-")),
@@ -183,10 +186,10 @@ def _phrase_re(phrase: str) -> re.Pattern[str]:
 
 # Public repositories whose issue and pull-request numbers the records cite. Only these exempt an #N reference.
 UPSTREAM_REPOS = ("nolabs-ai/nono", "anthropics/sandbox-runtime", "microsoft/mxc", "openvinotoolkit/openvino")
-UPSTREAM_PREFIX_RE = re.compile(r"(?<![A-Za-z0-9_.-])(?:" + "|".join(re.escape(r) for r in UPSTREAM_REPOS) + r")$",
+UPSTREAM_PREFIX_RE = re.compile(r"(?<![A-Za-z0-9_./-])(?:" + "|".join(re.escape(r) for r in UPSTREAM_REPOS) + r")$",
                                 re.IGNORECASE)
 SUBSTRING_NAME_LEN = 5
-HASH_MIN_LEN = 8
+HASH_MIN_LEN = 16
 
 
 def _name_re(name: str) -> re.Pattern[str]:
@@ -209,8 +212,9 @@ class Gate:
         if not all(n.isdigit() for n in nums):
             raise GateCannotRun(f"{LOCAL_FILE_NAME}: 'tracker_numbers' must hold digits only")
         self.tracker_number_re = (
-            # Not inside a longer number, a decimal fraction or a timestamp (".771"); letters do not hide it.
-            re.compile(r"(?<![0-9.])(?:" + "|".join(sorted(nums, key=len, reverse=True)) + r")(?![0-9])")
+            # Not inside a longer number, a decimal fraction or a timestamp ("32.771"); letters and a dot after a
+            # letter do not hide it.
+            re.compile(r"(?<![0-9])(?<![0-9]\.)(?:" + "|".join(sorted(nums, key=len, reverse=True)) + r")(?![0-9])")
             if nums else None
         )
 
@@ -434,6 +438,11 @@ def self_test(gate: Gate) -> int:
         "public IPv4 before a hyphen": "203.0." + "113.77-range",
         "dotted MAC": "0011" + ".2233.4455",
         "noreply on a personal domain": "noreply" + "@personal-domain.net",
+        "serial as a JSON key": "{" + '"Volume' + 'Serial' + 'Number": "0000"}',
+        "serial number as a JSON key": "{" + '"Serial' + 'Number": "X1"}',
+        "comment id": "see com" + "ment id 9876",
+        "comment (N)": "see com" + "ment (9876)",
+        "nested upstream prefix": "private/" + "anthropics/sandbox-runtime" + "#" + "4321",
     }
     for name, text in refuse.items():
         ok = bool(gate.scan_text(text))
@@ -448,11 +457,13 @@ def self_test(gate: Gate) -> int:
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} allowed: {name}")
     for name, text in {"listed tracker number inside a name": "review-" + "4321" + "-notes.md",
-                       "listed tracker number glued to letters": "T" + "4321 and task" + "4321"}.items():
+                       "listed tracker number glued to letters": "T" + "4321 and task" + "4321",
+                       "listed tracker number after a dot in a name": "notes." + "4321" + ".md",
+                       "listed tracker number glued to a short hex word": "cafe" + "4321"}.items():
         ok = bool(loose_numbers.scan_text(text))
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} refused: {name}")
-    ok = not loose_numbers.scan_text("sha " + "0a9f" + "4321" + "bc7e" + "d0")
+    ok = not loose_numbers.scan_text("sha " + "0a9f" + "4321" + "bc7e" + "d0e1f2a3")
     failures += not ok
     print(f"{'PASS' if ok else 'FAIL'} allowed: listed number inside a hash")
     with tempfile.TemporaryDirectory() as tmp:

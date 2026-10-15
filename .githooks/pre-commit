@@ -1,0 +1,4 @@
+#!/bin/sh
+# Refuse the commit if any staged file carries an identifier (tools/leak_gate.py). Exit 2 from the gate (cannot run) also refuses.
+PY=$(command -v python3 || command -v python) || { echo "pre-commit: no python found; commit refused" >&2; exit 1; }
+PYTHONDONTWRITEBYTECODE=1 "$PY" "$(git rev-parse --show-toplevel)/tools/leak_gate.py" --staged || { echo "pre-commit: leak gate refused the commit" >&2; exit 1; }

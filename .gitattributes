@@ -1,0 +1,2 @@
+# Store every file byte for byte: no line-ending conversion, so recorded hashes and byte counts stay true.
+* -text

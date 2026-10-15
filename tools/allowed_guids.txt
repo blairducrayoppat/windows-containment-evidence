@@ -1,0 +1,135 @@
+# GUIDs the leak gate allows, one per line: the GUID, then why it identifies no machine, volume, package or person.
+# Anything not listed here is refused by tools/leak_gate.py and replaced by tools/sanitize.py.
+# WFP keys: sublayer, provider and filter keys that a measurement script created (fixed values chosen in the script)
+# or that a run enumerated from the Windows Filtering Platform store; they name objects, not the machine.
+
+053808ca-ae35-46ea-9f92-4e26291a4a39  wfp filter or object key
+0a1fc3b3-92d0-4889-b770-d3052d584c17  wfp filter or object key
+11111111-2222-3333-4444-555555555555  wfp sublayer key
+13b7e2a1-1e7e-4665-b40b-0933230b9b43  wfp filter or object key
+16309ef8-376d-459a-a6a5-366c28ad291a  wfp filter or object key
+168fcc08-f979-4b41-ae6e-c3bc1a367bee  wfp filter or object key
+16cb9668-c093-49b2-b84a-dda274f4090e  wfp filter or object key
+1ac14e77-02e7-4e5d-b744-2eb1ae5198b7  well-known Windows known-folder ID (FOLDERID_System), used as a toast AppUserModelID prefix
+1bad1d95-27c7-4c9a-b4e2-d5a030727693  wfp filter or object key
+1c1ff6bb-913c-4b8f-98db-f165d2224edd  wfp filter or object key
+2096b29c-094e-45b8-a2b3-1f7849783f07  wfp filter or object key
+2c5d0ad6-5f3b-4d4e-9b8f-1a3e7c9d0b21  wfp sublayer key
+3204d58f-af52-48f1-b6b7-7737bba03cc8  wfp filter or object key
+324a26fe-649a-4430-8493-6cf26a4eba03  wfp filter or object key
+32b93214-a54b-4c2e-a6a9-fed6df14e362  wfp filter or object key
+3662adbd-3d48-4483-b52a-5074e6d2411a  wfp filter or object key
+36bd8cbf-e7e6-4834-b223-8ca460a14805  wfp filter or object key
+36c9c3bd-4138-46d3-98b1-1d67db5ba971  wfp filter or object key
+36f2916c-1ea4-41f6-a644-a7bd1e16f0bb  wfp filter or object key
+3b941750-1d02-4289-821e-042b84a25e47  wfp filter or object key
+3e29ae7e-fd9f-413a-8b8d-da9bd3a96359  wfp sublayer key
+3e29ae7e-fd9f-413a-8b8d-da9bd3a96360  wfp sublayer key
+3e29ae7e-fd9f-413a-8b8d-da9bd3a96361  wfp sublayer key
+3ed8097b-8e79-4d59-8bee-1f4f1deb95f0  wfp filter or object key
+433751e5-f236-4bed-ac08-64eab47b0171  wfp filter or object key
+443445a3-110b-430a-a485-4815708ddbee  wfp filter or object key
+446c5adf-8fbe-4edc-9dd5-797ff14c1f65  wfp filter or object key
+485cd7b3-5eed-435e-abda-bc7a02619ea0  wfp filter or object key
+48f2f1e9-1397-40ee-8510-f8bc564940ad  wfp filter or object key
+4a5d12e0-691c-4fb9-b83c-2d2cd36929d7  wfp filter or object key
+4a72393b-319f-44bc-84c3-ba54dcb3b6b4  wfp filter or object key
+4c84f2e2-a319-428d-bb0c-4ba37b4bda45  wfp filter or object key
+4e8a6927-e735-4b75-abf2-a3f986fb60e5  wfp filter or object key
+4f5cece3-7160-479e-88c1-8e7d5eaa2c4e  wfp filter or object key
+51adc5b1-a4b3-4fea-ab9d-7996729d0aa0  wfp filter or object key
+52efa3ab-846a-4785-9548-a42875ec60b2  wfp filter or object key
+5d270724-a998-4287-93f2-7a73ffafa70b  wfp filter or object key
+60827c5e-1a5b-4d2a-b692-15b3788b4222  wfp filter or object key
+628432ec-aa45-4052-99b3-1922bfa61a41  wfp filter or object key
+632ce23b-5167-435c-86d7-e903684aa80c  wfp filter or object key
+69324b7b-8fa3-49ff-97e1-5d84d6001f7f  wfp filter or object key
+6cf901ba-a6cd-4846-81a5-2598c55bdef5  wfp sublayer key
+7096cc88-cefc-4058-8e93-438f6f6463ee  wfp filter or object key
+71bc78fa-f17c-4997-a602-6abb261f351c  wfp filter or object key
+7521d775-bb45-4113-8d3d-4dad831a2e1d  wfp filter or object key
+7c9926c0-2d4b-4eec-a164-a3b7139b06d5  wfp filter or object key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1741  wfp provider key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1742  wfp sublayer key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1f01  wfp provider key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1f02  wfp sublayer key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e3f01  wfp sublayer key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e3f02  wfp sublayer key
+7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e3f99  wfp sublayer key
+912afc85-648e-4cd4-9bb2-014cb2316ab6  wfp filter or object key
+93a69a2f-baa0-433d-a9aa-c6e3afd3bb86  wfp filter or object key
+945569f6-e254-45a1-8991-e895ba0f1f69  wfp filter or object key
+97b3b924-ed61-4302-a686-e2f1bc275273  wfp filter or object key
+98898fd2-e59f-479a-975c-94442d23b57a  wfp filter or object key
+998ef122-1b4a-406a-8ae3-88c0bcf9607a  wfp filter or object key
+9d292247-fae0-4e9b-b8a9-638f09875b67  wfp filter or object key
+9db42b80-eec4-4211-9046-bef2f3f408c3  wfp filter or object key
+9f4a00d8-bec7-4cd9-828f-c1f4bf238a36  wfp filter or object key
+a409b438-4e4b-491d-9408-50be0da1d561  wfp filter or object key
+a446c2e9-ea74-461e-be4b-011a7b32b925  wfp filter or object key
+a9716de0-905c-4d1e-9b29-cedf45096b5d  wfp filter or object key
+aaaaaaaa-0000-4d8e-9a31-2b6d4c8e0001  wfp sublayer key
+adb6f2be-0c48-4ca2-8403-710c2a5923ae  wfp filter or object key
+aeb4d563-e5e5-4615-b67e-8d8057ae7274  wfp filter or object key
+af043a0a-b34d-4f86-979c-c90371af6e66  wfp filter or object key
+b1763001-0000-4d8e-9a31-2b6d4c8e1111  wfp filter or object key
+b1763001-0000-4d8e-9a31-c971a69f0001  wfp sublayer key
+b1763002-0000-4d8e-9a31-c971a69f0002  wfp filter or object key
+b235ae9a-1d64-49b8-a44c-5ff3d9095045  wfp provider key
+b2e83a9e-bc18-4a55-9d46-ba682ad373b9  wfp filter or object key
+b86dd36c-0c5f-4975-bdef-93a8714d822d  wfp filter or object key
+b917425b-d2cc-413c-9778-f02adcd82c7e  wfp filter or object key
+b92d86ab-6928-4035-a8f7-cc9f522d1a6f  wfp filter or object key
+ba4a0433-16fe-4464-9b39-c906362ea3a2  wfp filter or object key
+ba70cf38-73fe-4519-ac3c-428cdb5197b3  wfp filter or object key
+bbbbbbbb-0000-4d8e-9a31-2b6d4c8e0001  wfp sublayer key
+bfb20636-8955-4e85-9e3a-e9accfd628e6  wfp filter or object key
+c35a604d-d22b-4e1a-91b4-68f674ee674b  wfp filter or object key
+c38d57d1-05a7-4c33-904f-7fbceee60e82  wfp filter or object key
+c3cafe56-79dc-45ed-844c-3c125756aeff  wfp filter or object key
+c971a69f-d6ab-4885-9b49-506d8aa51c86  wfp sublayer key
+cab58e21-b053-49bb-acd9-a519e951ccc5  wfp filter or object key
+cb6b3076-f755-473d-9491-e8e891196572  wfp filter or object key
+cccccccc-0000-4d8e-9a31-2b6d4c8e0001  wfp sublayer key
+cccccccc-0000-4d8e-9a31-2b6d4c8e0002  self-test fixture key in a test script
+cccccccc-0000-4d8e-9a31-2b6d4c8e0003  wfp sublayer key
+d0108d89-ecbb-468c-91ad-84ba7103e74b  wfp filter or object key
+d16eda42-b6ad-4788-a313-8f28786c71cd  wfp filter or object key
+d3c3365d-ab4c-43ae-9d9f-66c6b1262541  wfp sublayer key
+d4f4d539-d032-4ba1-96f5-98ba2c745329  wfp filter or object key
+d78e1e87-8644-4ea5-9437-d809ecefc971  wfp filter or object key
+ddac1788-a531-4986-8905-0537bb51d75b  wfp filter or object key
+dddddddd-0000-4d8e-9a31-2b6d4c8e0001  wfp filter or object key
+ddfdffce-0a99-4aba-b368-0c655de41247  wfp filter or object key
+deadbeef-0000-4000-8000-000000000001  wfp filter or object key
+e4d3e367-93e4-4732-a8af-5619170e51bf  wfp filter or object key
+eeeeeeee-0000-4d8e-9a31-2b6d4c8e0001  self-test fixture key in a test script
+eefc94e5-5a6d-4614-84c7-69ff813aedfa  wfp filter or object key
+f1100001-0000-4d8e-9a31-2b6d4c8e1f11  wfp filter or object key
+f1100002-0000-4d8e-9a31-2b6d4c8e1f12  wfp filter or object key
+f1100003-0000-4d8e-9a31-2b6d4c8e1f21  wfp filter or object key
+f1100004-0000-4d8e-9a31-2b6d4c8e1f22  wfp filter or object key
+f1300003-0000-4d8e-9a31-2b6d4c8e3f21  wfp filter or object key
+f1300004-0000-4d8e-9a31-2b6d4c8e3f22  wfp filter or object key
+f1740001-0000-4d8e-9a31-2b6d4c8e1f11  wfp filter or object key
+f1740002-0000-4d8e-9a31-2b6d4c8e1f12  wfp filter or object key
+f1740003-0000-4d8e-9a31-2b6d4c8e1f21  wfp filter or object key
+f1740004-0000-4d8e-9a31-2b6d4c8e1f22  wfp filter or object key
+f1740005-0000-4d8e-9a31-2b6d4c8e1f31  wfp filter or object key
+f1740006-0000-4d8e-9a31-2b6d4c8e1f32  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0001  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0002  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0003  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0004  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0005  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0006  wfp sublayer key
+f1763001-0000-4d8e-9a31-2b6d4c8e0011  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0012  wfp filter or object key
+f1763001-0000-4d8e-9a31-2b6d4c8e0021  wfp sublayer key
+f1763001-0000-4d8e-9a31-2b6d4c8e0099  wfp sublayer key
+f60524ae-da4a-46e9-ae8a-1a13c8be3d62  wfp filter or object key
+f68fee89-fa59-4ce9-a282-e9795a81b50e  wfp filter or object key
+f79aff48-f192-4423-bb2b-4107b552fb61  wfp filter or object key
+f8b7582e-b1d8-4f78-899c-39e38267da26  wfp filter or object key
+fb1822a6-0558-4236-847a-b46e613d6295  wfp filter or object key
+ffffffff-0000-4d8e-9a31-2b6d4c8e0001  wfp filter or object key

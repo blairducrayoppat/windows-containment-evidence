@@ -1,0 +1,4 @@
+#!/bin/sh
+# Refuse a commit message that carries an identifier (tools/leak_gate.py).
+PY=$(command -v python3 || command -v python) || { echo "commit-msg: no python found; commit refused" >&2; exit 1; }
+PYTHONDONTWRITEBYTECODE=1 "$PY" "$(git rev-parse --show-toplevel)/tools/leak_gate.py" --message "$1" || { echo "commit-msg: leak gate refused the message" >&2; exit 1; }

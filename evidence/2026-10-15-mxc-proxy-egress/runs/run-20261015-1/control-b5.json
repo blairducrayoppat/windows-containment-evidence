@@ -1,0 +1,105 @@
+{
+ "tag": "ctl-160722",
+ "host_control": {
+  "target": true,
+  "proxy": true,
+  "detail": {
+   "target": {
+    "target": "127.0.0.1:18111",
+    "marker": "host-control-target-1",
+    "connected": true,
+    "reply": "HTTP/1.0 200 OK\r\nContent-Length: 18\r\nConnection: close\r\n\r\nlistener-target-ok",
+    "secs": 0.009
+   },
+   "proxy": {
+    "proxy": "127.0.0.1:18110",
+    "target": "127.0.0.1:18111",
+    "marker": "host-control-proxy-1",
+    "status": 200,
+    "body": "listener-target-ok",
+    "secs": 0.016
+   }
+  }
+ },
+ "b5a": {
+  "target": "127.0.0.1:18111",
+  "marker": "ctl-160722-b5a-1",
+  "connected": true,
+  "reply": "HTTP/1.0 200 OK\r\nContent-Length: 18\r\nConnection: close\r\n\r\nlistener-target-ok",
+  "secs": 0.015
+ },
+ "b5b": {
+  "target": "<default-gateway>:80",
+  "marker": null,
+  "connected": true,
+  "secs": 0.01
+ },
+ "b5c": {
+  "target": "1.1.1.1:443",
+  "marker": null,
+  "connected": true,
+  "secs": 0.022
+ },
+ "gateway_port": 80,
+ "target_log": [
+  {
+   "ts": "2026-10-15T16:07:22.155-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60734",
+   "request_line": "GET /host-control-target-1 HTTP/1.0",
+   "marker": "host-control-target-1",
+   "bytes": 95
+  },
+  {
+   "ts": "2026-10-15T16:07:22.165-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60736",
+   "request_line": "GET /host-control-proxy-1 HTTP/1.1",
+   "marker": "host-control-proxy-1",
+   "bytes": 126
+  },
+  {
+   "ts": "2026-10-15T16:07:22.181-04:00",
+   "listener": "target",
+   "bind": "127.0.0.1:18111",
+   "peer": "127.0.0.1:60737",
+   "request_line": "GET /ctl-160722-b5a-1 HTTP/1.0",
+   "marker": "ctl-160722-b5a-1",
+   "bytes": 85
+  }
+ ],
+ "proxy_log": [
+  {
+   "ts": "2026-10-15T16:07:22.180-04:00",
+   "listener": "proxy",
+   "bind": "127.0.0.1:18110",
+   "peer": "127.0.0.1:60735",
+   "method": "GET",
+   "target": "http://127.0.0.1:18111/host-control-proxy-1",
+   "marker": "host-control-proxy-1",
+   "outcome": "forwarded",
+   "status": 200
+  }
+ ],
+ "machine": {
+  "elevated": true,
+  "time": "2026-10-15T16:07:23.183-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 1,
+  "bitdefender_process_names": [
+   "bdredline.exe"
+  ]
+ },
+ "judgement": {
+  "ok": true,
+  "reasons": [],
+  "b5a": true,
+  "b5b": true,
+  "b5c": true
+ }
+}

@@ -23,6 +23,8 @@ Replacements, applied to every text file in this order:
                #NNN to #NNNNN reference not directly after a word character, slash, dot, hash or hyphen (with a following
                "c.NNNN" comment pointer) and bare c.NNNN comment pointers are removed. A bare upstream number that the local
                file does not list is therefore removed too: write owner/repo#N in the source or list it under "replacements".
+               The gate cannot see that loss (the citation is simply absent), so the PREFLIGHT item that re-counts every figure
+               after sanitising, against the raw count and the marker's tracker count, is what catches a lost citation.
                A 1NNN number inside a name (name-1NNN-rest, 1NNN-name after a path separator, or a lower-case name ending
                -1NNN) is removed; a 2000-plus number inside a name is neither rewritten nor seen by the gate in content (the
                gate refuses it in a path). SNNNN- and SNNNNN- session tokens -> SXXXX-.
@@ -59,7 +61,7 @@ HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/([A-Za-z0-9_.$-]+)", re.IGNORECAS
 TRACKER_FIELD_RE = re.compile(r"(\"" + lg.TRACKER_WORD + r"\"\s*:\s*)(\"[^\"]*\"|-?[0-9]+|null)")
 TRACKER_ASSIGN_RE = re.compile(r"(?<![A-Za-z0-9_\"'])(" + lg.TRACKER_WORD + r"\s*=\s*)'[^'\n]*'", re.IGNORECASE)
 TRACKER_REF_RE = re.compile(
-    r"(?<![\w/.#-])#[0-9]{3,5}\b(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
+    r"(?<![\w/.#-])#[0-9]{3,5}(?![0-9])(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
     r"|(?<![\w.])c\.[0-9]{3,5}\b(?:[ \t]+and[ \t]+c\.[0-9]{3,5}\b)?"
 )
 # A tracker number inside a name: "-1NNN" between a letter or digit and a separator, or "1NNN-" right after a path

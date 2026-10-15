@@ -58,6 +58,10 @@ What it refuses:
                control: PATH_NUMBER_RE covers 1000 to 9999 in every path except dates, so a file or folder NAME carrying
                one is still refused; a 2000-plus number inside file CONTENT, written other than as #N, pNNNN- or SNNNN-,
                is not seen.
+               VERSION forms in a path name (recorded 2026-10-15): a run from 2000 to 2099 directly followed by a dot and a
+               digit (2026.4), or directly after "ov" or "openvino" and followed by an underscore and a digit (ov2026_2_1_0, the
+               shape the benchmark harnesses write) is a version and passes; ov1406_2 and run_2026 are still refused.
+               Short commit hashes and hour-minute stamps that contain a four-digit run in a name are refused (fails closed).
 
 The local file (.leakgate.local.json at the repository root, never committed: .gitignore lists it) holds what would
 itself be a leak if this public file named it. The gate refuses to run without it (exit 2). Shape:
@@ -132,7 +136,7 @@ GUID_RE = re.compile(
 # pass 2000 and cannot be told from a year without that context.
 TRACKER_NUMBER_BODY = (r"(?:1[0-8][0-9]{2}|(?:19|20)[0-9]{2}(?![-_.](?:0[1-9]|1[0-2])(?![0-9]))|2[1-9][0-9]{2})")
 TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,5}\b")),
+    ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,5}(?![0-9])")),
     ("tracker-comment", re.compile(r"(?<![\w.])c\.\s?[0-9]{3,5}\b"
                                    r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|id|#|:|-|=|\()?\s*(?:c\.)?[0-9]{3,5}\b",
                                    re.IGNORECASE)),
@@ -145,6 +149,20 @@ TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
 )
 BLANK_TRACKER_FIELD_RE = re.compile(r"\"" + TRACKER_WORD + r"\"\s*:\s*\"\"|" + TRACKER_WORD + r"\s*=\s*''", re.IGNORECASE)
 PATH_NUMBER_RE = re.compile(r"(?<![0-9])(?:[3-9][0-9]{3}|" + TRACKER_NUMBER_BODY + r")(?![0-9])")
+# A run that is a software VERSION, not a tracker number: 2000 to 2099 directly followed by a dot and a digit (2026.4), or
+# directly preceded by "ov" or "openvino" (any letter case) and followed by an underscore and a digit (ov2026_2_1_0, the form the
+# benchmark harnesses write). Nothing looser: ov1406_2 and run_2026 are still refused.
+_VERSION_AFTER_RE = re.compile(r"20[0-9]{2}\.[0-9]")
+_VERSION_OV_RE = re.compile(r"(?<![A-Za-z])(?:ov|openvino)20[0-9]{2}_[0-9]", re.IGNORECASE)
+
+
+def path_has_tracker_number(rel: str) -> bool:
+    for m in PATH_NUMBER_RE.finditer(rel):
+        a = m.start()
+        if _VERSION_AFTER_RE.match(rel, a) or _VERSION_OV_RE.match(rel, max(0, a - 2)) or _VERSION_OV_RE.match(rel, max(0, a - 8)):
+            continue
+        return True
+    return False
 
 
 class GateCannotRun(Exception):
@@ -327,7 +345,7 @@ class Gate:
 
     def scan_path(self, rel: str) -> list[tuple[int, str]]:
         hits = [(0, f"path:{rule}") for _, rule in self.scan_text(rel)]
-        if PATH_NUMBER_RE.search(rel):
+        if path_has_tracker_number(rel):
             hits.append((0, "path:tracker-number"))
         low = rel.lower()
         hits.extend((0, "path:word") for w in self.path_words if w in low)
@@ -411,6 +429,8 @@ def self_test(gate: Gate) -> int:
         "session-token above 1999": "tail " + "S" + "2345-main-abc",
         "tracker-ref above 1999": "fixed in " + "#" + "2345 today",
         "tracker-ref of five digits": "fixed in " + "#" + "23456 today",
+        "tracker-ref glued to a letter": "see " + "#" + "2894a end",
+        "tracker-ref glued to an underscore": "see " + "#" + "2895_fix end",
     }
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -490,14 +510,21 @@ def self_test(gate: Gate) -> int:
         print(f"{'PASS' if ok else 'FAIL'} refused: {name}")
     path_refuse = {"path number 1000-1999": "evidence/run-" + "1406/x.json", "path number 2000-2999": "evidence/run-" + "2406/x.json",
                    "path number above 2999": "evidence/run-" + "4406/x.json", "plain year without a month": "evidence/report-" + "2026.md",
-                   "number before a non-month": "evidence/run-" + "1999-13-01.json"}
+                   "number before a non-month": "evidence/run-" + "1999-13-01.json",
+                   "ov-shaped tracker number": "evidence/prefill_ov" + "1406_2_1_0.json",
+                   "version year without the ov shape": "evidence/prefill_ov" + "2026.json",
+                   "year after a different prefix": "evidence/prefill_run" + "2026_2_1.json"}
     for name, rel in path_refuse.items():
         ok = bool(gate.scan_path(rel))
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} refused path: {name}")
     path_keep = {"date folder": "evidence/2026-10-05-wfp-sid-block/README.md", "compact date in a run name": "evidence/runs/testc-on-20261009-180608.json",
                  "date with underscores": "evidence/runs/x_2026_10_05_y.json", "year and month folder": "evidence/2026-10/x.md",
-                 "timestamped name": "evidence/benchmark_2026-05-22_15-55-48.json"}
+                 "timestamped name": "evidence/benchmark_2026-05-22_15-55-48.json",
+                 "harness name with version": "docs/performance/kv_cache_sweep_ov" + "2026_2_1_0_2026-10-15_12-00-00.json",
+                 "prefill harness name": "docs/performance/prefill_14b_ov" + "2026_1_0_0_2026-06-29_13-46-13.json",
+                 "dotted version": "evidence/probe_" + "2026.4.0.0-49-abc_2026-07-22.json",
+                 "OpenVINO capitalised": "evidence/run_OpenVINO" + "2026_2_x.json"}
     for name, rel in path_keep.items():
         ok = not gate.scan_path(rel)
         failures += not ok

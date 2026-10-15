@@ -1,0 +1,35 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded; hand edits after the sanitiser are listed in PROVENANCE.md",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "tracker": 27,
+    "fixture": 1262,
+    "local": 375
+  },
+  "files": {
+    "README.md": {
+      "tracker": 1,
+      "fixture": 2,
+      "local": 9
+    },
+    "runs/run1-pty-aborted-SUPERSEDED-20261014-230957.json": {
+      "tracker": 13,
+      "fixture": 46,
+      "local": 6
+    },
+    "runs/run2-piped-20261014-231822.json": {
+      "tracker": 13,
+      "fixture": 1214,
+      "local": 360
+    }
+  }
+}

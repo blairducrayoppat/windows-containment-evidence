@@ -1,0 +1,25 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded; hand edits after the sanitiser are listed in PROVENANCE.md",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "tracker": 5,
+    "fixture": 11,
+    "local": 15
+  },
+  "files": {
+    "nono_9p_failclosed_control.py": {
+      "tracker": 5,
+      "fixture": 11,
+      "local": 15
+    }
+  }
+}

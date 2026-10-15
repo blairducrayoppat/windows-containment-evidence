@@ -16,17 +16,20 @@ Replacements, applied to every text file in this order:
                live account, USER, or the placeholders _OPERATOR_ and __USER__) and ~<name> for any other account
                (a test account's profile stays distinguishable); the profile environment variable -> ~; the
                extended-length prefix in front of a home path is dropped.
-  5. tracker   the value of the tracker field -> "" (a JSON key) or '' (a PowerShell hashtable assignment); bare #1NNN
-               references (with a following "c.NNNN" comment pointer) and bare c.NNNN comment pointers are removed.
-               Other bare #NNN / #NNNN references are left for the gate to refuse and a person to resolve, because
-               a bare number can as well be an upstream issue (write owner/repo#N) as an internal one (delete it); a 1NNN number inside a name
-               (name-1NNN-rest, 1NNN-name after a path separator, or a lower-case name ending -1NNN) is removed; S1NNN- session tokens -> SXXXX-.
-  6. fixture   p1NNN-run<n> -> fx-<letter> (run1 -> fx-a, run2 -> fx-b, ...); any other p1NNN- or p1NNN_ prefix
-               -> fx- / fx_. Letter case follows the original (P1NNN-RUN1 -> FX-A, P1NNN-Run1 -> Fx-A), because the
-               case-spelling probes record the spelling they used.
-  7. guid      any GUID not listed in tools/allowed_guids.txt -> GUID-<n> (one number per distinct GUID in the run).
-  8. local     each [from, to] pair under "replacements" in the local file (whole word, case-sensitive). This is where
-               vocabulary that would itself be a leak if named here is mapped.
+  5. local     each [from, to] pair under "replacements" in the local file (whole word, case-sensitive). This is where
+               vocabulary that would itself be a leak if named here is mapped, and where a bare upstream issue number is
+               mapped to its owner/repo form. It runs BEFORE the reference rule so that a listed number is rewritten, not removed.
+  6. tracker   the value of the tracker field -> "" (a JSON key) or '' (a PowerShell hashtable assignment); every bare
+               #NNN to #NNNNN reference not directly after a word character, slash, dot, hash or hyphen (with a following
+               "c.NNNN" comment pointer) and bare c.NNNN comment pointers are removed. A bare upstream number that the local
+               file does not list is therefore removed too: write owner/repo#N in the source or list it under "replacements".
+               A 1NNN number inside a name (name-1NNN-rest, 1NNN-name after a path separator, or a lower-case name ending
+               -1NNN) is removed; a 2000-plus number inside a name is neither rewritten nor seen by the gate in content (the
+               gate refuses it in a path). SNNNN- and SNNNNN- session tokens -> SXXXX-.
+  7. fixture   pNNNN-run<n> and pNNNNN-run<n> -> fx-<letter> (run1 -> fx-a, run2 -> fx-b, ...); any other pNNNN- , pNNNNN-,
+               pNNNN_ or pNNNNN_ prefix -> fx- / fx_. Letter case follows the original (PNNNN-RUN1 -> FX-A, PNNNN-Run1 ->
+               Fx-A), because the case-spelling probes record the spelling they used.
+  8. guid      any GUID not listed in tools/allowed_guids.txt -> GUID-<n> (one number per distinct GUID in the run).
 
 A file that is not valid UTF-8 text stops the run (exit 2): nothing is copied that was not read. Line endings, a UTF-8
 byte-order mark and every byte outside a match are kept. A marker file named .sanitized is written at the root of
@@ -56,7 +59,7 @@ HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/([A-Za-z0-9_.$-]+)", re.IGNORECAS
 TRACKER_FIELD_RE = re.compile(r"(\"" + lg.TRACKER_WORD + r"\"\s*:\s*)(\"[^\"]*\"|-?[0-9]+|null)")
 TRACKER_ASSIGN_RE = re.compile(r"(?<![A-Za-z0-9_\"'])(" + lg.TRACKER_WORD + r"\s*=\s*)'[^'\n]*'", re.IGNORECASE)
 TRACKER_REF_RE = re.compile(
-    r"(?<![\w/.#-])#[0-9]{3,4}\b(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
+    r"(?<![\w/.#-])#[0-9]{3,5}\b(?:[ \t]+c\.[0-9]+(?:[ \t]+and[ \t]+c\.[0-9]+)?)?"
     r"|(?<![\w.])c\.[0-9]{3,5}\b(?:[ \t]+and[ \t]+c\.[0-9]{3,5}\b)?"
 )
 # A tracker number inside a name: "-1NNN" between a letter or digit and a separator, or "1NNN-" right after a path
@@ -164,6 +167,8 @@ class Sanitizer:
         text = sub("home", HOME_WIN_RE, lambda m: self._home_name(m.group(2)), text)
         text = sub("home", HOME_WSL_RE, lambda m: self._home_name(m.group(1)), text)
         text = sub("home", re.compile(re.escape(lg.HOME_ENV), re.IGNORECASE), "~", text)
+        for rx, b in self.local:  # before the reference rule: a listed bare upstream number becomes owner/repo form first
+            text = sub("local", rx, b, text)
         text = sub("tracker", TRACKER_FIELD_RE, lambda m: m.group(1) + "\"\"", text)
         text = sub("tracker", TRACKER_ASSIGN_RE, lambda m: m.group(1) + "''", text)
         text = self._remove_refs(text, counts)
@@ -181,8 +186,6 @@ class Sanitizer:
             return f"GUID-{self.guid_num[g]:04d}"
 
         text = lg.GUID_RE.sub(guid, text)
-        for rx, b in self.local:
-            text = sub("local", rx, b, text)
         return text
 
 

@@ -33,7 +33,7 @@ What it refuses:
                profile environment variable (HOME_ENV below), and the extended-length prefix in front of a home path.
                Users\\Public and Users\\Default are allowed.
   guid         any GUID (8-4-4-4-12 hex, braces optional) not listed in tools/allowed_guids.txt.
-  tracker      an internal tracker reference: #NNN or #NNNN unless it follows one of the public repositories in
+  tracker      an internal tracker reference: #NNN to #NNNNN unless it follows one of the public repositories in
                UPSTREAM_REPOS (owner/repo#N, not nested under another path segment), a comment pointer (c.NNNN,
                c. NNNN, "comment NNNN", "comment no. NNNN", "comment id NNNN", "comment (NNNN", "comment-NNNN",
                "comment:NNNN"), any number listed under "tracker_numbers" in the local file wherever no digit, and no
@@ -42,7 +42,7 @@ What it refuses:
                fixture prefix
                pNNNN- or pNNNNN- (four or five digits), a session token SNNNN- or SNNNNN-, a 1NNN number between
                separators inside a name (a file name that carries a tracker number; not widened past 1999 on 2026-10-15,
-               because a version-bearing name such as a 2026.4 folder would read as a tracker number), and the
+               because in content a version-bearing name such as a 2026.4 folder would read as a tracker number; in a path name PATH_NUMBER_RE already refuses it), and the
                tracker-field word spelled in TRACKER_WORD below (the blanked field is allowed: that word as a JSON key with the value "", or assigned '' in PowerShell).
   phrase       every phrase listed under "phrases" in the local file (case-insensitive; runs of whitespace match any
                whitespace). A match that lies wholly inside a form listed under "allowed_contexts" is allowed.
@@ -132,7 +132,7 @@ GUID_RE = re.compile(
 # pass 2000 and cannot be told from a year without that context.
 TRACKER_NUMBER_BODY = (r"(?:1[0-8][0-9]{2}|(?:19|20)[0-9]{2}(?![-_.](?:0[1-9]|1[0-2])(?![0-9]))|2[1-9][0-9]{2})")
 TRACKER_RES: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,4}\b")),
+    ("tracker-ref", re.compile(r"(?<![#&])#[0-9]{3,5}\b")),
     ("tracker-comment", re.compile(r"(?<![\w.])c\.\s?[0-9]{3,5}\b"
                                    r"|(?<![A-Za-z])comments?\s*(?:no\.?|number|id|#|:|-|=|\()?\s*(?:c\.)?[0-9]{3,5}\b",
                                    re.IGNORECASE)),
@@ -410,6 +410,7 @@ def self_test(gate: Gate) -> int:
         "fixture prefix above 1999": "/mnt/c/" + "p" + "23456_marker.txt",
         "session-token above 1999": "tail " + "S" + "2345-main-abc",
         "tracker-ref above 1999": "fixed in " + "#" + "2345 today",
+        "tracker-ref of five digits": "fixed in " + "#" + "23456 today",
     }
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -436,6 +437,16 @@ def self_test(gate: Gate) -> int:
         ok = kept == "fixed and kept f() and @() and x.y()"
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} code parentheses survive: {kept!r}")
+        up_src, up_dst = Path(tmp) / "up-src", Path(tmp) / "up-dst"
+        up_src.mkdir()
+        (up_src / "up.txt").write_text("see " + "#" + "4321 and " + "#" + "2345 and " + "#" + "23456 end", encoding="utf-8")
+        sanitize.sanitize_tree(up_src, up_dst, gate.allowed_guids, names=[host, user],
+                               replacements=[("#" + "4321", "owner/repo" + "#" + "4321")])
+        got = (up_dst / "up.txt").read_text(encoding="utf-8")
+        ok = got.startswith("see owner/repo" + "#" + "4321") and "2345" not in got
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} a bare upstream number listed in the local file is rewritten to owner/repo form, "
+              f"an unlisted one is removed: {got!r}")
         marker = dst / sanitize.MARKER_NAME
         ok = marker.is_file() and host.lower() not in marker.read_text(encoding="utf-8").lower()
         failures += not ok

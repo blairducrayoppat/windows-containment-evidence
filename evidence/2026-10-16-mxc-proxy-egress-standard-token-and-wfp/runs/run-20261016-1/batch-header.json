@@ -1,0 +1,224 @@
+{
+ "started": "2026-10-16T05:48:34.620-04:00",
+ "account": "USER",
+ "elevated": false,
+ "token_mode": "standard",
+ "token": {
+  "mode": "standard",
+  "is_user_an_admin": false,
+  "elevated": false,
+  "elevation_type": "limited",
+  "integrity_sid": "S-1-16-8192",
+  "integrity_name": "Medium",
+  "groups": {
+   "rc": 0,
+   "group_count": 15,
+   "integrity_label": "Mandatory Label\\Medium Mandatory Level (S-1-16-8192)",
+   "administrators": "deny-only"
+  }
+ },
+ "unreadable_under_this_token": [
+  "wfp_mxc_filters"
+ ],
+ "host_python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+ "harness_sha256": {
+  "run_probe.py": "2da4097bcfe8c97ab6ef4c787b8b49f445851c9ca85d41d83fd7d4cce87041c1",
+  "net_payload.py": "13b730365d691825633f2fb819cc60f03346a91e1a539a1bf2984458773ea784",
+  "proxy.py": "8ed0f6fc347909ca65fd83e3f0a4e8310ce801615fc62ffc95a1d81932671ccf",
+  "summarise.py": "56bc14f74b28953c8a38f408ffdbabac48bf7a6c3523dcbafb94f3840f1465ad"
+ },
+ "launch_ps1_sha256": "b243519be5578b82aa550220dd7b3091ea1f8461c8d6885304d332d5a368b59e",
+ "launch_ps1_sha256_as_passed_by_launcher": "b243519be5578b82aa550220dd7b3091ea1f8461c8d6885304d332d5a368b59e",
+ "interpreters": {
+  "host": {
+   "path": "C:\\Python314\\python.exe",
+   "sha256": "cce21c0e8710e304273e98ac4b2b0f5aceb639acbcd2343cbaa5c4e81619c45b"
+  },
+  "container": {
+   "path": "C:\\blarai-spike\\toolchain\\Python314\\python.exe",
+   "sha256": "cce21c0e8710e304273e98ac4b2b0f5aceb639acbcd2343cbaa5c4e81619c45b"
+  }
+ },
+ "arm_commits": {
+  "A": {
+   "release_tag": "v1.0.0",
+   "basis": "the signed release launcher as designated by the operator; its sha256 and Authenticode status are in launchers.A (the launcher reports no version)"
+  },
+  "B": {
+   "commit": "525d0f25763b2edaab56e29651fb7c12c4cbbd93",
+   "basis": "from the known-build table (launcher sha256 matched)"
+  }
+ },
+ "token_privileges": "PRIVILEGES INFORMATION\n----------------------\n\nPrivilege Name                Description                          State   \n============================= ==================================== ========\nSeShutdownPrivilege           Shut down the system                 Disabled\nSeChangeNotifyPrivilege       Bypass traverse checking             Enabled \nSeUndockPrivilege             Remove computer from docking station Disabled\nSeIncreaseWorkingSetPrivilege Increase a process working set       Disabled\nSeTimeZonePrivilege           Change the time zone                 Disabled",
+ "host_prep": {
+  "run_by_harness": false,
+  "note": "wxc-host-prep is not invoked by this harness"
+ },
+ "firewall_product": [
+  "Bitdefender Firewall|266240",
+  "McAfee|266240"
+ ],
+ "firewall_profiles": [
+  "Domain|True|NotConfigured|NotConfigured|True",
+  "Private|True|NotConfigured|NotConfigured|True",
+  "Public|True|NotConfigured|NotConfigured|True"
+ ],
+ "gateway": {
+  "ip": "default-gateway",
+  "port_selected": 80,
+  "candidate_ports": [
+   80,
+   443,
+   53
+  ]
+ },
+ "ports": {
+  "proxy": 18110,
+  "target": 18111
+ },
+ "launchers": {
+  "A": {
+   "path": "C:\\blarai-spike-mxc\\dl\\x64\\wxc-exec.exe",
+   "present": true,
+   "sha256": "aa444c0fc4b7f155fd8631068ffafb453d71d8b47fc47d417a74c9545a344031",
+   "size": 12003128,
+   "signature": "Valid|CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+   "probe_rc": 0,
+   "probe": {
+    "tier": "base-container",
+    "needsDaclAugmentation": false,
+    "warnings": [],
+    "probes": {
+     "baseContainerApiPresent": true,
+     "nativeCaptureAvailable": true,
+     "guardedCaptureAvailable": false,
+     "bfscfgPresent": false,
+     "bfsCompiledIn": false,
+     "baseContainerSupportsDenyPaths": true,
+     "baseContainerSupportsEnumeratePaths": true,
+     "baseContainerSupportsIngressHostLoopbackAllow": true,
+     "isolationSessionAvailable": true,
+     "hyperlightAvailable": true,
+     "uiCapabilities": {
+      "canBlockClipboardRead": true,
+      "canBlockClipboardWrite": true,
+      "canBlockInputInjection": true,
+      "canBlockInputMethodChanges": true,
+      "canBlockExternalUiObjects": true,
+      "canBlockGlobalUiNamespace": true,
+      "canBlockDesktopSwitching": true,
+      "canBlockLogoffOrShutdown": true,
+      "canBlockSystemParameterChanges": true,
+      "canBlockDisplaySettingsChanges": true
+     }
+    }
+   },
+   "probe_reports_psec_version": false
+  },
+  "B": {
+   "path": "C:\\blarai-spike-mxc\\build-main-20261015\\target\\x86_64-pc-windows-msvc\\release\\wxc-exec.exe",
+   "present": true,
+   "sha256": "e951922beec5ad5f0ba967e398763640c3b24c96cbf97f2d198174a949e5f8cc",
+   "size": 5791744,
+   "signature": "NotSigned|",
+   "probe_rc": 0,
+   "probe": {
+    "tier": "base-container",
+    "needsDaclAugmentation": false,
+    "warnings": [],
+    "probes": {
+     "baseContainerApiPresent": true,
+     "nativeCaptureAvailable": true,
+     "guardedCaptureAvailable": false,
+     "bfscfgPresent": false,
+     "bfsCompiledIn": false,
+     "baseContainerSupportsDenyPaths": true,
+     "baseContainerSupportsEnumeratePaths": true,
+     "baseContainerSupportsIngressHostLoopbackAllow": true,
+     "baseContainerSupportsIdentitylessLoopbackProxy": true,
+     "isolationSessionAvailable": false,
+     "hyperlightAvailable": false,
+     "uiCapabilities": {
+      "canBlockClipboardRead": true,
+      "canBlockClipboardWrite": true,
+      "canBlockInputInjection": true,
+      "canBlockInputMethodChanges": true,
+      "canBlockExternalUiObjects": true,
+      "canBlockGlobalUiNamespace": true,
+      "canBlockDesktopSwitching": true,
+      "canBlockLogoffOrShutdown": true,
+      "canBlockSystemParameterChanges": true,
+      "canBlockDisplaySettingsChanges": true
+     }
+    }
+   },
+   "probe_reports_psec_version": false
+  }
+ },
+ "machine_start": {
+  "elevated": false,
+  "token_elevated": false,
+  "integrity_sid": "S-1-16-8192",
+  "time": "2026-10-16T05:48:34.780-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 16,
+  "bitdefender_process_names": [
+   "bdagent.exe",
+   "bdntwrk.exe",
+   "bdredline.exe",
+   "bdredline.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bdvpnapp.exe",
+   "bdvpnservice.exe",
+   "updatesrv.exe"
+  ]
+ },
+ "runs_per_arm": 3,
+ "dry_run_only": false,
+ "priority": "BelowNormal",
+ "scope_notes": {
+  "A": "--probe reports baseContainerSupportsIngressHostLoopbackAllow=True, baseContainerSupportsIdentitylessLoopbackProxy=None; this run measures this launcher on this host only",
+  "B": "--probe reports baseContainerSupportsIngressHostLoopbackAllow=True, baseContainerSupportsIdentitylessLoopbackProxy=True; this run measures this launcher on this host only"
+ },
+ "finished": "2026-10-16T05:49:11.934-04:00",
+ "machine_end": {
+  "elevated": false,
+  "token_elevated": false,
+  "integrity_sid": "S-1-16-8192",
+  "time": "2026-10-16T05:49:11.934-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 16,
+  "bitdefender_process_names": [
+   "bdagent.exe",
+   "bdntwrk.exe",
+   "bdredline.exe",
+   "bdredline.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bdvpnapp.exe",
+   "bdvpnservice.exe",
+   "updatesrv.exe"
+  ]
+ }
+}

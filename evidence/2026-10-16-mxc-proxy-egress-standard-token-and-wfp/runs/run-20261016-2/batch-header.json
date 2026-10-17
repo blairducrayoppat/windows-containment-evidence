@@ -1,0 +1,222 @@
+{
+ "started": "2026-10-16T07:58:04.383-04:00",
+ "account": "USER",
+ "elevated": true,
+ "token_mode": "elevated",
+ "token": {
+  "mode": "elevated",
+  "is_user_an_admin": true,
+  "elevated": true,
+  "elevation_type": "full",
+  "integrity_sid": "S-1-16-12288",
+  "integrity_name": "High",
+  "groups": {
+   "rc": 0,
+   "group_count": 15,
+   "integrity_label": "Mandatory Label\\High Mandatory Level (S-1-16-12288)",
+   "administrators": "enabled"
+  }
+ },
+ "unreadable_under_this_token": [],
+ "host_python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+ "harness_sha256": {
+  "run_probe.py": "4e0d12cc36134cfbd0c5c2917d8e17ee106a45e6224fd44f19713f4ca525f235",
+  "net_payload.py": "a31473d2eedf83b7ab1551cfcca8f9df7f1a477acb543e32590674d243ef790b",
+  "proxy.py": "8ed0f6fc347909ca65fd83e3f0a4e8310ce801615fc62ffc95a1d81932671ccf",
+  "summarise.py": "0ceafa162c2dd5b52f046a7f102b94618089eb463e1139639ce8a675ed5979fa"
+ },
+ "launch_ps1_sha256": "b243519be5578b82aa550220dd7b3091ea1f8461c8d6885304d332d5a368b59e",
+ "launch_ps1_sha256_as_passed_by_launcher": "b243519be5578b82aa550220dd7b3091ea1f8461c8d6885304d332d5a368b59e",
+ "interpreters": {
+  "host": {
+   "path": "C:\\Python314\\python.exe",
+   "sha256": "cce21c0e8710e304273e98ac4b2b0f5aceb639acbcd2343cbaa5c4e81619c45b"
+  },
+  "container": {
+   "path": "C:\\blarai-spike\\toolchain\\Python314\\python.exe",
+   "sha256": "cce21c0e8710e304273e98ac4b2b0f5aceb639acbcd2343cbaa5c4e81619c45b"
+  }
+ },
+ "arm_commits": {
+  "A": {
+   "release_tag": "v1.0.0",
+   "basis": "the signed release launcher as designated by the operator; its sha256 and Authenticode status are in launchers.A (the launcher reports no version)"
+  },
+  "B": {
+   "commit": "525d0f25763b2edaab56e29651fb7c12c4cbbd93",
+   "basis": "from the known-build table (launcher sha256 matched)"
+  }
+ },
+ "token_privileges": "PRIVILEGES INFORMATION\n----------------------\n\nPrivilege Name                            Description                                                        State   \n========================================= ================================================================== ========\nSeIncreaseQuotaPrivilege                  Adjust memory quotas for a process                                 Disabled\nSeSecurityPrivilege                       Manage auditing and security log                                   Disabled\nSeTakeOwnershipPrivilege                  Take ownership of files or other objects                           Disabled\nSeLoadDriverPrivilege                     Load and unload device drivers                                     Disabled\nSeSystemProfilePrivilege                  Profile system performance                                         Disabled\nSeSystemtimePrivilege                     Change the system time                                             Disabled\nSeProfileSingleProcessPrivilege           Profile single process                                             Disabled\nSeIncreaseBasePriorityPrivilege           Increase scheduling priority                                       Disabled\nSeCreatePagefilePrivilege                 Create a pagefile                                                  Disabled\nSeBackupPrivilege                         Back up files and directories                                      Enabled \nSeRestorePrivilege                        Restore files and directories                                      Enabled \nSeShutdownPrivilege                       Shut down the system                                               Disabled\nSeDebugPrivilege                          Debug programs                                                     Enabled \nSeSystemEnvironmentPrivilege              Modify firmware environment values                                 Disabled\nSeChangeNotifyPrivilege                   Bypass traverse checking                                           Enabled \nSeRemoteShutdownPrivilege                 Force shutdown from a remote system                                Disabled\nSeUndockPrivilege                         Remove computer from docking station                               Disabled\nSeManageVolumePrivilege                   Perform volume maintenance tasks                                   Disabled\nSeImpersonatePrivilege                    Impersonate a client after authentication                          Enabled \nSeCreateGlobalPrivilege                   Create global objects                                              Enabled \nSeIncreaseWorkingSetPrivilege             Increase a process working set                                     Disabled\nSeTimeZonePrivilege                       Change the time zone                                               Disabled\nSeCreateSymbolicLinkPrivilege             Create symbolic links                                              Disabled\nSeDelegateSessionUserImpersonatePrivilege Obtain an impersonation token for another user in the same session Disabled",
+ "host_prep": {
+  "run_by_harness": false,
+  "note": "wxc-host-prep is not invoked by this harness"
+ },
+ "firewall_product": [
+  "Bitdefender Firewall|266240",
+  "McAfee|266240"
+ ],
+ "firewall_profiles": [
+  "Domain|True|NotConfigured|NotConfigured|True",
+  "Private|True|NotConfigured|NotConfigured|True",
+  "Public|True|NotConfigured|NotConfigured|True"
+ ],
+ "gateway": {
+  "ip": "default-gateway",
+  "port_selected": 80,
+  "candidate_ports": [
+   80,
+   443,
+   53
+  ]
+ },
+ "ports": {
+  "proxy": 18110,
+  "target": 18111
+ },
+ "launchers": {
+  "A": {
+   "path": "C:\\blarai-spike-mxc\\dl\\x64\\wxc-exec.exe",
+   "present": true,
+   "sha256": "aa444c0fc4b7f155fd8631068ffafb453d71d8b47fc47d417a74c9545a344031",
+   "size": 12003128,
+   "signature": "Valid|CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+   "probe_rc": 0,
+   "probe": {
+    "tier": "base-container",
+    "needsDaclAugmentation": false,
+    "warnings": [],
+    "probes": {
+     "baseContainerApiPresent": true,
+     "nativeCaptureAvailable": true,
+     "guardedCaptureAvailable": false,
+     "bfscfgPresent": false,
+     "bfsCompiledIn": false,
+     "baseContainerSupportsDenyPaths": true,
+     "baseContainerSupportsEnumeratePaths": true,
+     "baseContainerSupportsIngressHostLoopbackAllow": true,
+     "isolationSessionAvailable": true,
+     "hyperlightAvailable": true,
+     "uiCapabilities": {
+      "canBlockClipboardRead": true,
+      "canBlockClipboardWrite": true,
+      "canBlockInputInjection": true,
+      "canBlockInputMethodChanges": true,
+      "canBlockExternalUiObjects": true,
+      "canBlockGlobalUiNamespace": true,
+      "canBlockDesktopSwitching": true,
+      "canBlockLogoffOrShutdown": true,
+      "canBlockSystemParameterChanges": true,
+      "canBlockDisplaySettingsChanges": true
+     }
+    }
+   },
+   "probe_reports_psec_version": false
+  },
+  "B": {
+   "path": "C:\\blarai-spike-mxc\\build-main-20261015\\target\\x86_64-pc-windows-msvc\\release\\wxc-exec.exe",
+   "present": true,
+   "sha256": "e951922beec5ad5f0ba967e398763640c3b24c96cbf97f2d198174a949e5f8cc",
+   "size": 5791744,
+   "signature": "NotSigned|",
+   "probe_rc": 0,
+   "probe": {
+    "tier": "base-container",
+    "needsDaclAugmentation": false,
+    "warnings": [],
+    "probes": {
+     "baseContainerApiPresent": true,
+     "nativeCaptureAvailable": true,
+     "guardedCaptureAvailable": false,
+     "bfscfgPresent": false,
+     "bfsCompiledIn": false,
+     "baseContainerSupportsDenyPaths": true,
+     "baseContainerSupportsEnumeratePaths": true,
+     "baseContainerSupportsIngressHostLoopbackAllow": true,
+     "baseContainerSupportsIdentitylessLoopbackProxy": true,
+     "isolationSessionAvailable": false,
+     "hyperlightAvailable": false,
+     "uiCapabilities": {
+      "canBlockClipboardRead": true,
+      "canBlockClipboardWrite": true,
+      "canBlockInputInjection": true,
+      "canBlockInputMethodChanges": true,
+      "canBlockExternalUiObjects": true,
+      "canBlockGlobalUiNamespace": true,
+      "canBlockDesktopSwitching": true,
+      "canBlockLogoffOrShutdown": true,
+      "canBlockSystemParameterChanges": true,
+      "canBlockDisplaySettingsChanges": true
+     }
+    }
+   },
+   "probe_reports_psec_version": false
+  }
+ },
+ "machine_start": {
+  "elevated": true,
+  "token_elevated": true,
+  "integrity_sid": "S-1-16-12288",
+  "time": "2026-10-16T07:58:04.736-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 16,
+  "bitdefender_process_names": [
+   "bdagent.exe",
+   "bdntwrk.exe",
+   "bdredline.exe",
+   "bdredline.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bdvpnapp.exe",
+   "bdvpnservice.exe",
+   "updatesrv.exe"
+  ]
+ },
+ "runs_per_arm": 3,
+ "dry_run_only": false,
+ "priority": "BelowNormal",
+ "scope_notes": {
+  "A": "--probe reports baseContainerSupportsIngressHostLoopbackAllow=True, baseContainerSupportsIdentitylessLoopbackProxy=None; this run measures this launcher on this host only",
+  "B": "--probe reports baseContainerSupportsIngressHostLoopbackAllow=True, baseContainerSupportsIdentitylessLoopbackProxy=True; this run measures this launcher on this host only"
+ },
+ "finished": "2026-10-16T07:59:28.716-04:00",
+ "machine_end": {
+  "elevated": true,
+  "token_elevated": true,
+  "integrity_sid": "S-1-16-12288",
+  "time": "2026-10-16T07:59:28.716-04:00",
+  "windows_build": "26200.9711",
+  "windows_product": "Windows 10 Pro",
+  "ac_power": true,
+  "battery_percent": 80,
+  "bitdefender_processes": 16,
+  "bitdefender_process_names": [
+   "bdagent.exe",
+   "bdntwrk.exe",
+   "bdredline.exe",
+   "bdredline.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bdservicehost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bduserhost.exe",
+   "bdvpnapp.exe",
+   "bdvpnservice.exe",
+   "updatesrv.exe"
+  ]
+ }
+}

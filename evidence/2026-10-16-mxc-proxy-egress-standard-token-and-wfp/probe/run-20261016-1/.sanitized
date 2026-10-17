@@ -1,0 +1,40 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "sid-binary",
+    "inventory",
+    "ipv6",
+    "ticks",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "sid": 2,
+    "home": 1,
+    "tracker": 4
+  },
+  "files": {
+    "launch-standard.cmd": {},
+    "launch.cmd": {},
+    "launch.ps1": {
+      "home": 1
+    },
+    "net_payload.py": {},
+    "proxy.py": {},
+    "README.md": {},
+    "run_probe.py": {
+      "tracker": 2
+    },
+    "self_test.py": {
+      "sid": 2,
+      "tracker": 2
+    },
+    "summarise.py": {}
+  }
+}

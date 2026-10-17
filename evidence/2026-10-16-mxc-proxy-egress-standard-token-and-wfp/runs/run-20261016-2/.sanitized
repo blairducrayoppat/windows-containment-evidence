@@ -1,0 +1,265 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "sid-binary",
+    "inventory",
+    "ipv6",
+    "ticks",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "user": 247,
+    "sid": 66,
+    "sid-binary": 24,
+    "inventory": 2616,
+    "ipv6": 2720,
+    "ticks": 20,
+    "home": 246,
+    "tracker": 81,
+    "guid": 66836,
+    "local": 1610
+  },
+  "files": {
+    "batch-header.json": {
+      "user": 1,
+      "tracker": 3,
+      "local": 1
+    },
+    "batch-summary.json": {
+      "guid": 60
+    },
+    "control-b5.json": {
+      "local": 1
+    },
+    "run-A-A1-r1-075819.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "run-A-A1-r2-075830.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "run-A-A1-r3-075843.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "run-B-B1-r1-075853.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "run-B-B1-r2-075905.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "run-B-B1-r3-075917.json": {
+      "user": 23,
+      "sid": 3,
+      "inventory": 436,
+      "home": 23,
+      "tracker": 8,
+      "guid": 34,
+      "local": 6
+    },
+    "staging/logs/A-A1-r1-075819.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/A-A1-r2-075830.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/A-A1-r3-075843.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r1-075853.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r2-075905.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r3-075917.log": {
+      "user": 18,
+      "home": 18,
+      "tracker": 5,
+      "local": 2
+    },
+    "wfp/A-A1-r1-075819-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r1-075819-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r1-075819-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/A-A1-r2-075830-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r2-075830-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r2-075830-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/A-A1-r3-075843-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r3-075843-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/A-A1-r3-075843-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/B-B1-r1-075853-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r1-075853-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r1-075853-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/B-B1-r2-075905-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r2-075905-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r2-075905-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/B-B1-r3-075917-after-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r3-075917-before-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/B-B1-r3-075917-during-filters.xml": {
+      "sid": 8,
+      "sid-binary": 4,
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3337,
+      "local": 78
+    },
+    "wfp/control-present-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp/control-removed-filters.xml": {
+      "ipv6": 136,
+      "ticks": 1,
+      "guid": 3325,
+      "local": 78
+    },
+    "wfp-control.json": {}
+  }
+}

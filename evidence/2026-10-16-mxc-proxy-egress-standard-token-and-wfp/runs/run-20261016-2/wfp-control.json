@@ -1,0 +1,12 @@
+{
+ "rule": "BlarAI-wfp-poscontrol-075806",
+ "sid": "S-1-15-2-1111111111-2222222222-3333333333-4444444444-5555555555-6666666666-7777777777",
+ "created": true,
+ "found_filters": [],
+ "removed_verified": true,
+ "absent_after_removal": true,
+ "problems": [
+  "analysis found no filter naming the control SID"
+ ],
+ "ok": false
+}

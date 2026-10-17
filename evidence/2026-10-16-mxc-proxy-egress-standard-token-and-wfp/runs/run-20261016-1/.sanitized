@@ -1,0 +1,127 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "sid-binary",
+    "inventory",
+    "ipv6",
+    "ticks",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "user": 163,
+    "sid": 6,
+    "inventory": 2616,
+    "home": 162,
+    "tracker": 81,
+    "guid": 24,
+    "local": 50
+  },
+  "files": {
+    "batch-header.json": {
+      "user": 1,
+      "tracker": 3,
+      "local": 1
+    },
+    "batch-summary.json": {},
+    "control-b5.json": {
+      "local": 1
+    },
+    "run-A-A1-r1-054836.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "run-A-A1-r2-054842.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "run-A-A1-r3-054848.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "run-B-B1-r1-054854.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "run-B-B1-r2-054900.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "run-B-B1-r3-054906.json": {
+      "user": 13,
+      "sid": 1,
+      "inventory": 436,
+      "home": 13,
+      "tracker": 8,
+      "guid": 4,
+      "local": 6
+    },
+    "staging/logs/A-A1-r1-054836.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/A-A1-r2-054842.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/A-A1-r3-054848.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r1-054854.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r2-054900.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    },
+    "staging/logs/B-B1-r3-054906.log": {
+      "user": 14,
+      "home": 14,
+      "tracker": 5,
+      "local": 2
+    }
+  }
+}

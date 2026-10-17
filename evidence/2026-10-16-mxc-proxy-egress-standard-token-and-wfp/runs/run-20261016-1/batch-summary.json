@@ -1,0 +1,44 @@
+{
+ "controls": {
+  "ok": true,
+  "reasons": [],
+  "b5a": true,
+  "b5b": true,
+  "b5c": true
+ },
+ "groups": {
+  "A/A1": {
+   "verdict": "HOLD",
+   "runs": 3,
+   "run_verdicts": [
+    "HOLD",
+    "HOLD",
+    "HOLD"
+   ],
+   "b4i_not_measurable": false,
+   "state_changed_runs": [],
+   "token_modes": [
+    "standard"
+   ],
+   "launcher_nonzero_exit_runs": []
+  },
+  "B/B1": {
+   "verdict": "HOLD",
+   "runs": 3,
+   "run_verdicts": [
+    "HOLD",
+    "HOLD",
+    "HOLD"
+   ],
+   "b4i_not_measurable": false,
+   "state_changed_runs": [],
+   "token_modes": [
+    "standard"
+   ],
+   "launcher_nonzero_exit_runs": []
+  }
+ },
+ "n_expected": 3,
+ "below_spec_n": false,
+ "arm_refusals": []
+}

@@ -12,6 +12,16 @@ Replacements, applied to every text file in this order:
   3. sid       S-1-5-21-<a>-<b>-<c>-<RID> -> S-1-5-21-X-X-X-<RID>. The RID is kept. Distinct domains in one run get
                distinct letters (X, Y, Z, W, ...): the most frequent domain gets X, ties by the first number, so
                records that compare two domains still compare. A truncated domain keeps its letter for each part present.
+  3b. sid-binary  the same SID as a hex blob (revision 01, count, authority 000000000005, 15000000, then the domain's
+               three 32-bit values and any more): the three domain values are written 00000000, the first 12 bytes and any
+               relative id after them are kept.
+  3c. inventory  every entry of an `appcontainer_mappings` array except a probe's own `mxcfx-` profile (and the
+               `<absent>`/`<unreadable>` markers) is dropped: the array otherwise lists the packages installed on the machine.
+               The array keeps its layout; the sibling counts are kept.
+  3d. ipv6     each host-interface IPv6 address (see tools/leak_gate.py, rule ipv6-interface) -> ipv6-interface-<n>, one
+               number per distinct address in the folder, in order of first appearance.
+  3e. ticks    the tick count in a Bitdefender provider name (Bitdefender.<digits>-Provider) -> Bitdefender.TICKS-Provider:
+               the count decodes to the product's installation date and time on the machine.
   4. home      <drive>:\\Users\\<name>\\... and /mnt/<drive>/Users/<name>/... -> ~ for the operator's own profile (the
                live account, USER, or the placeholders _OPERATOR_ and __USER__) and ~<name> for any other account
                (a test account's profile stays distinguishable); the profile environment variable -> ~; the
@@ -56,6 +66,8 @@ import leak_gate as lg  # noqa: E402  (the sibling script in this repository)
 MARKER_NAME = ".sanitized"
 OPERATOR_PLACEHOLDERS = frozenset({"user", "_operator_", "__user__"})
 SID_FULL_RE = re.compile(r"S-1-5-21-([0-9]+(?:-[0-9]+)*)(-?)")
+SID_BINARY_RE = lg.SID_BINARY_RE
+INVENTORY_ARRAY_RE = re.compile(r'("appcontainer_mappings"\s*:\s*)\[(.*?)\]', re.DOTALL)
 HOME_WIN_RE = re.compile(r"(?:\\\\+\?\\+)?[A-Za-z]:(\\+|/+)Users\1([A-Za-z0-9_.$-]+)", re.IGNORECASE)
 HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/([A-Za-z0-9_.$-]+)", re.IGNORECASE)
 TRACKER_FIELD_RE = re.compile(r"(\"" + lg.TRACKER_WORD + r"\"\s*:\s*)(\"[^\"]*\"|-?[0-9]+|null)")
@@ -84,7 +96,7 @@ def _keep_case(original: str, new: str) -> str:
     if original[:1].isupper():
         return "-".join(part[:1].upper() + part[1:] for part in new.split("-"))
     return new
-RULES = ("host", "user", "sid", "home", "tracker", "fixture", "guid", "local")
+RULES = ("host", "user", "sid", "sid-binary", "inventory", "ipv6", "ticks", "home", "tracker", "fixture", "guid", "local")
 
 
 class SanitizeError(Exception):
@@ -98,7 +110,7 @@ def _letter(i: int) -> str:
 
 class Sanitizer:
     def __init__(self, names: list[str], allowed_guids: frozenset[str], replacements: list[tuple[str, str]],
-                 sid_firsts: list[int], guid_order: list[str]) -> None:
+                 sid_firsts: list[int], guid_order: list[str], ipv6_order: list[str]) -> None:
         host, user = names
         self.host_re = re.compile(re.escape(host), re.IGNORECASE)
         self.user_re = lg._name_re(user)
@@ -107,6 +119,7 @@ class Sanitizer:
         freq = Counter(sid_firsts)
         self.sid_letter = {n: _letter(i) for i, n in enumerate(sorted(freq, key=lambda k: (-freq[k], k)))}
         self.guid_num = {g: i + 1 for i, g in enumerate(guid_order)}
+        self.ipv6_num = {a: i + 1 for i, a in enumerate(ipv6_order)}
         self.local = [(re.compile(r"(?<![A-Za-z0-9_])" + re.escape(a) + r"(?![A-Za-z0-9_])"), b) for a, b in replacements]
 
     @staticmethod
@@ -147,6 +160,47 @@ class Sanitizer:
 
         return rx.sub(f, text)
 
+    @staticmethod
+    def _blob_pair(m: re.Match[str], counts: Counter[str]) -> str:
+        """A data blob that holds a domain SID is rewritten and its text rendering recomputed from the new bytes."""
+        blob, n = SID_BINARY_RE.subn(lambda x: x.group()[:24] + "00000000" * 3 + x.group()[48:], m.group(1))
+        if not n:
+            return m.group()
+        counts["sid-binary"] += n
+        return f"<data>{blob}</data>{m.group(2)}<asString>{lg.render_as_string(blob)}</asString>"
+
+    def _ipv6(self, m: re.Match[str], counts: Counter[str]) -> str:
+        addr = lg.ipv6_interface_address(m.group())
+        if addr is None:
+            return m.group()
+        counts["ipv6"] += 1
+        return f"ipv6-interface-{self.ipv6_num[addr]}"
+
+    @staticmethod
+    def drop_inventory(text: str, counts: Counter[str] | None = None) -> str:
+        """Remove the installed-package entries from every `appcontainer_mappings` array, keeping its layout."""
+        def one(m: re.Match[str]) -> str:
+            body = m.group(2)
+            try:
+                items = json.loads("[" + body + "]")
+            except ValueError:
+                raise SanitizeError("an appcontainer_mappings array that is not JSON: nothing is written for it")
+            kept = [x for x in items if not (isinstance(x, str) and lg.INVENTORY_ENTRY_RE.match(x))]
+            if len(kept) == len(items):
+                return m.group()
+            if counts is not None:
+                counts["inventory"] += len(items) - len(kept)
+            if not kept:
+                return m.group(1) + "[]"
+            if "\n" not in body:
+                return m.group(1) + "[" + ", ".join(json.dumps(x) for x in kept) + "]"
+            lines = body.split("\n")
+            indent = re.match(r"[ \t]*", lines[1]).group()
+            closing = re.match(r"[ \t]*", lines[-1]).group()
+            return m.group(1) + "[\n" + ",\n".join(indent + json.dumps(x) for x in kept) + "\n" + closing + "]"
+
+        return INVENTORY_ARRAY_RE.sub(one, text)
+
     def _home_name(self, name: str) -> str:
         return "~" if name.lower() in OPERATOR_PLACEHOLDERS or name.lower() == self.user else "~" + name
 
@@ -156,6 +210,7 @@ class Sanitizer:
             counts[rule] += n
             return out
 
+        text = self.drop_inventory(text, counts)
         text = sub("host", self.host_re, "HOST", text)
         text = sub("user", self.user_re, "USER", text)
 
@@ -166,6 +221,10 @@ class Sanitizer:
             return "S-1-5-21-" + "-".join([letter] * len(domain) + rid) + m.group(2)
 
         text = sub("sid", SID_FULL_RE, sid, text)
+        text = lg.ASSTRING_PAIR_RE.sub(lambda m: self._blob_pair(m, counts), text)
+        text = sub("sid-binary", SID_BINARY_RE, lambda m: m.group()[:24] + "00000000" * 3 + m.group()[48:], text)
+        text = sub("ticks", lg.TICKS_PROVIDER_RE, "TICKS", text)
+        text = lg.IPV6_CANDIDATE_RE.sub(lambda m: self._ipv6(m, counts), text)
         text = sub("home", HOME_WIN_RE, lambda m: self._home_name(m.group(2)), text)
         text = sub("home", HOME_WSL_RE, lambda m: self._home_name(m.group(1)), text)
         text = sub("home", re.compile(re.escape(lg.HOME_ENV), re.IGNORECASE), "~", text)
@@ -206,14 +265,21 @@ def sanitize_tree(src: Path, dst: Path, allowed_guids: frozenset[str], names: li
         raise SanitizeError(f"output directory already exists: {dst}")
     files = sorted(p for p in src.rglob("*") if p.is_file())
     texts = {p: _read_text(p) for p in files}
+    scan = [Sanitizer.drop_inventory(t) for t, _ in texts.values()]  # what is dropped claims no number below
     sid_firsts = [int(m.group(1).split("-")[0]) for t, _ in texts.values() for m in SID_FULL_RE.finditer(t)]
     guid_order: list[str] = []
-    for t, _ in texts.values():
+    for t in scan:
         for m in lg.GUID_RE.finditer(t):
             g = m.group().lower()
             if g not in allowed_guids and g not in guid_order:
                 guid_order.append(g)
-    s = Sanitizer(names, allowed_guids, replacements or [], sid_firsts, guid_order)
+    ipv6_order: list[str] = []
+    for t in scan:
+        for m in lg.IPV6_CANDIDATE_RE.finditer(t):
+            a = lg.ipv6_interface_address(m.group())
+            if a and a not in ipv6_order:
+                ipv6_order.append(a)
+    s = Sanitizer(names, allowed_guids, replacements or [], sid_firsts, guid_order, ipv6_order)
     report: dict[str, dict[str, int]] = {}
     for p in files:
         text, bom = texts[p]

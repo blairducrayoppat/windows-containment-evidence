@@ -183,3 +183,68 @@ pre-flight note), `ARMS_HANDOFF.md`, and `make_changes.py` (the script that prod
 `CHANGES.md`; `CHANGES.md` itself is here). The bundle's own licence texts are replaced by the root `LICENSE` and
 `LICENSE-DATA`. The comparison study's phase-2 probe scripts (`tools/probes/containment_arms/` in blarai-public) are not
 here because their evidence is not.
+
+## MXC standard-token and WFP-capture bundle (2026-10-16)
+
+`evidence/2026-10-16-mxc-proxy-egress-standard-token-and-wfp/runs/run-20261016-1/` (standard token) and `runs/run-20261016-2/` (elevated, WFP
+capture) are two raw run folders (kept outside every repository) after `tools/sanitize.py`, each sanitised in one invocation (GUID
+placeholders are numbered per run folder). Neither raw folder was modified. The sanitiser read a copy of each that holds the top-level
+records, `staging/logs/` and, for the second, `wfp/*-filters.xml` and `wfp-control.json`. Left out: `staging/cfg/` and
+`staging/payload/` (as in the 2026-10-15 bundle); and **the 20 `wfp/*-state.xml` dumps of the second folder (`netsh wfp show state`, about 61 MB)**,
+because they carry the machine's recent network events (the remote addresses and applications of the operator's own connections), which are
+outside the measurement and which the leak gate refuses (1,373 hits over the sanitised set that still held them, 1,073 of them public addresses). They were left out
+and not edited. The README names the two facts that rest on them alone.
+
+`tools/probes/`-style copies of the harness as it ran are in the bundle's `probe/run-20261016-1/` (commit `d89bbed9` of the private repository)
+and `probe/run-20261016-2/` (commit `2f792246`), each through `tools/sanitize.py`. The five hashed files are written in the byte form whose
+sha256 equals the batch header's value (batch 2's `launch.ps1`, `net_payload.py`, `run_probe.py` and `summarise.py` and batch 1's `launch.ps1`,
+`net_payload.py` and `summarise.py` are CRLF, as the hashes show); the other four files are as committed.
+
+Sanitiser replacement counts (from the four `.sanitized` files):
+
+| Folder | Files | host | user | sid | sid-binary | inventory | ipv6 | ticks | home | local | tracker | fixture | guid |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `runs/run-20261016-1/` | 15 | 0 | 163 | 6 | 0 | 2616 | 0 | 0 | 162 | 50 | 81 | 0 | 24 |
+| `runs/run-20261016-2/` | 36 | 0 | 247 | 66 | 24 | 2616 | 2720 | 20 | 246 | 1610 | 81 | 0 | 66836 |
+| `probe/run-20261016-1/` | 9 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 1 | 0 | 4 | 0 | 0 |
+| `probe/run-20261016-2/` | 9 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 4 | 0 | 0 |
+
+What those were: the account name and the profile path (`USER`, `~`); the machine's account SID in run records and in the security
+descriptors of the WFP dumps (`S-1-5-21-X-X-X-<rid>`); the same SID in its binary form, written as hex in the WFP `providerData` of the four
+Tessera filters of each during-launch dump (24 values; the three domain values written `00000000`, the relative id kept, and the blob's
+`asString` text rendering recomputed from the new bytes, because the original rendering carried one printable byte of the domain);
+the package list of every run record (`inventory`: 2,616 entries, 218 in each of 12 `appcontainer_mappings` arrays: 6 records per folder, two snapshots each, dropped by rule; see
+the README);
+the four IPv6 link-local interface addresses of the host in the WFP dumps (`ipv6`: 2,720 occurrences, written `ipv6-interface-1` to `-4`);
+the tick count in the Bitdefender provider name of every dump (`ticks`: 20 occurrences, `Bitdefender.TICKS-Provider`; the count decodes to the date and
+time of the product's installation on the machine); an internal
+four-digit number inside two directory names (as in the 2026-10-15 bundle); GUIDs of firewall rules, filters and objects (run records and
+dumps; the number of distinct GUIDs per dump is above a thousand, so the placeholders run past `GUID-1000`); and a local-vocabulary set made
+for this bundle only: the default gateway's private IPv4 address, the host's own LAN address, the LAN broadcast address and the LAN network
+address (all four in the same /24, which would otherwise identify a home network; written `default-gateway`, `host-lan-address`,
+`lan-broadcast`, `lan-network`, without angle brackets because the WFP files are XML). Ports, the other private ranges and every figure are
+kept.
+
+Changes to the tools made for this bundle (a separate commit from the data, with a self-test case for each): `tools/sanitize.py` and `tools/leak_gate.py` gained the `sid-binary`
+rule (the gate refuses the binary form of a domain SID written as hex; the sanitiser's all-zero placeholder passes; a self-test sample covers
+it and it fails before the sanitiser and passes after); the gate's public-address rule allows the base addresses of the IANA special-purpose
+ranges that appear in three "Allow IPv4 LAN Traffic" filters of a Bitdefender provider in each WFP dump (not in any Windows filter; each is the first
+address of a range the IANA registries reserve) (`RESERVED_RANGE_BASES`: 100.64.0.0, 192.0.0.0,
+192.0.2.0, 192.88.99.0, 198.18.0.0, 198.51.100.0, 203.0.113.0); `tools/allowed_guids.txt` lists the two fixed keys of the Windows Tessera
+component's WFP provider and sublayer (the same in every launch), which the README names. The gate and the sanitiser also gained the
+`appcontainer-inventory` rule (a package SID with a package name, other than a probe's own `mxcfx-` profile, is refused; the sanitiser
+drops such entries from `appcontainer_mappings` arrays), the `ipv6-interface` rule (an IPv6 address of a host interface is refused; the
+sanitiser numbers it) a `device-timestamp` rule for that tick count, and `sid-binary-asstring` (a blob that holds a domain SID, or its zeroed placeholder, beside a text rendering that
+is not its own is refused).
+
+Hand edits after the sanitiser: `self_test.py` in each probe copy named the internal-tracker field in a string and in a key test; the key is
+built from two pieces and the message reads "no internal-reference field" (the gate refused the word). `README.md`, `RECOUNT.md` and
+`recount.py` of the bundle are new, written here. The standing public-identifier scrub of the private project (`--dir`, then `--dir
+--check`) was run over the finished folder: 0 files rewritten, 0 findings.
+
+Re-count: every figure the README states was recomputed from the run records, the launcher logs and the WFP filter dumps by `recount.py`
+(kept in the bundle) over the raw folder of each batch and over the sanitised folder here and compared: 70 figures for `run-20261016-1`
+and 99 for `run-20261016-2`, 0 differences in both (the output is `RECOUNT.md`). Its figures include, per arm, the dry-run, launch, B2, B3,
+B4 and unconfined-control counts, state-change and verdict counts, launch wall times, container-token fields and launcher-log lines, and for
+the second folder the filter counts before, during and after (1008, 1016, 1008, read by parsing each dump), the eight new filters per launch
+by name, action and package SID, before-and-after key-set equality, and the capture and positive-control fields.

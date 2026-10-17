@@ -21,11 +21,29 @@ What it refuses:
                where no letter touches it.
   sid          a domain, machine or Entra ID SID (S-1-5-21- or S-1-12-1- followed by a digit, any letter case).
                Well-known SIDs such as S-1-5-18 are allowed.
+  sid-binary   the same domain SID in its binary form written as hex (a WFP provider-data blob): revision 01, a
+               sub-authority count, authority 000000000005, the first sub-authority 21 (15000000), then at least three
+               more 32-bit values, in any letter case; the sanitiser's placeholder (all three values 00000000) is allowed.
+  sid-binary-asstring  a WFP `<data>` blob that holds a binary domain SID (or the sanitiser's all-zero placeholder of
+               one) whose `<asString>` line is not the rendering of that blob's own bytes: the text rendering of the original
+               bytes survives beside a rewritten blob.
+  appcontainer-inventory  an AppContainer package SID (S-1-15-2 and seven more parts) and a package name side by side,
+               either order, joined by space, colon, equals, quote, comma or arrow (`SID name`, `SID:name`, `"SID": "name"`,
+               `"name": "SID"`, `name = SID`, `name SID`), other than a probe's own `mxcfx-` profile: a list of the packages
+               installed on the machine. After the SID a plain space-joined name of any shape counts; in the other forms the
+               name must look like a package name (a dot inside it, or a `_` and a 13-character publisher id), so a field name
+               such as appcontainer_sid beside a SID passes.
+  ipv6-interface  an IPv6 address of a host interface (link-local fe80::/10, unique-local fc00::/7 or global 2000::/3, other
+               than the 2001:db8::/32 documentation range) whose low 64 bits are neither zero nor all ones, with or without
+               a %scope: a per-device identifier. Prefixes, masks and well-known addresses (::1, ff02::) pass.
   email        an e-mail address, except a code-host no-reply address without a numeric account prefix and a
                documentation domain (example.com/.org/.net).
   mac-address  six hex pairs joined by colons or hyphens, or three dotted groups of four hex digits.
   public-ip    an IPv4 address outside the private, loopback, link-local and multicast ranges, other than the two
-               measurement targets the records name (IPV4_OK).
+               measurement targets the records name (IPV4_OK) and seven exact IANA special-purpose base addresses
+               (RESERVED_RANGE_BASES; the comment there gives each one's registry).
+  device-timestamp  a Bitdefender provider name that embeds a .NET tick count (`Bitdefender.<15 to 19 digits>-Provider`): the
+               count decodes to the date and time of the product's installation on the machine.
   volume-serial  the header that introduces a volume's serial (spaced or joined, then "is", a colon or "="), a
                serial-number field followed by a colon or "=", either one as a plain, quoted or escaped-quoted key,
                and a CSV header column named for a volume serial (pattern: VOLUME_SERIAL_RE).
@@ -80,6 +98,7 @@ is not UTF-16) is refused unless its extension is listed in BINARY_OK, which is 
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import getpass
 import json
 import os
@@ -101,6 +120,42 @@ TRACKER_WORD = "tick" "et"
 HOME_ENV = "%USER" "PROFILE%"
 
 SID_RE = re.compile(r"S-1-5-21-[0-9]|S-1-12-1-[0-9]", re.IGNORECASE)
+SID_BINARY_RE = re.compile(r"01[0-9a-f]{2}00000000000515000000(?!0{24})(?:[0-9a-f]{8}){3}", re.IGNORECASE)
+SID_BINARY_ANY_RE = re.compile(r"01[0-9a-f]{2}00000000000515000000(?:[0-9a-f]{8}){3}", re.IGNORECASE)
+# A WFP data blob and the text rendering that netsh prints beside it.
+ASSTRING_PAIR_RE = re.compile(r"<data>([0-9A-Fa-f]*)</data>(\s*)<asString>([^<]*)</asString>")
+# One AppContainer mapping entry as the probe records it: package SID, a space, the package name.
+INVENTORY_ENTRY_RE = re.compile(r"S-1-15-2(?:-[0-9]+){7}[ \t]+(?!mxcfx-)[A-Za-z0-9_.-]+")
+_PKG_SID = r"S-1-15-2(?:-[0-9]+){7}"
+_PKG_NAME = r"(?!mxcfx-)(?:[A-Za-z0-9_-]+[.][A-Za-z0-9_.-]*[A-Za-z0-9_]|[A-Za-z0-9.-]+_[a-z0-9]{13})"
+_PKG_SEP = r"[\s:=\"',>-]{1,8}"
+# Every order and joiner a package list can take; INVENTORY_ENTRY_RE (a SID, a space, a name) is what the sanitiser drops.
+INVENTORY_SHAPE_RE = re.compile(
+    INVENTORY_ENTRY_RE.pattern + "|" + _PKG_SID + _PKG_SEP + _PKG_NAME
+    + r"|(?<![A-Za-z0-9_.-])" + _PKG_NAME + _PKG_SEP + _PKG_SID)
+TICKS_PROVIDER_RE = re.compile(r"(?<=Bitdefender[.])[0-9]{15,19}(?=-Provider)")
+IPV6_CANDIDATE_RE = re.compile(r"(?<![0-9A-Za-z:.])[0-9A-Fa-f]{0,4}(?::[0-9A-Fa-f]{0,4}){2,7}(?:%[0-9A-Za-z]+)?(?![0-9A-Za-z:.])")
+
+
+def render_as_string(hex_blob: str) -> str:
+    """The text rendering netsh prints for a data blob: printable ASCII as itself, every other byte as a dot, XML-escaped."""
+    raw = bytes.fromhex(hex_blob) if len(hex_blob) % 2 == 0 else b""
+    text = "".join(chr(b) if 0x20 <= b <= 0x7E else "." for b in raw)
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def ipv6_interface_address(token: str) -> str | None:
+    """The normalised address if `token` is a host-interface IPv6 address (see the module docstring), else None."""
+    try:
+        addr = ipaddress.IPv6Address(token.split("%", 1)[0])
+    except ValueError:
+        return None
+    low = int(addr) & ((1 << 64) - 1)
+    if low in (0, (1 << 64) - 1) or addr in ipaddress.IPv6Network("2001:db8::/32"):
+        return None
+    scoped = (addr in ipaddress.IPv6Network("fe80::/10") or addr in ipaddress.IPv6Network("fc00::/7")
+              or addr in ipaddress.IPv6Network("2000::/3"))
+    return str(addr) if scoped else None
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 # Addresses that name no person: the code host's no-reply form without a numeric account prefix, documentation
 # domains, and noreply@ senders.
@@ -114,6 +169,14 @@ IPV4_RE = re.compile(r"(?<![0-9.])(" + _OCTET + r"(?:\." + _OCTET + r"){3})(?![0
 IPV4_OK = frozenset({"1.1.1.1", "8.8.8.8"})
 # Dotted version numbers that have the shape of an address: the WSL and WSL-kernel versions the 9P records hold.
 NOT_ADDRESSES = frozenset({"3.0.3.0", "6.18.54.1", "6.18.40.1"})
+# Base addresses of IANA special-purpose ranges. In a WFP dump they appear as address-mask conditions of three
+# "Allow IPv4 LAN Traffic" filters owned by a Bitdefender provider, not of any Windows filter. Each is the first address of
+# a range the IANA registries reserve, so none is anyone's address: 100.64.0.0 (shared address space, RFC 6598),
+# 192.0.0.0 (IETF protocol assignments, RFC 6890), 192.0.2.0, 198.51.100.0 and 203.0.113.0 (the three documentation
+# ranges, RFC 5737), 192.88.99.0 (6to4 relay anycast, RFC 7526) and 198.18.0.0 (benchmarking, RFC 2544). Exact
+# addresses only: the address next to a base is still refused (self-test).
+RESERVED_RANGE_BASES = frozenset({"100.64.0.0", "192.0.0.0", "192.0.2.0", "192.88.99.0", "198.18.0.0", "198.51.100.0",
+                                  "203.0.113.0"})
 # Each form may close with a quote, an escaped quote (a key inside a JSON string) or nothing; a CSV header column
 # named for a volume serial is refused too.
 VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)(?:\\*[\x22'])?\s*(?:is\b|[:=])"
@@ -280,6 +343,18 @@ class Gate:
                 add(m.start(), "identity")
         for m in SID_RE.finditer(text):
             add(m.start(), "sid")
+        for m in SID_BINARY_RE.finditer(text):
+            add(m.start(), "sid-binary")
+        for m in ASSTRING_PAIR_RE.finditer(text):
+            if SID_BINARY_ANY_RE.search(m.group(1)) and m.group(3) != render_as_string(m.group(1)):
+                add(m.start(), "sid-binary-asstring")
+        for m in INVENTORY_SHAPE_RE.finditer(text):
+            add(m.start(), "appcontainer-inventory")
+        for m in TICKS_PROVIDER_RE.finditer(text):
+            add(m.start(), "device-timestamp")
+        for m in IPV6_CANDIDATE_RE.finditer(text):
+            if ipv6_interface_address(m.group()):
+                add(m.start(), "ipv6-interface")
         for m in EMAIL_RE.finditer(text):
             if not EMAIL_OK_RE.search(m.group()):
                 add(m.start(), "email")
@@ -289,7 +364,7 @@ class Gate:
             a, b = (int(x) for x in m.group(1).split(".")[:2])
             local_range = (a in (0, 10, 127) or (a == 169 and b == 254) or (a == 172 and 16 <= b <= 31)
                            or (a == 192 and b == 168) or a >= 224)
-            if not local_range and m.group(1) not in IPV4_OK | NOT_ADDRESSES:
+            if not local_range and m.group(1) not in IPV4_OK | NOT_ADDRESSES | RESERVED_RANGE_BASES:
                 add(m.start(), "public-ip")
         for m in VOLUME_SERIAL_RE.finditer(text):
             add(m.start(), "volume-serial")
@@ -409,6 +484,12 @@ def self_test(gate: Gate) -> int:
         "identity-host": f"ran on {host} today",
         "identity-user": f"owner {user} wrote this",
         "sid": "account " + "S-1-5-" + "21-111-222-333-1001",
+        "sid-binary": "data " + "01050000" "00000005" "15000000" "11111111" "22222222" "33333333" "e9030000",
+        "sid-binary-asstring": "<data>" + "01050000" "00000005" "15000000" "11111111" "22222222" "33333333" "e9030000"
+                               + "</data>\n<asString>" + "." * 16 + chr(34) * 4 + "3333...." + "</asString>",
+        "appcontainer-inventory": "\"appcontainer_mappings\": [\"S-1-15-" + "2-1-2-3-4-5-6-7 microsoft.some" + "package_8wekyb3d8bbwe\"]",
+        "device-timestamp": "<name>Bitdefender." + "6392770402" "75814001-Provider</name>",
+        "ipv6-interface": "bind fe80" + "::1234:5678:9abc:def0 and " + "2a01:" + "db8:1:2:3:4:5:6%12",
         "home-path": "C:" + "\\Users\\" + user + "\\work",
         "home-path-json": "\"C:" + "\\\\Users\\\\" + user + "\\\\work\"",
         "home-path-other-account": "C:" + "\\Users\\" + "svc-probe\\AppData",
@@ -471,6 +552,45 @@ def self_test(gate: Gate) -> int:
         ok = marker.is_file() and host.lower() not in marker.read_text(encoding="utf-8").lower()
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} marker written, counts only")
+        asst = (dst / "sid-binary-asstring.txt").read_text(encoding="utf-8")
+        pair = ASSTRING_PAIR_RE.search(asst)
+        ok = bool(pair) and pair.group(3) == render_as_string(pair.group(1)) and set(pair.group(3)) == {"."}
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the text rendering is recomputed from the rewritten blob: {asst!r}")
+        stale = "<data>" + "01050000" "00000005" "15000000" + "00000000" * 3 + "e9030000" + "</data><asString>" + "." * 18 + "W..........</asString>"
+        ok = bool(gate.scan_bytes(stale.encode(), "stale")) and not gate.scan_bytes(asst.encode(), "fixed")
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} a zeroed blob beside a stale rendering is refused")
+        inv = (dst / "appcontainer-inventory.txt").read_text(encoding="utf-8")
+        keep = "{\"appcontainer_mappings\": [\"S-1-15-2-1-2-3-4-5-6-7 mxcfx-ab\", \"<absent>\", \"S-1-15-" "2-1-2-3-4-5-6-7 x.pkg\"]}"
+        (up_src / "inv-keep.txt").write_text(keep, encoding="utf-8")
+        inv_dst = Path(tmp) / "inv-dst"
+        sanitize.sanitize_tree(up_src, inv_dst, gate.allowed_guids, names=[host, user])
+        kept_inv = (inv_dst / "inv-keep.txt").read_text(encoding="utf-8")
+        ok = "mxcfx-ab" in kept_inv and "<absent>" in kept_inv and "x.pkg" not in kept_inv and not gate.scan_bytes(kept_inv.encode(), "inv")
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the probe's own profile and the markers stay, every other package entry goes: {kept_inv!r} (from {inv!r})")
+        v6 = (dst / "ipv6-interface.txt").read_text(encoding="utf-8")
+        ok = "ipv6-interface-1" in v6 and "ipv6-interface-2" in v6
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} interface addresses become numbered placeholders: {v6!r}")
+        reserved = " ".join(sorted(RESERVED_RANGE_BASES))
+        ok = len(RESERVED_RANGE_BASES) == 7 and not gate.scan_bytes(reserved.encode(), "reserved")
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the seven reserved-range bases pass (each is the first address of a range the IANA "
+              f"registries reserve, so nobody's): {reserved}")
+        ok = all(gate.scan_bytes(x.encode(), "near") for x in ("100.64.0." + "1", "192.0.2." + "1", "203.0.113." + "1", "198.18.0." + "1"))
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} an address next to a reserved base is still refused")
+        fields = ("{\"appcontainer_sid\": \"S-1-15-" + "2-1-2-3-4-5-6-7\", \"container_sid\": \"S-1-15-" + "2-1-2-3-4-5-6-7\"} "
+                  "S-1-15-" + "2-1-2-3-4-5-6-7 mxcfx-ab and mxcfx-ab:S-1-15-" + "2-1-2-3-4-5-6-7")
+        ok = not gate.scan_bytes(fields.encode(), "fields")
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} a field name or a probe's own mxcfx- profile beside a package SID passes")
+        passing = "mask ffff:ffff:ffff:ffff:: prefix fe80:: loopback ::1 group ff02::1 doc 2001:db8::5 time 05:48:34 mask fe80::ffff:ffff:ffff:ffff"
+        ok = not gate.scan_bytes(passing.encode(), "v6-ok")
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} prefixes, masks, well-known and documentation addresses and clock times pass")
     # Classes the gate refuses and the sanitiser leaves to a person: each must hit.
     refuse = {
         "word-glued reference": "see word" + "#" + "4321 there",
@@ -482,6 +602,12 @@ def self_test(gate: Gate) -> int:
         "numeric no-reply e-mail": "12345+some" + "one@users" + ".noreply.github.com",
         "MAC address": "nic 00-1A-2B" + "-3C-4D-5E",
         "public IPv4": "from 203.0." + "113.77 today",
+        "package list, colon-joined": "S-1-15-" + "2-1-2-3-4-5-6-7:microsoft.some" + "package_8wekyb3d8bbwe",
+        "package list, SID as JSON key": "{\"S-1-15-" + "2-1-2-3-4-5-6-7\": \"microsoft.some" + "package\"}",
+        "package list, name as JSON key": "{\"microsoft.some" + "package\": \"S-1-15-" + "2-1-2-3-4-5-6-7\"}",
+        "package list, equals-joined": "microsoft.some" + "package = S-1-15-" + "2-1-2-3-4-5-6-7",
+        "package list, name first": "microsoft.some" + "package_8wekyb3d8bbwe S-1-15-" + "2-1-2-3-4-5-6-7",
+        "package list, arrow-joined": "S-1-15-" + "2-1-2-3-4-5-6-7 -> windows.some" + "package",
         "volume serial header": "Volume Serial " + "Number is 0000-0000",
         "repo-shaped private prefix": "private/tracker" + "#" + "4321",
         "comment no.": "see com" + "ment no. 9876",

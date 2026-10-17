@@ -15,6 +15,7 @@
 1c1ff6bb-913c-4b8f-98db-f165d2224edd  wfp filter or object key
 2096b29c-094e-45b8-a2b3-1f7849783f07  wfp filter or object key
 2c5d0ad6-5f3b-4d4e-9b8f-1a3e7c9d0b21  wfp sublayer key
+2f8c6d14-3b7e-4a59-9c08-1d4e7a6b2f30  wfp provider key of the Windows Tessera sandbox component (a fixed key, the same in every launch; named in MXC's logging-access-denied document)
 3204d58f-af52-48f1-b6b7-7737bba03cc8  wfp filter or object key
 324a26fe-649a-4430-8493-6cf26a4eba03  wfp filter or object key
 32b93214-a54b-4c2e-a6a9-fed6df14e362  wfp filter or object key
@@ -47,6 +48,7 @@
 6cf901ba-a6cd-4846-81a5-2598c55bdef5  wfp sublayer key
 7096cc88-cefc-4058-8e93-438f6f6463ee  wfp filter or object key
 7521d775-bb45-4113-8d3d-4dad831a2e1d  wfp filter or object key
+7b1e9a2c-9d4f-4c8a-b321-5e6d2f8a1c44  wfp sublayer key of the Windows Tessera sandbox component (a fixed key, the same in every launch; named in MXC's logging-access-denied document)
 7c9926c0-2d4b-4eec-a164-a3b7139b06d5  wfp filter or object key
 7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1f01  wfp provider key
 7e1f6a10-5c0b-4d8e-9a31-2b6d4c8e1f02  wfp sublayer key

@@ -1,0 +1,402 @@
+{
+ "controls": {
+  "ok": true,
+  "reasons": [],
+  "b5a": true,
+  "b5b": true,
+  "b5c": true
+ },
+ "groups": {
+  "A/A1": {
+   "verdict": "HOLD",
+   "runs": 3,
+   "run_verdicts": [
+    "HOLD",
+    "HOLD",
+    "HOLD"
+   ],
+   "b4i_not_measurable": false,
+   "state_changed_runs": [],
+   "state_unknown_runs": [],
+   "token_modes": [
+    "elevated"
+   ],
+   "launcher_nonzero_exit_runs": []
+  },
+  "B/B1": {
+   "verdict": "HOLD",
+   "runs": 3,
+   "run_verdicts": [
+    "HOLD",
+    "HOLD",
+    "HOLD"
+   ],
+   "b4i_not_measurable": false,
+   "state_changed_runs": [],
+   "state_unknown_runs": [],
+   "token_modes": [
+    "elevated"
+   ],
+   "launcher_nonzero_exit_runs": []
+  }
+ },
+ "n_expected": 3,
+ "below_spec_n": false,
+ "unreadable_under_this_token": [],
+ "variant4_wfp": {
+  "verdict": "FILTERS-PRESENT",
+  "runs": 6,
+  "run_readings": {
+   "A-A1-r1-075819": "FILTERS-PRESENT",
+   "A-A1-r2-075830": "FILTERS-PRESENT",
+   "A-A1-r3-075843": "FILTERS-PRESENT",
+   "B-B1-r1-075853": "FILTERS-PRESENT",
+   "B-B1-r2-075905": "FILTERS-PRESENT",
+   "B-B1-r3-075917": "FILTERS-PRESENT"
+  },
+  "filters_referencing_container_sid": [
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0001}",
+    "name": "Sandbox.{GUID-0002}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0003}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0004}",
+    "name": "Sandbox.{GUID-0002}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0005}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0006}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0007}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0008}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r1-075819",
+    "key": "{GUID-0009}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0010}",
+    "name": "Sandbox.{GUID-0011}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0012}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0013}",
+    "name": "Sandbox.{GUID-0011}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0014}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0015}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0016}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0017}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r2-075830",
+    "key": "{GUID-0018}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0019}",
+    "name": "Sandbox.{GUID-0020}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0021}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0022}",
+    "name": "Sandbox.{GUID-0020}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0023}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0024}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0025}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0026}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "A-A1-r3-075843",
+    "key": "{GUID-0027}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0028}",
+    "name": "Sandbox.{GUID-0029}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0030}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0031}",
+    "name": "Sandbox.{GUID-0029}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0032}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0033}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0034}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0035}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r1-075853",
+    "key": "{GUID-0036}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0037}",
+    "name": "Sandbox.{GUID-0038}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0039}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0040}",
+    "name": "Sandbox.{GUID-0038}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0041}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0042}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0043}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0044}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r2-075905",
+    "key": "{GUID-0045}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0046}",
+    "name": "Sandbox.{GUID-0047}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0048}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0049}",
+    "name": "Sandbox.{GUID-0047}",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0050}",
+    "name": "MXC-Loopback",
+    "layer": "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0051}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0052}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+    "action": "FWP_ACTION_BLOCK"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0053}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_PERMIT"
+   },
+   {
+    "tag": "B-B1-r3-075917",
+    "key": "{GUID-0054}",
+    "name": "Tessera Sandbox Filter",
+    "layer": "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+    "action": "FWP_ACTION_BLOCK"
+   }
+  ],
+  "blind_reasons": [
+   "positive control not found: ['analysis found no filter naming the control SID']"
+  ],
+  "positive_control_ok": false,
+  "not_measured": "filters the netsh dump does not list; any SID the payload did not report; behaviour outside these launches"
+ },
+ "arm_refusals": []
+}

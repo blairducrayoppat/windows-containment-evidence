@@ -604,6 +604,15 @@ def self_test(gate: Gate) -> int:
         ok = (shared_dst / "shared.txt").read_text(encoding="utf-8") == shared
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} the sanitiser leaves the shared profiles as written")
+        glued = "\\\\?\\C:\\" + "Users\\Public.alice\\x and /mnt/c/" + "Users/Default-alice/x"
+        glued_src, glued_dst = Path(tmp) / "glued-src", Path(tmp) / "glued-dst"
+        glued_src.mkdir()
+        (glued_src / "glued.txt").write_text(glued, encoding="utf-8")
+        sanitize.sanitize_tree(glued_src, glued_dst, gate.allowed_guids, names=[host, user])
+        got = (glued_dst / "glued.txt").read_text(encoding="utf-8")
+        ok = got == "~Public.alice\\x and ~Default-alice/x" and not gate.scan_text(got)
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the sanitiser rewrites a profile name glued to a shared one: {got!r}")
     # Classes the gate refuses and the sanitiser leaves to a person: each must hit.
     refuse = {
         "word-glued reference": "see word" + "#" + "4321 there",
@@ -641,7 +650,7 @@ def self_test(gate: Gate) -> int:
         "profile glued to Public behind the prefix": "\\\\?\\C:\\" + "Users\\Public.alice\\x",
         "profile glued to Default behind the prefix": "\\\\?\\C:\\" + "Users\\Default-alice\\x",
         "profile glued to Default": "C:\\" + "Users\\Default.alice\\x",
-        "profile glued to Public under /mnt": "/mnt/c/" + "Users/Public_alice/x",
+        "profile glued to Public under /mnt": "/mnt/c/" + "Users/Public.alice/x",
         "fixture prefix above 1999": "C:\\wsl\\" + "p" + "2345-run1\\leaf",
         "fixture prefix of five digits": "/mnt/c/" + "p" + "23456_x",
         "session token above 1999": "tail " + "S" + "2345-main-abc",

@@ -56,7 +56,7 @@ connect to a blocked port in those runs was refused, so none was there to attrib
 | Virtual machine | Hyper-V Generation 2, fresh Windows 11 Pro from Microsoft's installation image, 26H2, OS build 26300.9457 (`winver.json`), restored from a checkpoint taken before any other software was installed, and restored to it again afterwards |
 | srt-win installed | `srt-win install` (elevated, once), default permit range 60080-60089. Host: filters installed by a binary with sha256 `620ccb98...e6de`, built 2026-10-13 from the upstream tarball at `24eb39e9`. Virtual machine: the proof-of-concept binary below (4 filters, `srt-win-install.json`) |
 | srt-win in the proof of concept | unmodified upstream main `626a59671ee2be556d70a290a8036224be996193` (release v0.0.80), built 2026-10-17 with rustc 1.98.1 and upstream CI's command, sha256 `a7aa8c600cba330c896785e78889fdfada1f3cbbcc242d4c2b224a3e5cd3c66b`, `srt-win 0.0.1` |
-| srt-win in harness runs 4-9 | the `620ccb98...e6de` binary. It is code-identical to the main build: the same size, with 28 bytes different, all in build timestamps and the PDB (program database) GUID. With those zeroed, both hash to `5d7e1822b4a2f3ab2cf1a3ceead877de96ecc34bdcaeaa338043a1fcc02d8946`. `vendor/srt-win-src` has the same tree hash (`e7f889b4`) at `24eb39e9` and `626a5967` |
+| srt-win in harness runs 4-9 | the `620ccb98...e6de` binary (recorded in the `wfp-before.json` and `wfp-after.json` of runs 4-7; no file of runs 8-9 records the binary; that they used the same one is stated, not recorded here). It is code-identical to the main build: the same size, with 28 bytes different, all in build timestamps and the PDB (program database) GUID. With those zeroed, both hash to `5d7e1822b4a2f3ab2cf1a3ceead877de96ecc34bdcaeaa338043a1fcc02d8946`. `vendor/srt-win-src` has the same tree hash (`e7f889b4`) at `24eb39e9` and `626a5967` |
 | Fenced account | `srt-sandbox`, the standard local account created by `srt-win install` |
 | Launch | Proof of concept: a one-shot Scheduled Task with RunLevel Limited, so the caller's token was Medium integrity with Administrators deny-only (`poc-runs/*/console.txt`). Harness runs 4-9: a non-elevated launch, with pre-registered tasks for the harness's elevated helpers. Virtual machine: a Scheduled Task with RunLevel Limited in the interactive desktop session of the virtual machine's own local account, Medium integrity with Administrators deny-only (`whoami-groups.txt`) |
 | Security products | Host: during every proof-of-concept run, Security Center listed Windows Defender, McAfee and Bitdefender Antivirus, plus the Bitdefender and McAfee firewalls; runs 4-9 detected Bitdefender (antivirus, firewall, 9 services). Virtual machine: Windows Defender only (product state 397568, real-time protection on, engine 4.18.25080.5, signatures 1.437.1.0); the firewall and antispyware product lists were empty (`security_center.json`, and `security_products` in each `result.json`) |
@@ -220,7 +220,7 @@ control (U3) ran; runs 8-9 measured it alone.
 
 ### Harness, runs 8-9: WebDAV, for comparison (security suite present)
 
-Same host, same srt-win binary and same launch as runs 4-7. The SMB fixture was not selected, and nothing reached its
+Same host, same srt-win binary (as stated above; not recorded in these runs' files) and same launch as runs 4-7. The SMB fixture was not selected, and nothing reached its
 ports.
 
 | State | What runs | Passes per identity, per run | Outcome in both runs, both identities |
@@ -254,7 +254,7 @@ machines is unexplained by the records.
   capture (both need elevation) was run, so the mechanism above is inferred from the owner (PID 4) and srt-win's design
   comment.
 - **Port 445, a non-loopback address, another machine.** Only 127.0.0.1 with an alternate port was tested. The fence's
-  BLOCK covers every address and its permit is loopback-only; the off-host case is a prediction, not a measurement.
+  BLOCK covers every address and its permit is loopback-only. The off-host case has not been measured.
 - **What a responding SMB server would receive.** The listener never answers. Only the TCP connection and the NEGOTIATE
   were observed. Whether a session setup (with the fenced account's NTLM exchange) or a tree connect carrying a path the
   fenced process chose would follow is unmeasured.
@@ -283,6 +283,7 @@ machines is unexplained by the records.
 | `evidence/owner-attribution-20261017/` | the measurement that validated the TCP-table owner lookup, and its script |
 | `evidence/confirmation-console/` | console output of runs 5-7 and the sequence log |
 | `.sanitized` | replacement counts per file and rule (never an original value) |
+| `SHA256SUMS` | the sha256 of every record and script file, equal to the file index of the pack as reported |
 | `recount.py`, `RECOUNT.md` | the script that re-counts the measured figures of this README from the records (counts, codes, owners, first bytes, script and binary hashes, run times, the virtual machine's build and security products), and its output. Statements about builds, installation, the disclosure and the upstream source come from outside these records and are not re-counted |
 
 **Placeholders**, as in the evidence Anthropic received: `<probe-dir>` (the harness's install folder), `<helper>` (a
@@ -292,8 +293,10 @@ virtual machine), `<folder>` (the folder srt-win was copied to). Account and hos
 
 **One path renamed.** The virtual-machine folder was `poc-runs/v3-vm-suite-absent-26300.9457/` in the evidence
 Anthropic received; here it is `poc-runs/v3-vm-suite-absent/`, so that no four-digit number sits in a path name. The OS
-build is unchanged inside `winver.json` and is stated above. No file's content differs from that evidence; the pack's
-own README and file index are replaced by this README and `RECOUNT.md`.
+build is unchanged inside `winver.json` and is stated above. No file's content differs from that evidence: `SHA256SUMS`
+lists the sha256 of each of the 96 record and script files (check with `sha256sum -c SHA256SUMS` in this folder), and
+every value equals the one in the file index of the pack Anthropic received. The pack's own README and index are not
+included; this README replaces the README.
 
 **Corrections to the pack's README.** Re-counting from the records (`RECOUNT.md` holds the figures) found three
 statements in the README Anthropic received that the records do not support; this README states them as the records do. (1) The sha256

@@ -263,10 +263,13 @@ internal reference. The pack README Anthropic holds names the old path; the buil
 stated in the README. No file content names the folder.
 
 Changes to the tools made for this bundle (a separate commit from the data): the gate's extended-length home-path rule
-refused `\?\C:\Users\Public` (13 occurrences, in the session extracts of harness runs 6 and 7 and the virtual
+refused `\\?\C:\Users\Public` (13 occurrences: 3 in the session extract of each of harness runs 4 to 7, and 1 in the virtual
 machine's install record), although it allows `C:\Users\Public`; and the sanitiser would have rewritten it to
 `~Public`. Both now leave `Users\Public`, `Users\Default` and `Users\All Users` as written, with or without the prefix,
-with a self-test row for each that fails under the old rule. The same old sanitiser rule had rewritten one value in
+with a self-test row for each that fails under the old rule. A shared-profile name now ends only where a profile
+name cannot continue (not at a word boundary), so `Public.alice`, `Default-alice` and the like are refused with or
+without the prefix, which the earlier rule let through without it; self-test rows cover them (separate commits,
+after the cold review). The same old sanitiser rule had rewritten one value in
 `evidence/2026-10-13-nep0005-halfset/srtcli/srtcli-halfset.ps1` (line 77, `'C:\Users\Public'` read `'~Public'`); it is
 restored to the value the script ran with.
 

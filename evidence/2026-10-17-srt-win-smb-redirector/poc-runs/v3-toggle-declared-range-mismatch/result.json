@@ -1,0 +1,83 @@
+﻿{
+    "tool":  "q2_smb_redirector_poc",
+    "version":  3,
+    "script_sha256":  "7045b2c8837418528c64a4ee9f2b24528d2a610a05e04f679c076aad9a01eb26",
+    "started_utc":  "2026-10-17T19:42:17.3232886Z",
+    "launch":  {
+                   "elevated":  false,
+                   "integrity":  "Medium"
+               },
+    "os":  {
+               "product":  "Windows 10 Pro",
+               "edition":  "Professional",
+               "display_version":  "25H2",
+               "build":  26200,
+               "ubr":  9711
+           },
+    "security_products":  {
+                              "antivirus":  [
+                                                "Windows Defender",
+                                                "McAfee",
+                                                "Bitdefender Antivirus"
+                                            ],
+                              "firewall":  [
+                                               "Bitdefender Firewall",
+                                               "McAfee"
+                                           ]
+                          },
+    "srt_win":  {
+                    "file":  "srt-win.exe",
+                    "sha256":  "a7aa8c600cba330c896785e78889fdfada1f3cbbcc242d4c2b224a3e5cd3c66b",
+                    "version":  "srt-win 0.0.1"
+                },
+    "sandbox_account":  {
+                            "name":  "srt-sandbox",
+                            "rid":  "2249",
+                            "machine_local":  true
+                        },
+    "ports":  {
+                  "blocked":  61795,
+                  "permitted":  60088,
+                  "permit_range_assumed":  "60080-60088"
+              },
+    "wfp_verify":  {
+                       "exit":  0,
+                       "text":  "srt-win: runner: egress probe 127.0.0.1:61795: BLOCKED (An attempt was made to access a socket in a way forbidden by its access permissions. (os error 10013)) {\"egress_probe\":\"blocked\",\"runner_exit\":0,\"target\":\"127.0.0.1:61795\"}"
+                   },
+    "permit_range_check":  [
+                               {
+                                   "port":  60079,
+                                   "expected":  "blocked",
+                                   "egress_probe":  "blocked",
+                                   "exit":  0,
+                                   "listener_records":  0
+                               },
+                               {
+                                   "port":  60080,
+                                   "expected":  "connected",
+                                   "egress_probe":  "connected",
+                                   "exit":  3,
+                                   "listener_records":  1
+                               },
+                               {
+                                   "port":  60088,
+                                   "expected":  "connected",
+                                   "egress_probe":  "connected",
+                                   "exit":  3,
+                                   "listener_records":  1
+                               },
+                               {
+                                   "port":  60089,
+                                   "expected":  "blocked",
+                                   "egress_probe":  "connected",
+                                   "exit":  3,
+                                   "listener_records":  1
+                               }
+                           ],
+    "run_status":  "INCOMPLETE",
+    "result":  "NONE",
+    "problems":  [
+                     "declared permit 60080-60088 does not match the installed fence: wfp verify at port 60089 read \u0027connected\u0027, expected \u0027blocked\u0027 (pass the range given to \u0027srt-win install\u0027)"
+                 ],
+    "finished_utc":  "2026-10-17T19:42:23.1541855Z"
+}

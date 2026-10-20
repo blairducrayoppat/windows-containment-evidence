@@ -1,0 +1,54 @@
+﻿{
+    "tool":  "q2_smb_redirector_poc",
+    "version":  2,
+    "script_sha256":  "de77515c647a2835ed46a34ce2380a13b0e731bb34c26aaed9cf6e3d801cba04",
+    "started_utc":  "2026-10-17T19:30:08.0643862Z",
+    "launch":  {
+                   "elevated":  false,
+                   "integrity":  "Medium"
+               },
+    "os":  {
+               "product":  "Windows 10 Pro",
+               "edition":  "Professional",
+               "display_version":  "25H2",
+               "build":  26200,
+               "ubr":  9711
+           },
+    "security_products":  {
+                              "antivirus":  [
+                                                "Windows Defender",
+                                                "McAfee",
+                                                "Bitdefender Antivirus"
+                                            ],
+                              "firewall":  [
+                                               "Bitdefender Firewall",
+                                               "McAfee"
+                                           ]
+                          },
+    "srt_win":  {
+                    "file":  "srt-win.exe",
+                    "sha256":  "a7aa8c600cba330c896785e78889fdfada1f3cbbcc242d4c2b224a3e5cd3c66b",
+                    "version":  "srt-win 0.0.1"
+                },
+    "sandbox_account":  {
+                            "name":  "srt-sandbox",
+                            "rid":  "2249",
+                            "machine_local":  true
+                        },
+    "ports":  {
+                  "blocked":  60089,
+                  "permitted":  60084,
+                  "permit_range_assumed":  "60080-60085"
+              },
+    "wfp_verify":  {
+                       "exit":  3,
+                       "text":  "srt-win: runner: egress probe 127.0.0.1:60089: CONNECTED ΓÇö WFP block-user filter is NOT in effect {\"egress_probe\":\"connected\",\"runner_exit\":3,\"target\":\"127.0.0.1:60089\"}"
+                   },
+    "run_status":  "INCOMPLETE",
+    "result":  "NONE",
+    "problems":  [
+                     "srt-win wfp verify did not report the fence in force (exit 3): srt-win: runner: egress probe 127.0.0.1:60089: CONNECTED ΓÇö WFP block-user filter is NOT in effect {\"egress_probe\":\"connected\",\"runner_exit\":3,\"target\":\"127.0.0.1:60089\"}",
+                     "srt-win wfp verify reached the blocked port: the fence is not in force"
+                 ],
+    "finished_utc":  "2026-10-17T19:30:10.5331442Z"
+}

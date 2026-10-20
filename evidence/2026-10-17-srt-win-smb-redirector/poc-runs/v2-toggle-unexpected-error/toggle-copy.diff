@@ -1,0 +1,10 @@
+--- a/q2_smb_redirector_poc.ps1	version 2 as run (sha256 de77515c647a2835ed46a34ce2380a13b0e731bb34c26aaed9cf6e3d801cba04)
++++ b/q2_smb_redirector_poc.ps1	toggle copy as run (sha256 f971b400193b9689a83b89d63d0dfefb63096e7ca48b42dd970b07a8315c8ffd)
+@@ -269,6 +269,7 @@
+     $pr = [ordered]@{ pass = $i; problems = @() }
+     $c1 = Run-Phase "p$i-C1" (ConnectPayload $BlockedPort)
+     $c2 = Run-Phase "p$i-C2" (ConnectPayload $PermittedPort)
++    throw 'injected error for the fail-loud check'
+     $open = @(Get-NetTCPConnection -RemoteAddress 127.0.0.1 -RemotePort $BlockedPort -ErrorAction SilentlyContinue | Where-Object { $_.OwningProcess -ne 0 })
+     $pr.open_client_sockets_to_blocked_port_before_T = $open.Count
+     $t = Run-Phase "p$i-T" (SmbPayload $BlockedPort)

@@ -1,0 +1,7 @@
+Mandatory Label\Medium Mandatory Level
+BUILTIN\Administrators: Group used for deny only
+pass 1 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 -> REPRODUCED
+pass 2 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 -> REPRODUCED
+pass 3 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 -> REPRODUCED
+T delivered 9 connection(s) to blocked port 61795 over 3 pass(es); 9 of 9 client sockets owned by pid 4 System
+run_status=COMPLETE result=REPRODUCED exit=10

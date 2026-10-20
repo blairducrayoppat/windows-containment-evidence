@@ -1,0 +1,4 @@
+Mandatory Label\Medium Mandatory Level
+BUILTIN\Administrators: Group used for deny only
+PROBLEM: unexpected error at line 272: injected error for the fail-loud check
+run_status=INCOMPLETE result=NONE exit=3

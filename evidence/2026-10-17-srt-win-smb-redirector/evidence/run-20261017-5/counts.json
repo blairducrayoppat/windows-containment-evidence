@@ -1,0 +1,700 @@
+{
+ "U0": {
+  "listener_by_pass": {
+   "u0-p1": 0,
+   "u0-p2": 0,
+   "u0-p3": 0,
+   "u0-p4": 0,
+   "u0-p5": 0,
+   "u0-p6": 0
+  },
+  "connections_by_pass": {
+   "u0-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u0-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u0-p3": {
+    "new": [],
+    "reused": []
+   },
+   "u0-p4": {
+    "new": [],
+    "reused": []
+   },
+   "u0-p5": {
+    "new": [],
+    "reused": []
+   },
+   "u0-p6": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": null
+ },
+ "U0t": {
+  "listener_by_pass": {
+   "u0t-p1": 0,
+   "u0t-p2": 0,
+   "u0t-p3": 0,
+   "u0t-p4": 0,
+   "u0t-p5": 0,
+   "u0t-p6": 0
+  },
+  "connections_by_pass": {
+   "u0t-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u0t-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u0t-p3": {
+    "new": [],
+    "reused": []
+   },
+   "u0t-p4": {
+    "new": [],
+    "reused": []
+   },
+   "u0t-p5": {
+    "new": [],
+    "reused": []
+   },
+   "u0t-p6": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": null
+ },
+ "U2a": {
+  "listener_by_pass": {
+   "u2a-p1": 0,
+   "u2a-p2": 0,
+   "u2a-p3": 0
+  },
+  "connections_by_pass": {
+   "u2a-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u2a-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u2a-p3": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2at": {
+  "listener_by_pass": {
+   "u2at-p1": 0,
+   "u2at-p2": 0,
+   "u2at-p3": 0
+  },
+  "connections_by_pass": {
+   "u2at-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u2at-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u2at-p3": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2b": {
+  "listener_by_pass": {
+   "u2b-p1": 0,
+   "u2b-p2": 0,
+   "u2b-p3": 0
+  },
+  "connections_by_pass": {
+   "u2b-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u2b-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u2b-p3": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2bt": {
+  "listener_by_pass": {
+   "u2bt-p1": 0,
+   "u2bt-p2": 0,
+   "u2bt-p3": 0
+  },
+  "connections_by_pass": {
+   "u2bt-p1": {
+    "new": [],
+    "reused": []
+   },
+   "u2bt-p2": {
+    "new": [],
+    "reused": []
+   },
+   "u2bt-p3": {
+    "new": [],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2p": {
+  "listener_by_pass": {
+   "u2p-p1": 7,
+   "u2p-p2": 2,
+   "u2p-p3": 2
+  },
+  "connections_by_pass": {
+   "u2p-p1": {
+    "new": [
+     {
+      "conn": 1,
+      "src_port": "49605",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     },
+     {
+      "conn": 2,
+      "src_port": "49606",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     },
+     {
+      "conn": 3,
+      "src_port": "49607",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u2p-p2": {
+    "new": [
+     {
+      "conn": 4,
+      "src_port": "49608",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u2p-p3": {
+    "new": [
+     {
+      "conn": 5,
+      "src_port": "55048",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2pt": {
+  "listener_by_pass": {
+   "u2pt-p1": 4,
+   "u2pt-p2": 2,
+   "u2pt-p3": 2
+  },
+  "connections_by_pass": {
+   "u2pt-p1": {
+    "new": [
+     {
+      "conn": 6,
+      "src_port": "55062",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     },
+     {
+      "conn": 7,
+      "src_port": "55063",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u2pt-p2": {
+    "new": [
+     {
+      "conn": 8,
+      "src_port": "55066",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u2pt-p3": {
+    "new": [
+     {
+      "conn": 9,
+      "src_port": "55068",
+      "owner": {
+       "found": true,
+       "pid": 13308,
+       "process": "unreadable (OpenProcess error 5)"
+      }
+     }
+    ],
+    "reused": []
+   }
+  },
+  "smb_clear_before": null,
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U1p": {
+  "listener_by_pass": {
+   "u1p-p1": 4,
+   "u1p-p2": 6,
+   "u1p-p3": 4
+  },
+  "connections_by_pass": {
+   "u1p-p1": {
+    "new": [
+     {
+      "conn": 10,
+      "src_port": "55080",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 11,
+      "src_port": "55081",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1p-p2": {
+    "new": [
+     {
+      "conn": 12,
+      "src_port": "55087",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 13,
+      "src_port": "55088",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 14,
+      "src_port": "55089",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1p-p3": {
+    "new": [
+     {
+      "conn": 15,
+      "src_port": "55092",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 16,
+      "src_port": "55093",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   }
+  },
+  "smb_clear_before": {
+   "clean": true,
+   "problems": [],
+   "delete_exit": 2,
+   "listing": {
+    "exit": 0,
+    "text": "New connections will not be remembered.\n\nThere are no entries in the list.\n\n"
+   },
+   "smb_connections": "unreadable: Access is denied.",
+   "tcp_rows_to_fixture": []
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "U1pt": {
+  "listener_by_pass": {
+   "u1pt-p1": 6,
+   "u1pt-p2": 4,
+   "u1pt-p3": 4
+  },
+  "connections_by_pass": {
+   "u1pt-p1": {
+    "new": [
+     {
+      "conn": 17,
+      "src_port": "62779",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 18,
+      "src_port": "62781",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 19,
+      "src_port": "62783",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1pt-p2": {
+    "new": [
+     {
+      "conn": 20,
+      "src_port": "62787",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 21,
+      "src_port": "62789",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1pt-p3": {
+    "new": [
+     {
+      "conn": 22,
+      "src_port": "62798",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 23,
+      "src_port": "62804",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   }
+  },
+  "smb_clear_before": {
+   "clean": true,
+   "problems": [],
+   "delete_exit": 2,
+   "listing": {
+    "exit": 0,
+    "text": "New connections will not be remembered.\n\nThere are no entries in the list.\n\n"
+   },
+   "smb_connections": "unreadable: Access is denied.",
+   "tcp_rows_to_fixture": []
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "U1": {
+  "listener_by_pass": {
+   "u1-p1": 6,
+   "u1-p2": 4,
+   "u1-p3": 4
+  },
+  "connections_by_pass": {
+   "u1-p1": {
+    "new": [
+     {
+      "conn": 24,
+      "src_port": "62866",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 25,
+      "src_port": "62874",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 26,
+      "src_port": "62878",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1-p2": {
+    "new": [
+     {
+      "conn": 27,
+      "src_port": "62880",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 28,
+      "src_port": "62882",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   },
+   "u1-p3": {
+    "new": [
+     {
+      "conn": 29,
+      "src_port": "58256",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     },
+     {
+      "conn": 30,
+      "src_port": "58259",
+      "owner": {
+       "found": true,
+       "pid": 4,
+       "process": "System"
+      }
+     }
+    ],
+    "reused": []
+   }
+  },
+  "smb_clear_before": {
+   "clean": true,
+   "problems": [],
+   "delete_exit": 2,
+   "listing": {
+    "exit": 0,
+    "text": "New connections will not be remembered.\n\nThere are no entries in the list.\n\n"
+   },
+   "smb_connections": "unreadable: Access is denied.",
+   "tcp_rows_to_fixture": []
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "broker_condition": "broker (recorded condition): while its tasks exist, a process of the operator's account can start any of the 8 fixed, hash-checked helpers with their fixed arguments inside the sealed window, with no prompt; it cannot change which files run or their arguments; the launcher drops the inherited environment (variables whose names begin with a semicolon excepted: cmd treats it as a comment character; nothing reads them) and starts no cmd.exe without /d; per-user registry hooks outside cmd and PowerShell start-up (console host settings, class registrations, .NET settings) are not closed and were not tested"
+}

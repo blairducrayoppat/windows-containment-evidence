@@ -1,0 +1,2 @@
+PROBLEM: run this NON-elevated (Medium integrity); this token is elevated=True integrity=High
+run_status=INCOMPLETE result=NONE exit=3

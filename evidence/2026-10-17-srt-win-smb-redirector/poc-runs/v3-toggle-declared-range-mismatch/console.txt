@@ -1,4 +1,0 @@
-Mandatory Label\Medium Mandatory Level
-BUILTIN\Administrators: Group used for deny only
-PROBLEM: declared permit 60080-60088 does not match the installed fence: wfp verify at port 60089 read 'connected', expected 'blocked' (pass the range given to 'srt-win install')
-run_status=INCOMPLETE result=NONE exit=3

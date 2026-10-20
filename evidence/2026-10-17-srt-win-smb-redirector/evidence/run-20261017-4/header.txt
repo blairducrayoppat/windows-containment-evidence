@@ -1,5 +1,0 @@
-BATCH run-20261017-4 condition=suite-present suite_detected=True (av:Bitdefender Antivirus, fw:Bitdefender Firewall, service:BDAppSrv:Running, service:BDAuxSrv:Running)
-Bitdefender exclusions: not readable; operator-attested: none stated
-Windows Defender exclusions: not readable
-broker (recorded condition): while its tasks exist, a process of the operator's account can start any of the 8 fixed, hash-checked helpers with their fixed arguments inside the sealed window, with no prompt; it cannot change which files run or their arguments; the launcher drops the inherited environment (variables whose names begin with a semicolon excepted: cmd treats it as a comment character; nothing reads them) and starts no cmd.exe without /d; per-user registry hooks outside cmd and PowerShell start-up (console host settings, class registrations, .NET settings) are not closed and were not tested
-fixture addresses: fx-a=127.0.0.1 (SMB; loopback aliases never used), fx-b=127.0.0.2 (HTTP/WebDAV)

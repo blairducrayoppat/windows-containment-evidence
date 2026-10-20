@@ -1,8 +1,0 @@
-Mandatory Label\Medium Mandatory Level
-BUILTIN\Administrators: Group used for deny only
-pass 1 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 foreign_smb_during_T=ports 61900 -> REPRODUCED
-pass 2 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 foreign_smb_during_T=ports 61900 -> REPRODUCED
-pass 3 : C1=refused/10013 C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=refused/10013 foreign_smb_during_T=none -> REPRODUCED
-NOTE: other connections owned by pid 4 with remote address 127.0.0.1 (not the blocked port) were open around T in pass(es) 1,2; a pass with System error 67 or fewer connections may be explained by them
-T delivered 9 connection(s) to blocked port 61795 over 3 pass(es); 9 of 9 client sockets owned by pid 4 System
-run_status=COMPLETE result=REPRODUCED exit=10

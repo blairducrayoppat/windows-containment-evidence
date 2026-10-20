@@ -248,38 +248,3 @@ and 99 for `run-20261016-2`, 0 differences in both (the output is `RECOUNT.md`).
 B4 and unconfined-control counts, state-change and verdict counts, launch wall times, container-token fields and launcher-log lines, and for
 the second folder the filter counts before, during and after (1008, 1016, 1008, read by parsing each dump), the eight new filters per launch
 by name, action and package SID, before-and-after key-set equality, and the capture and positive-control fields.
-
-## srt-win SMB redirector (2026-10-17)
-
-`evidence/2026-10-17-srt-win-smb-redirector/` is the evidence pack reported privately to Anthropic on 2026-10-18 (its
-`poc/`, `poc-runs/` and `evidence/` folders, 96 files), after `tools/sanitize.py` in one invocation. The pack had
-already been sanitised by hand when it was assembled (the placeholders the README lists); the sanitiser made 0
-replacements (`.sanitized`), and every file is byte-identical to the pack's. The pack's own `README.md` and
-`PACK-INDEX.md` (sha256 and size of every file) are not here; the folder's README is new and states the same figures.
-
-One path renamed: the pack's `poc-runs/v3-vm-suite-absent-26300.9457/` is `poc-runs/v3-vm-suite-absent/` here, so that
-the Windows build number (26300.9457) does not sit in a path name, where the leak gate reads a four-digit number as an
-internal reference. The pack README Anthropic holds names the old path; the build is unchanged inside `winver.json` and
-stated in the README. No file content names the folder.
-
-Changes to the tools made for this bundle (a separate commit from the data): the gate's extended-length home-path rule
-refused `\\?\C:\Users\Public` (13 occurrences: 3 in the session extract of each of harness runs 4 to 7, and 1 in the virtual
-machine's install record), although it allows `C:\Users\Public`; and the sanitiser would have rewritten it to
-`~Public`. Both now leave `Users\Public`, `Users\Default` and `Users\All Users` as written, with or without the prefix,
-with a self-test row for each that fails under the old rule. A shared-profile name now ends only where a profile
-name cannot continue (not at a word boundary), so `Public.alice`, `Default-alice` and the like are refused with or
-without the prefix, which the earlier rule let through without it; self-test rows cover them (separate commits,
-after the cold review). The same old sanitiser rule had rewritten one value in
-`evidence/2026-10-13-nep0005-halfset/srtcli/srtcli-halfset.ps1` (line 77, `'C:\Users\Public'` read `'~Public'`); it is
-restored to the value the script ran with.
-
-Not included: the Windows SMB client log of the host (read elevated for one note in the README).
-
-The standing public-identifier scrub of the private project was run over the folder (`--dir --check`): 0 files
-rewritten, 0 findings. A byte comparison of every file against the pack (`diff -rq`, the renamed folder paired with
-its old name) found no difference.
-
-Re-count: `recount.py` (kept in the bundle) recomputed the measured figures from the records over the pack folder and
-over this folder and compared them: 1153 figures each, 0 differences (the output is `RECOUNT.md`). It also found two
-statements in the pack's README that the records contradict, and reading the records for those found a third; the
-folder README states all three as the records do and lists them under "Corrections to the pack's README".

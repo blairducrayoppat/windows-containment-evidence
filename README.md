@@ -13,7 +13,6 @@ NEP-0005 discussion, Anthropic's sandbox-runtime, Microsoft's MXC) can cite and 
 | `evidence/2026-10-05-wfp-sid-block/` | A raw Windows Filtering Platform (WFP) block keyed to one account's SID under a third-party security product; account-level file access; a confined account serving a local model; persistent filter sets across a restart. The claims table (rows C1 to C26) for this folder and the next one is `account-level-containment-evidence.md` |
 | `evidence/2026-10-13-nep0005-halfset/` | Half-installed WFP filter sets ("half-sets") and how sandbox-runtime's Windows helper (`srt-win`) reports them; candidate fixes as patches |
 | `evidence/2026-10-14-nono-9p-control/` | Whether nono's Landlock sandbox on the WSL 9P mount lets a process do what its own command line does not grant (360 runs) |
-| `evidence/2026-10-17-srt-win-smb-redirector/` | Whether a process in srt-win's user-SID-keyed WFP fence can have the Windows SMB redirector connect to a loopback port the fence blocks for it; a proof of concept, a clean virtual machine and a larger harness, with WebDAV for comparison. Reported to Anthropic first |
 | `tools/probes/` | Probe scripts that are not already beside their evidence, with a header for each |
 | `tools/sanitize.py` | Copies raw results to a new folder with machine, person and internal-tracker identifiers replaced |
 | `tools/leak_gate.py` | Refuses any file or commit message that still carries one; `tools/allowed_guids.txt` lists the GUIDs it allows and why |

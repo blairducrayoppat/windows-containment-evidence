@@ -1,6 +1,0 @@
-
-Status Signer
------- ------
- Valid CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
-
-14.50.35719.0

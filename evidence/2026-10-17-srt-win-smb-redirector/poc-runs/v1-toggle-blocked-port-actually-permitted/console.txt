@@ -1,5 +1,0 @@
-Mandatory Label\Medium Mandatory Level
-BUILTIN\Administrators: Group used for deny only
-PROBLEM: srt-win wfp verify did not report the fence in force (exit 3): srt-win: runner: egress probe 127.0.0.1:60089: CONNECTED — WFP block-user filter is NOT in effect {"egress_probe":"connected","runner_exit":3,"target":"127.0.0.1:60089"}
-PROBLEM: srt-win wfp verify reached the blocked port: the fence is not in force
-run_status=INCOMPLETE result=NONE exit=3

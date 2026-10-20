@@ -1,4 +1,0 @@
-Mandatory Label\Medium Mandatory Level
-BUILTIN\Administrators: Group used for deny only
-PROBLEM: srt-win wfp verify did not report the fence in force (exit 1): srt-win: error: spawn runner for egress probe: CreateProcessWithLogonW(srt-sandbox): Access is denied. (0x80070005) — ensure the Secondary Logon service (seclogon) is running.
-run_status=INCOMPLETE result=NONE exit=3

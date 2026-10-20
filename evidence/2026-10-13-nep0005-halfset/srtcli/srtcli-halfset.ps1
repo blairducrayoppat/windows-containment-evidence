@@ -74,7 +74,7 @@ $script:TsTree = @{
 }
 $script:TsTreeSha = @{ stock = '3B5068E8F9254CC44BC101D0149EEB87AA5119A9EE09207894274724081EB6A9'; patched = 'CD032280C66744F3E504599D099C0C26BEBACCF4D74621C7ACD8E6D3E48674B8' }   # Get-TreeSha of each deployed tree
 $script:RunVerifySha = '83F4BB72D86D3AB7615B49C7F5A8F7BE4900D208CFB2EDAF563A3464D180A4AA'
-$script:AmbientTargets = @('C:\ProgramData', '~Public', 'C:\Windows\Temp', 'C:\Windows\Tasks', 'C:\Windows\tracing', 'C:\Windows\Registration\CRMLog',
+$script:AmbientTargets = @('C:\ProgramData', 'C:\Users\Public','C:\Windows\Temp', 'C:\Windows\Tasks', 'C:\Windows\tracing', 'C:\Windows\Registration\CRMLog',
     'C:\Windows\System32\FxsTmp', 'C:\Windows\System32\com\dmp', 'C:\Windows\System32\spool\PRINTERS', 'C:\Windows\System32\spool\drivers\color',
     'C:\Windows\SysWOW64\FxsTmp', 'C:\Windows\SysWOW64\com\dmp', 'C:\Windows\SysWOW64\Tasks')
 $script:StoreDir = 'C:\ProgramData\sandbox-runtime'

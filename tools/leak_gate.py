@@ -49,7 +49,7 @@ What it refuses:
                and a CSV header column named for a volume serial (pattern: VOLUME_SERIAL_RE).
   home-path    <drive>:\\Users\\<name> (any number of backslashes, or slashes), /mnt/<drive>/Users/<name>, the
                profile environment variable (HOME_ENV below), and the extended-length prefix in front of a home path.
-               Users\\Public and Users\\Default are allowed.
+               Users\\Public and Users\\Default are allowed, with or without the extended-length prefix.
   guid         any GUID (8-4-4-4-12 hex, braces optional) not listed in tools/allowed_guids.txt.
   tracker      an internal tracker reference: #NNN to #NNNNN unless it follows one of the public repositories in
                UPSTREAM_REPOS (owner/repo#N, not nested under another path segment), a comment pointer (c.NNNN,
@@ -187,7 +187,7 @@ HOME_RE = re.compile(
     r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)\b)[A-Za-z0-9_.$-]"
     r"|/mnt/[A-Za-z]/Users/(?!(?:Public|Default)\b)[A-Za-z0-9_.$-]"
     r"|" + HOME_ENV +
-    r"|\\\\+\?\\+[A-Za-z]:\\+Users",
+    r"|\\\\+\?\\+[A-Za-z]:\\+Users(?!\\+(?:Public|Default|All Users)\b)",
     re.IGNORECASE,
 )
 GUID_RE = re.compile(
@@ -591,6 +591,19 @@ def self_test(gate: Gate) -> int:
         ok = not gate.scan_bytes(passing.encode(), "v6-ok")
         failures += not ok
         print(f"{'PASS' if ok else 'FAIL'} prefixes, masks, well-known and documentation addresses and clock times pass")
+        shared = ("\"\\\\\\\\?\\\\C:\\\\" + "Users\\\\Public\" and \\\\?\\C:\\" + "Users\\Default\\x and "
+                  "\\\\?\\C:\\" + "Users\\All Users\\x")
+        own = "\\\\?\\C:\\" + "Users\\" + user + "\\x"
+        ok = not gate.scan_bytes(shared.encode(), "shared-profile") and bool(gate.scan_bytes(own.encode(), "own-profile"))
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the extended-length prefix passes before Users\\Public, Default and All Users "
+              f"and is refused before a named profile: {shared!r}")
+        shared_dst = Path(tmp) / "shared-dst"
+        (up_src / "shared.txt").write_text(shared, encoding="utf-8")
+        sanitize.sanitize_tree(up_src, shared_dst, gate.allowed_guids, names=[host, user])
+        ok = (shared_dst / "shared.txt").read_text(encoding="utf-8") == shared
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} the sanitiser leaves the shared profiles as written")
     # Classes the gate refuses and the sanitiser leaves to a person: each must hit.
     refuse = {
         "word-glued reference": "see word" + "#" + "4321 there",

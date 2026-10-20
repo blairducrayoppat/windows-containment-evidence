@@ -1,0 +1,221 @@
+﻿{
+    "tool":  "q2_smb_redirector_poc",
+    "version":  1,
+    "started_utc":  "2026-10-17T19:07:30.9274352Z",
+    "launch":  {
+                   "elevated":  false,
+                   "integrity":  "Medium"
+               },
+    "os":  {
+               "product":  "Windows 10 Pro",
+               "edition":  "Professional",
+               "display_version":  "25H2",
+               "build":  26200,
+               "ubr":  9711
+           },
+    "security_products":  {
+                              "antivirus":  [
+                                                "Windows Defender",
+                                                "McAfee",
+                                                "Bitdefender Antivirus"
+                                            ],
+                              "firewall":  [
+                                               "Bitdefender Firewall",
+                                               "McAfee"
+                                           ]
+                          },
+    "srt_win":  {
+                    "file":  "srt-win.exe",
+                    "sha256":  "a7aa8c600cba330c896785e78889fdfada1f3cbbcc242d4c2b224a3e5cd3c66b",
+                    "version":  "srt-win 0.0.1"
+                },
+    "sandbox_account":  {
+                            "name":  "srt-sandbox",
+                            "rid":  "2249",
+                            "machine_local":  true
+                        },
+    "ports":  {
+                  "blocked":  61795,
+                  "permitted":  60088,
+                  "permit_range_assumed":  "60080-60089"
+              },
+    "wfp_verify":  {
+                       "exit":  0,
+                       "text":  "srt-win: runner: egress probe 127.0.0.1:61795: BLOCKED (An attempt was made to access a socket in a way forbidden by its access permissions. (os error 10013)) {\"egress_probe\":\"blocked\",\"runner_exit\":0,\"target\":\"127.0.0.1:61795\"}"
+                   },
+    "passes":  [
+                   {
+                       "pass":  1,
+                       "problems":  [
+
+                                    ],
+                       "open_client_sockets_to_blocked_port_before_T":  0,
+                       "C1":  {
+                                  "ran":  true,
+                                  "srt_exit":  0,
+                                  "seconds":  0.99,
+                                  "identity_ok":  true,
+                                  "user":  "srt-sandbox",
+                                  "pid":  18332,
+                                  "result":  "refused",
+                                  "winerror":  10013
+                              },
+                       "C1_listener_records":  0,
+                       "C2":  {
+                                  "ran":  true,
+                                  "srt_exit":  0,
+                                  "seconds":  2.43,
+                                  "identity_ok":  true,
+                                  "user":  "srt-sandbox",
+                                  "pid":  8660,
+                                  "result":  "connected",
+                                  "local_port":  62530
+                              },
+                       "C2_listener_records":  1,
+                       "T":  {
+                                 "ran":  true,
+                                 "srt_exit":  0,
+                                 "seconds":  1.78,
+                                 "identity_ok":  true,
+                                 "user":  "srt-sandbox",
+                                 "pid":  18996,
+                                 "result":  "failed",
+                                 "exit":  2,
+                                 "win32":  64,
+                                 "text":  "System error 64 has occurred. System.Management.Automation.RemoteException The specified network name is no longer available. System.Management.Automation.RemoteException"
+                             },
+                       "T_listener_records":  [
+                                                  {
+                                                      "ts":  "2026-10-17T19:07:44.2293797Z",
+                                                      "phase":  "p1-T",
+                                                      "lport":  61795,
+                                                      "peer_port":  62547,
+                                                      "owner":  {
+                                                                    "found":  true,
+                                                                    "pid":  4,
+                                                                    "process":  "System"
+                                                                },
+                                                      "nbytes":  73,
+                                                      "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                                      "smb":  true
+                                                  },
+                                                  {
+                                                      "ts":  "2026-10-17T19:07:44.5145243Z",
+                                                      "phase":  "p1-T",
+                                                      "lport":  61795,
+                                                      "peer_port":  62548,
+                                                      "owner":  {
+                                                                    "found":  true,
+                                                                    "pid":  4,
+                                                                    "process":  "System"
+                                                                },
+                                                      "nbytes":  73,
+                                                      "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                                      "smb":  true
+                                                  },
+                                                  {
+                                                      "ts":  "2026-10-17T19:07:44.7845474Z",
+                                                      "phase":  "p1-T",
+                                                      "lport":  61795,
+                                                      "peer_port":  62549,
+                                                      "owner":  {
+                                                                    "found":  true,
+                                                                    "pid":  4,
+                                                                    "process":  "System"
+                                                                },
+                                                      "nbytes":  73,
+                                                      "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                                      "smb":  true
+                                                  }
+                                              ],
+                       "C3":  {
+                                  "ran":  true,
+                                  "srt_exit":  0,
+                                  "seconds":  0.94,
+                                  "identity_ok":  true,
+                                  "user":  "srt-sandbox",
+                                  "pid":  21932,
+                                  "result":  "refused",
+                                  "winerror":  10013
+                              },
+                       "C3_listener_records":  0,
+                       "T_owners":  [
+                                        "pid 4 System",
+                                        "pid 4 System",
+                                        "pid 4 System"
+                                    ],
+                       "T_new_connections":  3,
+                       "T_smb_headers":  3,
+                       "T_all_owned_by_pid4":  true,
+                       "outcome":  "REPRODUCED"
+                   }
+               ],
+    "unphased_records_on_blocked_port":  [
+
+                                         ],
+    "all_listener_records":  [
+                                 {
+                                     "ts":  "2026-10-17T19:07:38.1758810Z",
+                                     "phase":  "p1-C2",
+                                     "lport":  60088,
+                                     "peer_port":  62530,
+                                     "owner":  {
+                                                   "found":  true,
+                                                   "pid":  8660,
+                                                   "process":  "powershell"
+                                               },
+                                     "nbytes":  0,
+                                     "head":  "",
+                                     "smb":  false
+                                 },
+                                 {
+                                     "ts":  "2026-10-17T19:07:44.2293797Z",
+                                     "phase":  "p1-T",
+                                     "lport":  61795,
+                                     "peer_port":  62547,
+                                     "owner":  {
+                                                   "found":  true,
+                                                   "pid":  4,
+                                                   "process":  "System"
+                                               },
+                                     "nbytes":  73,
+                                     "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                     "smb":  true
+                                 },
+                                 {
+                                     "ts":  "2026-10-17T19:07:44.5145243Z",
+                                     "phase":  "p1-T",
+                                     "lport":  61795,
+                                     "peer_port":  62548,
+                                     "owner":  {
+                                                   "found":  true,
+                                                   "pid":  4,
+                                                   "process":  "System"
+                                               },
+                                     "nbytes":  73,
+                                     "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                     "smb":  true
+                                 },
+                                 {
+                                     "ts":  "2026-10-17T19:07:44.7845474Z",
+                                     "phase":  "p1-T",
+                                     "lport":  61795,
+                                     "peer_port":  62549,
+                                     "owner":  {
+                                                   "found":  true,
+                                                   "pid":  4,
+                                                   "process":  "System"
+                                               },
+                                     "nbytes":  73,
+                                     "head":  "00000045ff534d4272000000001853c8000000000000000000000000fffffffe",
+                                     "smb":  true
+                                 }
+                             ],
+    "summary":  "T delivered 3 connection(s) to blocked port 61795 over 1 pass(es); 3 of 3 client sockets owned by pid 4 System",
+    "run_status":  "COMPLETE",
+    "result":  "REPRODUCED",
+    "problems":  [
+
+                 ],
+    "finished_utc":  "2026-10-17T19:07:52.2876459Z"
+}

@@ -1,0 +1,24 @@
+# whoami /groups trimmed to the integrity and Administrators lines for privacy
+Mandatory Label\Medium Mandatory Level
+BUILTIN\Administrators: Group used for deny only
+HASH GATE OK
+BATCH run-20261017-7 condition=suite-present suite_detected=True (av:Bitdefender Antivirus, fw:Bitdefender Firewall, service:BDAppSrv:Running, service:BDAuxSrv:Running)
+Bitdefender exclusions: not readable; operator-attested: none stated
+Windows Defender exclusions: not readable
+broker (recorded condition): while its tasks exist, a process of the operator's account can start any of the 8 fixed, hash-checked helpers with their fixed arguments inside the sealed window, with no prompt; it cannot change which files run or their arguments; the launcher drops the inherited environment (variables whose names begin with a semicolon excepted: cmd treats it as a comment character; nothing reads them) and starts no cmd.exe without /d; per-user registry hooks outside cmd and PowerShell start-up (console host settings, class registrations, .NET settings) are not closed and were not tested
+fixture addresses: fx-a=127.0.0.1 (SMB; loopback aliases never used), fx-b=127.0.0.2 (HTTP/WebDAV)
+state U0 done
+state U0t done
+state U2a done
+state U2at done
+state U2b done
+state U2bt done
+state U2p done
+state U2pt done
+state U1p done
+state U1pt done
+state U1 done
+STOP: FAIL condition met
+VERDICT (suite-present): FAIL
+  fx-a: FAIL (U1 u1-p1: 6 smb record(s) on blocked port 61781 (client socket owners: pid 4 System x3; new TCP connections: 3 (source ports 59007, 59012, 59017); reused: none); U1 u1-p2: 4 smb record(s) on blocked port 61781 (client socket owners: pid 4 System x2; new TCP connections: 2 (source ports 59026, 59030); reused: none); U1 u1-p3: 4 smb record(s) on blocked port 61781 (client socket owners: pid 4 System x2; new TCP connections: 2 (source ports 59039, 59040); reused: none))
+  fx-b: BLIND (U3b: the unfenced control did not run; U3tb: the unfenced control did not run)

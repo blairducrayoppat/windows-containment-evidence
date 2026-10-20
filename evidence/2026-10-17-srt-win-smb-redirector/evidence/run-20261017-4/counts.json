@@ -1,0 +1,196 @@
+{
+ "U0": {
+  "listener_by_pass": {
+   "u0-p1": 0,
+   "u0-p2": 0,
+   "u0-p3": 0,
+   "u0-p4": 0,
+   "u0-p5": 0,
+   "u0-p6": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": null
+ },
+ "U0t": {
+  "listener_by_pass": {
+   "u0t-p1": 0,
+   "u0t-p2": 0,
+   "u0t-p3": 0,
+   "u0t-p4": 0,
+   "u0t-p5": 0,
+   "u0t-p6": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": null
+ },
+ "U2a": {
+  "listener_by_pass": {
+   "u2a-p1": 0,
+   "u2a-p2": 0,
+   "u2a-p3": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2at": {
+  "listener_by_pass": {
+   "u2at-p1": 0,
+   "u2at-p2": 0,
+   "u2at-p3": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2b": {
+  "listener_by_pass": {
+   "u2b-p1": 0,
+   "u2b-p2": 0,
+   "u2b-p3": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2bt": {
+  "listener_by_pass": {
+   "u2bt-p1": 0,
+   "u2bt-p2": 0,
+   "u2bt-p3": 0
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2p": {
+  "listener_by_pass": {
+   "u2p-p1": 7,
+   "u2p-p2": 2,
+   "u2p-p3": 2
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U2pt": {
+  "listener_by_pass": {
+   "u2pt-p1": 4,
+   "u2pt-p2": 2,
+   "u2pt-p3": 2
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": true
+ },
+ "U1p": {
+  "listener_by_pass": {
+   "u1p-p1": 6,
+   "u1p-p2": 4,
+   "u1p-p3": 4
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "U1pt": {
+  "listener_by_pass": {
+   "u1pt-p1": 6,
+   "u1pt-p2": 4,
+   "u1pt-p3": 4
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "U1": {
+  "listener_by_pass": {
+   "u1-p1": 6,
+   "u1-p2": 4,
+   "u1-p3": 4
+  },
+  "pktmon_by_port": {
+   "61780": 0,
+   "60081": 0,
+   "61781": 0,
+   "60082": 0,
+   "80": 0,
+   "445": 0
+  },
+  "pktmon_addr": "127.0.0.2",
+  "pktmon_sees_this_fixture": false
+ },
+ "broker_condition": "broker (recorded condition): while its tasks exist, a process of the operator's account can start any of the 8 fixed, hash-checked helpers with their fixed arguments inside the sealed window, with no prompt; it cannot change which files run or their arguments; the launcher drops the inherited environment (variables whose names begin with a semicolon excepted: cmd treats it as a comment character; nothing reads them) and starts no cmd.exe without /d; per-user registry hooks outside cmd and PowerShell start-up (console host settings, class registrations, .NET settings) are not closed and were not tested"
+}

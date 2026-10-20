@@ -1,0 +1,8 @@
+Mandatory Label\Medium Mandatory Level
+BUILTIN\Administrators: Group used for deny only
+pass 1 : C1=connected/ C2=connected (records 1) T=failed/64 records_on_blocked_port=3 C3=connected/ -> INCOMPLETE
+PROBLEM: pass 1: C1 (positive control) was not refused with 10013: result=connected winerror=
+PROBLEM: pass 1: C1 reached the blocked port (1 records): the fence did not block this user's own socket
+PROBLEM: pass 1: C3 (positive control) was not refused with 10013: result=connected winerror=
+PROBLEM: pass 1: C3 reached the blocked port (1 records): the fence did not block this user's own socket
+run_status=INCOMPLETE result=NONE exit=3

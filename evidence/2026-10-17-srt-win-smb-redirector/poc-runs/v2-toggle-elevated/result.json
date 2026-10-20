@@ -1,0 +1,16 @@
+﻿{
+    "tool":  "q2_smb_redirector_poc",
+    "version":  2,
+    "script_sha256":  "de77515c647a2835ed46a34ce2380a13b0e731bb34c26aaed9cf6e3d801cba04",
+    "started_utc":  "2026-10-17T19:30:13.0754548Z",
+    "launch":  {
+                   "elevated":  true,
+                   "integrity":  "High"
+               },
+    "run_status":  "INCOMPLETE",
+    "result":  "NONE",
+    "problems":  [
+                     "run this NON-elevated (Medium integrity); this token is elevated=True integrity=High"
+                 ],
+    "finished_utc":  "2026-10-17T19:30:13.1513842Z"
+}

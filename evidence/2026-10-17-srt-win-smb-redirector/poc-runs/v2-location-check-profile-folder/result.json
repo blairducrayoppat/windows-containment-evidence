@@ -1,0 +1,53 @@
+﻿{
+    "tool":  "q2_smb_redirector_poc",
+    "version":  2,
+    "script_sha256":  "de77515c647a2835ed46a34ce2380a13b0e731bb34c26aaed9cf6e3d801cba04",
+    "started_utc":  "2026-10-17T19:30:02.0630744Z",
+    "launch":  {
+                   "elevated":  false,
+                   "integrity":  "Medium"
+               },
+    "os":  {
+               "product":  "Windows 10 Pro",
+               "edition":  "Professional",
+               "display_version":  "25H2",
+               "build":  26200,
+               "ubr":  9711
+           },
+    "security_products":  {
+                              "antivirus":  [
+                                                "Windows Defender",
+                                                "McAfee",
+                                                "Bitdefender Antivirus"
+                                            ],
+                              "firewall":  [
+                                               "Bitdefender Firewall",
+                                               "McAfee"
+                                           ]
+                          },
+    "srt_win":  {
+                    "file":  "srt-win.exe",
+                    "sha256":  "a7aa8c600cba330c896785e78889fdfada1f3cbbcc242d4c2b224a3e5cd3c66b",
+                    "version":  "srt-win 0.0.1"
+                },
+    "sandbox_account":  {
+                            "name":  "srt-sandbox",
+                            "rid":  "2249",
+                            "machine_local":  true
+                        },
+    "ports":  {
+                  "blocked":  61795,
+                  "permitted":  60088,
+                  "permit_range_assumed":  "60080-60089"
+              },
+    "wfp_verify":  {
+                       "exit":  1,
+                       "text":  "srt-win: error: spawn runner for egress probe: CreateProcessWithLogonW(srt-sandbox): Access is denied. (0x80070005) ΓÇö ensure the Secondary Logon service (seclogon) is running."
+                   },
+    "run_status":  "INCOMPLETE",
+    "result":  "NONE",
+    "problems":  [
+                     "srt-win wfp verify did not report the fence in force (exit 1): srt-win: error: spawn runner for egress probe: CreateProcessWithLogonW(srt-sandbox): Access is denied. (0x80070005) ΓÇö ensure the Secondary Logon service (seclogon) is running."
+                 ],
+    "finished_utc":  "2026-10-17T19:30:04.5678403Z"
+}

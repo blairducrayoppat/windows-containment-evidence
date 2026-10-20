@@ -1,0 +1,11 @@
+--- a/q2_smb_redirector_poc.ps1	version 2 as run (sha256 de77515c647a2835ed46a34ce2380a13b0e731bb34c26aaed9cf6e3d801cba04)
++++ b/q2_smb_redirector_poc.ps1	toggle copy as run (sha256 ff4754fd5d16ad8709f34971bb37aaa729031ff65133dcb53e3050a6af01dbb7)
+@@ -258,8 +258,6 @@
+     $result.wfp_verify = [ordered]@{ exit = $vx; text = ($vo -replace '\s+', ' ') }
+     Start-Sleep -Seconds 1
+     $state.phase = 'idle'
+-    if ($vx -ne 0 -or $vo -notmatch '"egress_probe":"blocked"') { [void]$problems.Add("srt-win wfp verify did not report the fence in force (exit $($result.wfp_verify.exit)): $($result.wfp_verify.text)") }
+-    if (@(RecsIn 'wfp-verify' $BlockedPort).Count) { [void]$problems.Add('srt-win wfp verify reached the blocked port: the fence is not in force') }
+ } catch { [void]$problems.Add("srt-win wfp verify failed to run: $($_.Exception.Message)") }
+ if ($problems.Count) { Stop-Listener; Finish 'INCOMPLETE' 'NONE' 3 }
+ 

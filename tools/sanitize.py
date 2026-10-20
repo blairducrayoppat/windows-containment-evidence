@@ -69,9 +69,9 @@ OPERATOR_PLACEHOLDERS = frozenset({"user", "_operator_", "__user__"})
 SID_FULL_RE = re.compile(r"S-1-5-21-([0-9]+(?:-[0-9]+)*)(-?)")
 SID_BINARY_RE = lg.SID_BINARY_RE
 INVENTORY_ARRAY_RE = re.compile(r'("appcontainer_mappings"\s*:\s*)\[(.*?)\]', re.DOTALL)
-HOME_WIN_RE = re.compile(r"(?:\\\\+\?\\+)?[A-Za-z]:(\\+|/+)Users\1(?!(?:Public|Default|All Users)\b)([A-Za-z0-9_.$-]+)",
+HOME_WIN_RE = re.compile(r"(?:\\\\+\?\\+)?[A-Za-z]:(\\+|/+)Users\1(?!(?:Public|Default|All Users)(?![A-Za-z0-9_.$-]))([A-Za-z0-9_.$-]+)",
                          re.IGNORECASE)
-HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/(?!(?:Public|Default)\b)([A-Za-z0-9_.$-]+)", re.IGNORECASE)
+HOME_WSL_RE = re.compile(r"/mnt/[A-Za-z]/Users/(?!(?:Public|Default)(?![A-Za-z0-9_.$-]))([A-Za-z0-9_.$-]+)", re.IGNORECASE)
 TRACKER_FIELD_RE = re.compile(r"(\"" + lg.TRACKER_WORD + r"\"\s*:\s*)(\"[^\"]*\"|-?[0-9]+|null)")
 TRACKER_ASSIGN_RE = re.compile(r"(?<![A-Za-z0-9_\"'])(" + lg.TRACKER_WORD + r"\s*=\s*)'[^'\n]*'", re.IGNORECASE)
 TRACKER_REF_RE = re.compile(

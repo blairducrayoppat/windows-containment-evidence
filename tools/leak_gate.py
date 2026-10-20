@@ -184,10 +184,10 @@ VOLUME_SERIAL_RE = re.compile(r"volume[\s_-]*serial[\s_-]*(?:number|no)(?:\\*[\x
                               r"|(?:^|,)[\x22']?volume[\s_-]*serial[\s_-]*(?:number|no)?[\x22']?(?=,|\r?$)",
                               re.IGNORECASE | re.MULTILINE)
 HOME_RE = re.compile(
-    r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)\b)[A-Za-z0-9_.$-]"
-    r"|/mnt/[A-Za-z]/Users/(?!(?:Public|Default)\b)[A-Za-z0-9_.$-]"
+    r"[A-Za-z]:(?:\\+|/+)Users(?:\\+|/+)(?!(?:Public|Default|All Users)(?![A-Za-z0-9_.$-]))[A-Za-z0-9_.$-]"
+    r"|/mnt/[A-Za-z]/Users/(?!(?:Public|Default)(?![A-Za-z0-9_.$-]))[A-Za-z0-9_.$-]"
     r"|" + HOME_ENV +
-    r"|\\\\+\?\\+[A-Za-z]:\\+Users(?!\\+(?:Public|Default|All Users)\b)",
+    r"|\\\\+\?\\+[A-Za-z]:\\+Users(?!\\+(?:Public|Default|All Users)(?![A-Za-z0-9_.$-]))",
     re.IGNORECASE,
 )
 GUID_RE = re.compile(
@@ -638,6 +638,10 @@ def self_test(gate: Gate) -> int:
         "comment id": "see com" + "ment id 9876",
         "comment (N)": "see com" + "ment (9876)",
         "nested upstream prefix": "private/" + "anthropics/sandbox-runtime" + "#" + "4321",
+        "profile glued to Public behind the prefix": "\\\\?\\C:\\" + "Users\\Public.alice\\x",
+        "profile glued to Default behind the prefix": "\\\\?\\C:\\" + "Users\\Default-alice\\x",
+        "profile glued to Default": "C:\\" + "Users\\Default.alice\\x",
+        "profile glued to Public under /mnt": "/mnt/c/" + "Users/Public_alice/x",
         "fixture prefix above 1999": "C:\\wsl\\" + "p" + "2345-run1\\leaf",
         "fixture prefix of five digits": "/mnt/c/" + "p" + "23456_x",
         "session token above 1999": "tail " + "S" + "2345-main-abc",

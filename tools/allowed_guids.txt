@@ -68,6 +68,7 @@ a409b438-4e4b-491d-9408-50be0da1d561  wfp filter or object key
 a446c2e9-ea74-461e-be4b-011a7b32b925  wfp filter or object key
 a9716de0-905c-4d1e-9b29-cedf45096b5d  wfp filter or object key
 aaaaaaaa-0000-4d8e-9a31-2b6d4c8e0001  wfp sublayer key
+aaaaaaaa-0000-4d8e-9a31-2b6d4c8e0099  wfp filter key of a planted foreign filter in a driver self-test fixture (fixed value chosen in the script)
 adb6f2be-0c48-4ca2-8403-710c2a5923ae  wfp filter or object key
 aeb4d563-e5e5-4615-b67e-8d8057ae7274  wfp filter or object key
 af043a0a-b34d-4f86-979c-c90371af6e66  wfp filter or object key
@@ -86,6 +87,8 @@ bfb20636-8955-4e85-9e3a-e9accfd628e6  wfp filter or object key
 c35a604d-d22b-4e1a-91b4-68f674ee674b  wfp filter or object key
 c38d57d1-05a7-4c33-904f-7fbceee60e82  wfp filter or object key
 c3cafe56-79dc-45ed-844c-3c125756aeff  wfp filter or object key
+c4a0e001-0000-4d8e-9a31-2b6d4c8e0041  wfp filter key: the one filter the case-4 probe adds and deletes (fixed value chosen in the script)
+c4a0e001-0000-4d8e-9a31-2b6d4c8e0042  wfp filter key: a deliberately wrong key the case-4 probe's self-test plants in a proof (fixed value chosen in the script)
 c971a69f-d6ab-4885-9b49-506d8aa51c86  wfp sublayer key
 cab58e21-b053-49bb-acd9-a519e951ccc5  wfp filter or object key
 cb6b3076-f755-473d-9491-e8e891196572  wfp filter or object key

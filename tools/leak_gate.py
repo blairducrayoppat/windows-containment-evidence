@@ -65,6 +65,11 @@ What it refuses:
   phrase       every phrase listed under "phrases" in the local file (case-insensitive; runs of whitespace match any
                whitespace). A match that lies wholly inside a form listed under "allowed_contexts" is allowed.
   word         every word listed under "words_cs" in the local file, matched case-sensitively as a whole word.
+               Phrase and word are also read with same-line quoted literals joined ("A " + "B" or 'A ' + 'B' read as
+               "A B"). Residual limit: only that form, only on one line, and only for these two rules; a split across
+               a newline, a backtick, adjacent literals, -join, -f, a variable or a call is not joined, an apostrophe inside a
+               double-quoted literal and C# verbatim @"" literals are not joined, and the identity and tracker rules are
+               not joined.
   path         a path that carries any of the above, a standalone 4-digit number from 1000 to 9999 that is not the year of a
                date (PATH_NUMBER_RE; folders named 2026-10-05 or files named run-20261009-1.json are clean), or a word
                listed under "path_words". Widened 2026-10-15; residual limit: a tracker number from 1900 to 2099 written
@@ -226,6 +231,19 @@ def path_has_tracker_number(rel: str) -> bool:
             continue
         return True
     return False
+
+
+_LITERAL_PLUS_RE = re.compile(r"""(["'])([^"'\r\n]*)\1[ \t]*\+[ \t]*(["'])([^"'\r\n]*)\3""")
+
+
+def join_literals(text: str) -> str:
+    """Join adjacent quoted string literals written as "A" + "B" (or 'A' + 'B') into one literal, on the same line, so
+    that a phrase split across two literals in code is read as the phrase it spells. Line numbers are unchanged."""
+    while True:
+        joined = _LITERAL_PLUS_RE.sub(lambda m: m.group(1) + m.group(2) + m.group(4) + m.group(1), text)
+        if joined == text:
+            return text
+        text = joined
 
 
 class GateCannotRun(Exception):
@@ -399,14 +417,25 @@ class Gate:
                 in_allowed = any(a <= m.start() and m.end() <= b for a, b in allowed_spans)
                 if not upstream and not in_hash and not in_allowed and not any(a <= m.start() < b for a, b in guid_spans):
                     add(m.start(), "tracker-number")
+        # A phrase or word from the local file split across adjacent string literals in code ("A " + "B") is read as spelled.
+        joined = join_literals(text)
         for rx in self.phrase_res:
             for m in rx.finditer(text):
                 if any(a <= m.start() and m.end() <= b for a, b in allowed_spans):
                     continue
                 add(m.start(), "phrase")
+            if joined != text:
+                joined_spans = [m.span() for crx in self.allowed_context_res for m in crx.finditer(joined)]
+                for m in rx.finditer(joined):
+                    if any(a <= m.start() and m.end() <= b for a, b in joined_spans):
+                        continue
+                    hits.append((joined.count("\n", 0, m.start()) + 1, "phrase"))
         for rx in self.word_res:
             for m in rx.finditer(text):
                 add(m.start(), "word")
+            if joined != text:
+                for m in rx.finditer(joined):
+                    hits.append((joined.count("\n", 0, m.start()) + 1, "word"))
         return hits
 
     def scan_bytes(self, data: bytes, rel: str) -> list[tuple[int, str]]:
@@ -721,6 +750,22 @@ def self_test(gate: Gate) -> int:
     ok = bool(gate.scan_text("see anthropics/sandbox-runtime" + "#12" + "34")) is False and bool(gate.scan_text("see " + "#12" + "34"))
     failures += not ok
     print(f"{'PASS' if ok else 'FAIL'} a listed upstream repo#N is allowed, a bare #N is not")
+    # A phrase split across adjacent string literals in code is read as the phrase it spells.
+    phrase_gate = Gate({**{k: [] for k in LOCAL_KEYS}, "phrases": ["Alpha " + "Bravo"]}, frozenset(), [host, user])
+    for name, text, want in (("double-quoted literals", '$x = "Alpha " + "Bravo"\n', True),
+                             ("single-quoted literals", "x = 'Alpha ' + 'Bravo'\n", True),
+                             ("three literals", "x = 'Al' + 'pha ' + 'Bravo'\n", True),
+                             ("two literals that do not spell it", "x = 'Alpha' + 'Charlie'\n", False)):
+        ok = bool(phrase_gate.scan_bytes(text.encode("utf-8"), "x.txt")) is want
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} split phrase: {name} {'refused' if want else 'allowed'}")
+    word_gate = Gate({**{k: [] for k in LOCAL_KEYS}, "words_cs": ["Zulu" + "Quebec"]}, frozenset(), [host, user])
+    for name, text, want in (("split word, double-quoted literals", 'x = "Zulu" + "Quebec"\n', True),
+                             ("split word, single-quoted literals", "x = 'Zu' + 'luQuebec'\n", True),
+                             ("two literals that do not spell the word", "x = 'Zulu' + 'Romeo'\n", False)):
+        ok = bool(word_gate.scan_bytes(text.encode("utf-8"), "x.txt")) is want
+        failures += not ok
+        print(f"{'PASS' if ok else 'FAIL'} split word: {name} {'refused' if want else 'allowed'}")
     # Not sanitisable by design: phrases and words from the local file fail and stay failing.
     print(f"NOTE local lists loaded: {len(gate.phrase_res)} phrase(s), {len(gate.word_res)} word(s), "
           f"{len(gate.identity_res) - 2} extra identit(ies), {len(gate.path_words)} path word(s)")

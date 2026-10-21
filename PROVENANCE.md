@@ -14,10 +14,11 @@ moved.
 | `evidence/2026-10-13-nep0005-halfset/` | `docs/research/containment-evidence-2026-10-05/nep0005-open-questions/` | `3b4d1156`, 2026-10-15 | `b04ee32d` | same commit `d215aed0`, `containment/nep0005_halfset/` (`nep5_*.csv`, `srtcli_*.csv`) |
 | `evidence/2026-10-14-nono-9p-control/` | `docs/research/nono-9p-failclosed-control-2026-10-14/` | `b04ee32d`, 2026-10-15 | `b04ee32d` | none (no tabular export was made) |
 | `tools/probes/nono_9p_failclosed_control.py` | `tools/probes/nono_9p_failclosed_control.py` | `b04ee32d`, 2026-10-15 | the bytes that ran (SHA-256 `b7cc9a6a53089ffdfc68b82ac3b5f2bad87f3eff6940d44da143939c44536302`, the value both 9P run records hold); blarai-public carries a later revision of the same script | n/a |
-| `evidence/2026-10-15-mxc-proxy-egress/` | not published elsewhere; made directly from two raw run folders of 2026-10-15 (kept outside every repository) | first published here | the raw folder, through `tools/sanitize.py` (staging logs only, see below) | none |
+| `evidence/2026-10-15-mxc-proxy-egress/` | not published elsewhere; made directly from two raw run folders of 2026-10-15 (kept outside every repository) | first published here | the raw folder, through `tools/sanitize.py` (staging logs only, see below) | `blairducrayoppat/openvino-arc140v-lunarlake`, config `mxc_proxy_egress` (`containment/mxc_proxy_egress/`) |
 | `tools/probes/mxc-proxy-egress/` | not published elsewhere | first published here | the bytes of the private repository's commit `25210ef3` (the commit the run used), through `tools/sanitize.py` | n/a |
-| `evidence/2026-10-15-mxc-denied-subtree/` | not published elsewhere; made directly from one raw run folder of 2026-10-15 (kept outside every repository) | first published here | the raw folder `run-20261015-2`, through `tools/sanitize.py` and a temporary local file (see below) | none |
+| `evidence/2026-10-15-mxc-denied-subtree/` | not published elsewhere; made directly from one raw run folder of 2026-10-15 (kept outside every repository) | first published here | the raw folder `run-20261015-2`, through `tools/sanitize.py` and a temporary local file (see below) | `blairducrayoppat/openvino-arc140v-lunarlake`, config `mxc_denied_subtree` (`containment/mxc_denied_subtree/`) |
 | `tools/probes/mxc-denied-subtree/` | not published elsewhere | first published here | the bytes that ran (the working copy of the private repository's commit `b1cb40e3`: CRLF for seven files, LF for `smoke_payload.py`; the committed blobs are LF), through `tools/sanitize.py`, which made 0 replacements, so every file hash equals the approved hash the launcher checked | n/a |
+| `evidence/2026-10-20-nep0005-case4-nco/` | `docs/research/containment-evidence-2026-10-05/nep0005-open-questions/nco/` of the private project (main line `241e780b`), with the two driver versions that ran recovered from commits `1ed25f50` and `1881f15d` | first published here | the files named in the section below, through `tools/sanitize.py` | `blairducrayoppat/openvino-arc140v-lunarlake`, config `nep5_case4_nco`, uploaded after this folder is public (not yet present on the hub) |
 
 The NEP-0005 half-set folder is dated by its run (2026-10-13); the matrix's specification was fixed on 2026-10-12.
 The srt-win patches are in `evidence/2026-10-13-nep0005-halfset/srtcli/fix/` (`status-completeness.patch`,
@@ -248,3 +249,92 @@ and 99 for `run-20261016-2`, 0 differences in both (the output is `RECOUNT.md`).
 B4 and unconfined-control counts, state-change and verdict counts, launch wall times, container-token fields and launcher-log lines, and for
 the second folder the filter counts before, during and after (1008, 1016, 1008, read by parsing each dump), the eight new filters per launch
 by name, action and package SID, before-and-after key-set equality, and the capture and positive-control fields.
+
+## NEP-0005 Network Configuration Operators measurement (2026-10-20)
+
+`evidence/2026-10-20-nep0005-case4-nco/` (43 files) is the private project's `nco/` folder (39 tracked files: the build
+specification, run sheet, probe, scripts and the run records of two sittings on 2026-10-20 and the control records of
+2026-10-19), with changes of content and of count. The driver on the project's main line is not published, because it
+never ran a live mode; the two driver versions that did run are published instead, each recovered from its commit
+(`git show <commit>:<path>` in the private project) and hash-checked against `runs/AS_RUN.md` before the sanitiser read it
+(LF sha256 `47fcd179...` for `1ed25f50`, `4c0b559e...` for `1881f15d`). One record named in `runs/AS_RUN.md`, `runs/controls/remove-20261019-164737.json`, is not published (`runs/AS_RUN.md` still
+lists it in its file table).
+39 - 1 + 2 - 1 = 39 sanitised files, plus `README.md`, `.sanitized`, `recount.py` and `RECOUNT.md`. The folder README names
+which records each driver version produced.
+
+Sanitiser: one invocation of `tools/sanitize.py` with the local file over 40 files (the 39 published and the one left
+out). Replacement totals over the published files (`.sanitized`, from which the entry of the file left out was removed
+by hand): 161 SIDs (the machine's account domain, already a placeholder in the records, to `X`, and the stale SID's
+fabricated domain to `Y`, as in the half-set folder), 19 home paths, 58 internal-tracker references and 27
+local-vocabulary replacements (the operator's two-word role title to `operator`: 4 places in `runs/AS_RUN.md`, and in the
+specification, run sheet, driver sources and READMEs).
+
+Change to the tools made for this folder, a separate commit from the data: `tools/allowed_guids.txt` gained the probe's one
+filter key (`c4a0e001-0000-4d8e-9a31-2b6d4c8e0041`), the deliberately wrong key its self-test plants in a proof (`...0042`)
+and the planted foreign-filter key of the driver's self-test (`aaaaaaaa-0000-4d8e-9a31-2b6d4c8e0099`), all values chosen
+in the scripts. Without them the sanitiser turned them into `GUID-n` in the probe source, the driver sources, the run
+records and the specification.
+
+Hand edits after the sanitiser, all of them text of the folder's own documents and scripts:
+
+- `SPEC.md`: the word for an issue record, which the leak gate refuses, stood in two sentences and was replaced by "tracker
+  entry" and "project tracker"; the deliverables line naming a register entry proposed in another document and pointers
+  to private paths now reads "Claim C27, carried in this folder's `README.md`."; the process narrative was taken out,
+  keeping the technical specification (the opening sentence on how the specification was approved, role labels in the
+  standing rules, headings and amendment notes, references to review rounds and findings, and the closing section,
+  retitled "Deploy and run order"; the standing rule about a safety-classifier stop was deleted, and the rule that
+  builders never open the real WFP engine was reworded as "Before a live run, only offline self-tests, compiles and
+  refusal-path invocations are made", with the same content; the heading "What a session may and may not do" now reads
+  "What the scripts and their author may and may not do"); pointers that do not hold in this repository were corrected (`../SPEC.md` to
+  `evidence/2026-10-13-nep0005-halfset/SPEC.md`; "(in scripts/)" after the two sanitiser tools to "(not in this
+  repository)"; the driver's path in the Part 2 heading to its two published folders; the placeholder domain named in the
+  research-tree locks paragraph to `X`); and "the session reads" to "the author reads".
+- Process wording and role labels, replaced in neutral technical wording:
+  - `RUN_SHEET.md`: "the session" to "the author" throughout, and "Session:" to "Author:" in the headings of steps 0, 1, 6, 7, 9.
+  - `scripts/README.md`: the title and one table row ("the reviewer's launcher" to "the non-elevated launcher"); "the
+    session" to "the author" (four places); "(review round 4)", "(D2-3)", "(D2-6)", "(D2-11)" and "after review" removed;
+    "In the builder's sessions" to "In the author's sessions" (line 350), "In the reviewer's elevated session" to "In an
+    elevated session" (line 351), "B1's" (three places), "builder never opened" (reworded as "building and testing never opened"), "driver review round 2" (now "Accepted residuals");
+    "(amendment 7 there)" and "(amendment 1)" replaced by pointers to `probe/README.md`.
+  - `probe/README.md`: the heading of the amendments section ("accepted by the case-4 lead" removed, `../SPEC.md` to
+    `SPEC.md`), and "at the case-4 lead's decision" in amendment 10.
+  - `scripts/run-limited.ps1`: one comment line, which called the launcher the reviewer's.
+  - `runs/AS_RUN.md`, lines 13, 14, 76-77, 84 and 108: "review PASS rounds 2 and 3" (twice), "review round 4 PASS WITH
+    CORRECTIONS ... round 5 PASS" and "pre-merge review" removed or reworded, and "(the session, ... the session's
+    scratch folder" now reads "(by hand, ... a scratch folder". The rest of that file and the other records are as the
+    sanitiser left them. `recount.py` skips exactly these lines when it compares the file with its original.
+  - Both driver sources: "the very record the review typed into the wrong console" (two test descriptions, lines 2385 and
+    2427) now reads "the very record typed into the wrong console"; in the second driver, the comment at line 636 loses
+    "(review round 4, R4-2)".
+  - `RECOUNT.md`: its header.
+  - `README.md` of the folder: "(no session wrote one)" in the Not measured list now reads "(none was made)".
+  Kept as they are, because they are in the bytes that ran or are program output: the STOP lines that quote "tell the
+  session" (`probe/NcoProbe.cs`, the driver sources, the records), the comment "the session to settle" at
+  `probe/NcoProbe.cs` line 1683, and the two driver comments that say "the session writes it".
+- Both driver sources, lines 22 and 23: the sanitiser replaces the operator's two-word role title only where it stands on
+  one line; here it was broken across two lines, which the gate refused. The first half was dropped and the second now
+  reads "operator's note". The sources are otherwise as the sanitiser left them.
+- `runs/case4-F-20261020-051400-5880.json` is published as `runs/case4-F-20261020-051400-05880.json` (the gate reads a
+  four-digit number in a path as a reference); the content is unchanged and the key in `.sanitized` follows the new name.
+  The records that name the file (`runs/AS_RUN.md`, `runs/results-summary.json`, and the two first-sitting `-collect-`
+  records) keep the original spelling.
+- `.sanitized`: the entry of the record left out was removed.
+- `README.md`, `recount.py` and `RECOUNT.md` are new, written here from the records.
+
+`runs/results-summary.json` and the other records are published as the sanitiser left them. Where they
+name tools and logs of the private project that are not in this repository (`rewrite_sid_domain.py`,
+`scrub_public_identifiers.py`, `docs/reviews/case4-sid-rewrite-log-*.md`), the folder README says so.
+
+Where the folder differs from the records it came from, in ways a reader checking hashes would meet: no published file is
+byte-identical to its source (SID domains, tracker references and some paths were rewritten); the hashes in `runs/AS_RUN.md`
+and in the `-collect-` records belong to the source copies, and the folder README lists the hash of every published file
+except `RECOUNT.md` (circular) and itself.
+
+Re-count: `recount.py` recomputes the figures of the README from the records and compares them with the originals after the
+recorded replacements; `RECOUNT.md` holds its output.
+
+Not included: the admin-only originals of the records, the driver's self-test proof and the probe proof, the compiled
+`ncoprobe.exe`, the main line's later driver versions (commits `e4383096` and `4ebad95c`), the one control record named
+above, and the private project's review records.
+
+The standing public-identifier scrub of the private project (`--dir`, then `--check`) was run over the finished folder: 0 files rewritten, 0 findings.

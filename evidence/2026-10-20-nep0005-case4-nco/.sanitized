@@ -1,0 +1,164 @@
+{
+  "what": "replacement counts per file and rule, written by tools/sanitize.py; original values are not recorded",
+  "rules_in_order": [
+    "host",
+    "user",
+    "sid",
+    "sid-binary",
+    "inventory",
+    "ipv6",
+    "ticks",
+    "home",
+    "tracker",
+    "fixture",
+    "guid",
+    "local"
+  ],
+  "totals": {
+    "sid": 161,
+    "home": 19,
+    "tracker": 58,
+    "local": 27
+  },
+  "files": {
+    "probe/build-probe.ps1": {},
+    "probe/NcoProbe.cs": {
+      "sid": 2
+    },
+    "probe/README.md": {
+      "sid": 1,
+      "home": 1
+    },
+    "probe/run-probe-selftest.ps1": {},
+    "RUN_SHEET.md": {
+      "local": 1
+    },
+    "runs/AS_RUN.md": {
+      "sid": 1,
+      "local": 4
+    },
+    "runs/case4-A-20261020-052240-21428.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/case4-A-20261020-052241-23964.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/case4-A-20261020-052242-13572.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/case4-collect-20261020-012258.json": {
+      "sid": 10
+    },
+    "runs/case4-collect-20261020-012313.json": {
+      "sid": 10
+    },
+    "runs/case4-collect-20261020-102824.json": {
+      "sid": 3
+    },
+    "runs/case4-collect-20261020-102913.json": {
+      "sid": 3
+    },
+    "runs/case4-collect-20261020-102929.json": {
+      "sid": 3
+    },
+    "runs/case4-E-20261020-133312-14960.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-E-20261020-133710-25944.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-E-20261020-134229-11468.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-F-20261020-050515-23756.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-F-20261020-051400-05880.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-F-20261020-051424-25640.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-F-20261020-051440-28652.json": {
+      "sid": 7,
+      "tracker": 2
+    },
+    "runs/case4-final-20261020-012312.json": {
+      "sid": 2
+    },
+    "runs/case4-final-20261020-102928.json": {
+      "sid": 2
+    },
+    "runs/case4-partd-20261020-014216.json": {
+      "sid": 1,
+      "home": 1
+    },
+    "runs/case4-partd-20261020-110756.json": {
+      "sid": 1,
+      "home": 1
+    },
+    "runs/case4-prepare-20261020-004848.json": {
+      "sid": 15,
+      "tracker": 1
+    },
+    "runs/case4-prepare-20261020-092824.json": {
+      "sid": 19,
+      "tracker": 1
+    },
+    "runs/case4-S-20261020-052145-19624.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/case4-S-20261020-052147-18812.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/case4-S-20261020-052148-15020.json": {
+      "sid": 6,
+      "tracker": 2
+    },
+    "runs/controls/nep5-results-n1-20261019-164952.json": {
+      "home": 6,
+      "tracker": 21
+    },
+    "runs/controls/nep5-results-taskcheck-20261019-164908.json": {
+      "sid": 1,
+      "home": 2
+    },
+    "runs/results-summary.json": {
+      "sid": 1
+    },
+    "scripts/case4-lock-corpus.json": {},
+    "scripts/driver-first-sitting/spike-nep5-c4-driver.ps1": {
+      "home": 3,
+      "tracker": 3,
+      "local": 4
+    },
+    "scripts/driver-second-sitting-collect/spike-nep5-c4-driver.ps1": {
+      "home": 3,
+      "tracker": 3,
+      "local": 4
+    },
+    "scripts/README.md": {
+      "home": 1,
+      "tracker": 1,
+      "local": 6
+    },
+    "scripts/run-limited.ps1": {},
+    "SPEC.md": {
+      "sid": 1,
+      "home": 1,
+      "tracker": 2,
+      "local": 8
+    }
+  }
+}
